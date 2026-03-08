@@ -8,11 +8,11 @@
   <!-- ✅ SEO META TAGS -->
   <title>Galeri Foto | Bustanul Labib Alwasi</title>
   <meta name="description" content="Koleksi foto pribadi oleh Bustanul Labib Alwasi. Temukan foto-foto indah dari berbagai momen kehidupan." />
-  <link rel="icon" type="image/png" href="https://i.ibb.co.com/hxnN4YwR/file-00000000f3b8720890e1c02108057a6c.png" />
   <meta name="keywords" content="galeri foto, foto pribadi, fotografi, koleksi foto" />
   <meta name="author" content="Bustanul Labib Alwasi" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://viewly.labibalwasi.com" />
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 
   <!-- ✅ BING INDEXNOW -->
   <meta name="indexnow-key" content="def2d13c223c4c1a836aa49b3ce633a2" />
@@ -576,6 +576,117 @@
 
     .carousel-dot.active { background: #fff; }
 
+    /* ── VISITOR COUNTER ── */
+    .visitor-section {
+      max-width: 860px;
+      margin: 0 auto 4rem;
+      padding: 0 2rem;
+    }
+
+    .visitor-section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--dark);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .visitor-section h3 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .visitor-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .visitor-tab {
+      padding: 0.4rem 1.2rem;
+      border: 1px solid rgba(26,23,20,0.2);
+      background: transparent;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .visitor-tab.active {
+      background: var(--dark);
+      border-color: var(--dark);
+      color: var(--cream);
+    }
+
+    .visitor-panel { display: none; }
+    .visitor-panel.active { display: block; }
+
+    .visitor-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .visitor-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .visitor-label {
+      font-size: 0.85rem;
+      color: var(--dark);
+      width: 180px;
+      flex-shrink: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .visitor-bar-wrap {
+      flex: 1;
+      height: 6px;
+      background: rgba(26,23,20,0.08);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .visitor-bar {
+      height: 100%;
+      border-radius: 99px;
+      transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .visitor-panel.humans .visitor-bar { background: var(--accent); }
+    .visitor-panel.bots   .visitor-bar { background: #7A4DFF; }
+
+    .visitor-count {
+      font-size: 0.78rem;
+      color: var(--muted);
+      width: 2.5rem;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .visitor-total {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 1rem;
+      letter-spacing: 0.05em;
+    }
+
+    .visitor-loading {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      padding: 1rem 0;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 700px) {
       .gallery-grid { columns: 2 160px; padding: 0 1rem 3rem; }
@@ -834,6 +945,29 @@
   </div>
 </div>
 
+<!-- ✅ VISITOR COUNTER -->
+<section class="visitor-section">
+  <h3>Pengunjung <em>Galeri</em></h3>
+  <div class="visitor-tabs">
+    <button class="visitor-tab active" onclick="switchTab('humans', this)">👤 Manusia</button>
+    <button class="visitor-tab" onclick="switchTab('bots', this)">🤖 Bot</button>
+  </div>
+
+  <div class="visitor-panel humans active" id="panel-humans">
+    <div class="visitor-list" id="list-humans">
+      <p class="visitor-loading">Memuat data...</p>
+    </div>
+    <p class="visitor-total" id="total-humans"></p>
+  </div>
+
+  <div class="visitor-panel bots" id="panel-bots">
+    <div class="visitor-list" id="list-bots">
+      <p class="visitor-loading">Memuat data...</p>
+    </div>
+    <p class="visitor-total" id="total-bots"></p>
+  </div>
+</section>
+
 <!-- ✅ FOOTER -->
 <footer>
   <p>© 2025 Bustanul Labib Alwasi · Public Fotografi</p>
@@ -847,7 +981,7 @@
 
   <!-- WhatsApp -->
   <a class="float-btn float-wa"
-     href="https://wa.me/6285122975498"
+     href="https://wa.me/628XXXXXXXXXX"
      target="_blank" rel="noopener"
      aria-label="Chat WhatsApp"
      title="WhatsApp">
@@ -856,7 +990,7 @@
 
   <!-- Instagram -->
   <a class="float-btn float-ig"
-     href="https://instagram.com/bustanullabibalwasi"
+     href="https://instagram.com/usernamekamu"
      target="_blank" rel="noopener"
      aria-label="Instagram"
      title="Instagram">
@@ -865,7 +999,7 @@
 
   <!-- Telegram -->
   <a class="float-btn float-tg"
-     href="https://t.me/@bitcoinbim"
+     href="https://t.me/usernamekamu"
      target="_blank" rel="noopener"
      aria-label="Telegram"
      title="Telegram">
@@ -1045,11 +1179,122 @@
     if (e.target === document.getElementById('lightbox')) closeLightbox();
   }
 
-  document.addEventListener('keydown', e => {
+  // ── SITEMAP GENERATOR ──
+  // Tekan Ctrl+Shift+S di halaman untuk download sitemap.xml terbaru
+  function generateSitemap() {
+    const siteUrl = 'https://viewly.labibalwasi.com';
+    const today = new Date().toISOString().split('T')[0];
+    const items = document.querySelectorAll('.gallery-item');
+
+    let imageEntries = '';
+    items.forEach(item => {
+      const imgs = item.querySelectorAll('img');
+      const title = item.dataset.title || '';
+      imgs.forEach(img => {
+        const src = img.src || img.getAttribute('src');
+        if (!src) return;
+        const caption = (img.alt || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        const safeTitle = title.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        imageEntries += `
+    <image:image>
+      <image:loc>${src}</image:loc>
+      <image:title>${safeTitle}</image:title>
+      <image:caption>${caption}</image:caption>
+    </image:image>`;
+      });
+    });
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>${siteUrl}/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>${imageEntries}
+  </url>
+</urlset>`;
+
+    const blob = new Blob([xml], { type: 'application/xml' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'sitemap.xml';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  // Shortcut Ctrl+Shift+S untuk download sitemap
+  // ── VISITOR TRACKER ──
+  const VISITOR_API = 'https://viewly.labibalwasi.com/api/visitors';
+
+  // Catat kunjungan saat halaman dibuka
+  fetch(VISITOR_API, { method: 'POST' }).catch(() => {});
+
+  // Tampilkan data visitor
+  async function loadVisitors() {
+    try {
+      const res  = await fetch(VISITOR_API);
+      const data = await res.json();
+
+      // Render humans
+      const maxH = data.humans[0]?.count || 1;
+      document.getElementById('list-humans').innerHTML = data.humans.length
+        ? data.humans.map(h => `
+          <div class="visitor-row">
+            <span class="visitor-label">${h.country}</span>
+            <div class="visitor-bar-wrap">
+              <div class="visitor-bar" style="width:${(h.count/maxH*100).toFixed(1)}%"></div>
+            </div>
+            <span class="visitor-count">${h.count}</span>
+          </div>`).join('')
+        : '<p class="visitor-loading">Belum ada data</p>';
+
+      document.getElementById('total-humans').textContent =
+        `Total ${data.totalHumans} kunjungan manusia`;
+
+      // Render bots
+      const maxB = data.bots[0]?.count || 1;
+      document.getElementById('list-bots').innerHTML = data.bots.length
+        ? data.bots.map(b => `
+          <div class="visitor-row">
+            <span class="visitor-label">🤖 ${b.name}</span>
+            <div class="visitor-bar-wrap">
+              <div class="visitor-bar" style="width:${(b.count/maxB*100).toFixed(1)}%"></div>
+            </div>
+            <span class="visitor-count">${b.count}</span>
+          </div>`).join('')
+        : '<p class="visitor-loading">Belum ada bot</p>';
+
+      document.getElementById('total-bots').textContent =
+        `Total ${data.totalBots} kunjungan bot`;
+
+    } catch (e) {
+      document.getElementById('list-humans').innerHTML = '<p class="visitor-loading">Gagal memuat data</p>';
+      document.getElementById('list-bots').innerHTML   = '<p class="visitor-loading">Gagal memuat data</p>';
+    }
+  }
+
+  function switchTab(tab, btn) {
+    document.querySelectorAll('.visitor-tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.visitor-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(`panel-${tab}`).classList.add('active');
+  }
+
+  // Load visitor data setelah DOM siap
+  document.addEventListener('DOMContentLoaded', loadVisitors);
+
+
+    if (e.ctrlKey && e.shiftKey && e.key === 'S') {
+      e.preventDefault();
+      generateSitemap();
+    }
     if (e.key === 'Escape') closeLightbox();
     if (e.key === 'ArrowRight') shiftLightbox(1);
     if (e.key === 'ArrowLeft') shiftLightbox(-1);
   });
+
+
 </script>
 
 </body>
