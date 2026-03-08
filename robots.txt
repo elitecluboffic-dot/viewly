@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://viewly.labibalwasi.com/sitemap.xml
