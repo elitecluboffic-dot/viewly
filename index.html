@@ -1,1 +1,822 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- ✅ SEO META TAGS -->
+  <title>Galeri Foto | Bustanul Labib Alwasi</title>
+  <meta name="description" content="Koleksi foto pribadi oleh Bustanul Labib Alwasi. Temukan foto-foto indah dari berbagai momen kehidupan." />
+  <meta name="keywords" content="galeri foto, foto pribadi, fotografi, koleksi foto" />
+  <meta name="author" content="Bustanul Labib Alwasi" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://viewly.labibalwasi.com" />
+
+  <!-- ✅ BING INDEXNOW -->
+  <meta name="indexnow-key" content="def2d13c223c4c1a836aa49b3ce633a2" />
+
+  <!-- ✅ OPEN GRAPH (untuk share di sosmed & indexing) -->
+  <meta property="og:title" content="Galeri Foto | Bustanul Labib Alwasi" />
+  <meta property="og:description" content="Koleksi foto pribadi Bustanul Labib Alwasi." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://viewly.labibalwasi.com" />
+  <meta property="og:image" content="https://i.ibb.co.com/hxnN4YwR/file-00000000f3b8720890e1c02108057a6c.png" />
+
+  <!-- ✅ STRUCTURED DATA — di-generate otomatis oleh script di bawah -->
+  <script id="schema-jsonld" type="application/ld+json"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f5f0e8;
+      --dark: #1a1714;
+      --muted: #7a7269;
+      --accent: #c8a96e;
+      --white: #fdfcfa;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(200,169,110,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .site-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--dark);
+      margin-bottom: 0.75rem;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-weight: 300;
+      max-width: 420px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.6;
+    }
+
+    /* ── FILTER TABS ── */
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding: 0 1rem 3rem;
+    }
+
+    .filter-btn {
+      padding: 0.45rem 1.2rem;
+      border: 1px solid rgba(26,23,20,0.2);
+      background: transparent;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--dark);
+      border-color: var(--dark);
+      color: var(--cream);
+    }
+
+    /* ── MASONRY GRID ── */
+    .gallery-grid {
+      columns: 3 320px;
+      column-gap: 1.25rem;
+      padding: 0 2rem 5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 1.25rem;
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .gallery-item:nth-child(1) { animation-delay: 0.05s; }
+    .gallery-item:nth-child(2) { animation-delay: 0.1s; }
+    .gallery-item:nth-child(3) { animation-delay: 0.15s; }
+    .gallery-item:nth-child(4) { animation-delay: 0.2s; }
+    .gallery-item:nth-child(5) { animation-delay: 0.25s; }
+    .gallery-item:nth-child(6) { animation-delay: 0.3s; }
+    .gallery-item:nth-child(7) { animation-delay: 0.35s; }
+    .gallery-item:nth-child(8) { animation-delay: 0.4s; }
+    .gallery-item:nth-child(9) { animation-delay: 0.45s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.04);
+    }
+
+    /* Overlay */
+    .item-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26,23,20,0.75) 0%, transparent 55%);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.25rem;
+    }
+
+    .gallery-item:hover .item-overlay {
+      opacity: 1;
+    }
+
+    .item-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: #fff;
+      font-weight: 400;
+      margin-bottom: 0.2rem;
+    }
+
+    .item-category {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(26,23,20,0.95);
+      backdrop-filter: blur(8px);
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .lightbox.open {
+      display: flex;
+      animation: lbFadeIn 0.3s ease;
+    }
+
+    @keyframes lbFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .lb-inner {
+      position: relative;
+      max-width: 1100px;
+      width: 100%;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .lb-img-wrap {
+      flex: 1;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .lb-img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 4px;
+    }
+
+    .lb-info {
+      width: 260px;
+      flex-shrink: 0;
+      color: var(--cream);
+    }
+
+    .lb-category {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .lb-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+
+    .lb-desc {
+      font-size: 0.875rem;
+      color: rgba(245,240,232,0.65);
+      line-height: 1.7;
+    }
+
+    .lb-close {
+      position: absolute;
+      top: -1rem;
+      right: -1rem;
+      background: none;
+      border: 1px solid rgba(245,240,232,0.3);
+      color: var(--cream);
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .lb-close:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid rgba(26,23,20,0.1);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* ── FLOATING CONTACTS ── */
+    .float-contacts {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      gap: 0.75rem;
+      z-index: 999;
+    }
+
+    .float-toggle {
+      width: 3.2rem;
+      height: 3.2rem;
+      border-radius: 50%;
+      background: var(--dark);
+      border: none;
+      color: var(--cream);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      transition: all 0.3s ease;
+    }
+
+    .float-toggle svg { width: 1.2rem; height: 1.2rem; }
+    .float-toggle:hover { background: var(--accent); transform: scale(1.08); }
+
+    .float-btn {
+      width: 2.8rem;
+      height: 2.8rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      opacity: 0;
+      transform: scale(0) translateY(10px);
+      pointer-events: none;
+    }
+
+    .float-btn svg { width: 1.1rem; height: 1.1rem; }
+
+    .float-contacts.open .float-btn {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: all;
+    }
+
+    .float-contacts.open .float-wa { transition-delay: 0.05s; }
+    .float-contacts.open .float-ig { transition-delay: 0.1s; }
+    .float-contacts.open .float-tg { transition-delay: 0.15s; }
+
+    .float-wa { background: #25D366; color: #fff; }
+    .float-ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); color: #fff; }
+    .float-tg { background: #29ABE2; color: #fff; }
+
+    .float-btn:hover { transform: scale(1.12) !important; box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+
+      /* ── LOADING SCREEN ── */
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--cream);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+
+    #loading-screen.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loading-logo {
+      animation: logoPulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes logoPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(0.96); opacity: 0.7; }
+    }
+
+    .loading-bar-wrap {
+      margin-top: 2rem;
+      width: 160px;
+      height: 3px;
+      background: rgba(26,23,20,0.1);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .loading-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #4F8CFF, #7A4DFF);
+      border-radius: 99px;
+      animation: loadBar 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes loadBar {
+      0%   { width: 0%; }
+      60%  { width: 75%; }
+      100% { width: 100%; }
+    }
+
+    body.loading { overflow: hidden; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      .gallery-grid { columns: 2 160px; padding: 0 1rem 3rem; }
+      .lb-inner { flex-direction: column; }
+      .lb-info { width: 100%; }
+    }
+  </style>
+</head>
+<body class="loading">
+
+<!-- ✅ LOADING SCREEN -->
+<div id="loading-screen">
+  <div class="loading-logo">
+    <svg width="320" height="100" viewBox="0 0 520 160" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gradViewlyLoader" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#4F8CFF"/>
+          <stop offset="100%" stop-color="#7A4DFF"/>
+        </linearGradient>
+      </defs>
+      <g transform="translate(20,30)">
+        <rect x="0" y="0" width="100" height="100" rx="22" fill="url(#gradViewlyLoader)"/>
+        <circle cx="50" cy="50" r="26" fill="white" opacity="0.9"/>
+        <circle cx="50" cy="50" r="14" fill="url(#gradViewlyLoader)"/>
+        <path d="M15 35 L15 20 L30 20" stroke="white" stroke-width="4" fill="none"/>
+        <path d="M85 35 L85 20 L70 20" stroke="white" stroke-width="4" fill="none"/>
+        <path d="M15 65 L15 80 L30 80" stroke="white" stroke-width="4" fill="none"/>
+        <path d="M85 65 L85 80 L70 80" stroke="white" stroke-width="4" fill="none"/>
+      </g>
+      <text x="150" y="70" font-family="Segoe UI, Arial, sans-serif" font-size="42" font-weight="700" fill="#1a1a1a">Viewly Labib</text>
+      <text x="150" y="105" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#666">viewly.labibalwasi.com</text>
+    </svg>
+  </div>
+  <div class="loading-bar-wrap">
+    <div class="loading-bar"></div>
+  </div>
+</div>
+
+<!-- ✅ HEADER -->
+<header>
+  <p class="site-label">Public Fotografi</p>
+  <h1>Galeri <em>Foto</em> Bustanul Labib Alwasi</h1>
+  <p class="subtitle">Ruang pribadi untuk momen yang terabadikan.</p>
+</header>
+
+<!-- ✅ FILTER KATEGORI -->
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">Semua</button>
+  <button class="filter-btn" data-filter="alam">Alam</button>
+  <button class="filter-btn" data-filter="perjalanan">Perjalanan</button>
+  <button class="filter-btn" data-filter="potret">Potret</button>
+  <button class="filter-btn" data-filter="arsitektur">Arsitektur</button>
+</div>
+
+<!-- ✅ GALERI — ganti src dengan path foto Anda, dan SELALU isi alt dengan deskripsi detail -->
+<main>
+  <div class="gallery-grid" id="gallery">
+
+    <!--
+      CARA MENGGANTI FOTO:
+      1. Ganti src="..." dengan path foto Anda, misal: src="images/foto-gunung.jpg"
+      2. WAJIB isi alt="" dengan deskripsi DETAIL (ini yang dibaca Google!)
+         Contoh alt yang BAIK: "Pemandangan Gunung Bromo saat matahari terbit dari lautan pasir"
+         Contoh alt yang BURUK: "foto1" atau kosong
+    -->
+
+    <article class="gallery-item" data-category="potret"
+      data-title="Momen malam di depan Alfamidi"
+      data-desc="Potret suasana malam di depan Alfamidi dengan seorang pemuda duduk santai di area parkir, ditemani lampu kota dan aktivitas jalanan."
+      data-cat="Potret"
+      onclick="openLightbox(this)">
+      <!-- Ganti src berikut dengan foto Anda -->
+      <img
+        src="https://i.ibb.co.com/FkwWhCs7/IMG-20260304-024957-236.jpg"
+        alt="Malam sederhana di sudut kota."
+        title="Momen Malam Alfamidi"
+        loading="lazy"
+        width="800"
+      />
+      <div class="item-overlay">
+        <p class="item-title">Momen Malam Alfamidi</p>
+        <p class="item-category">Potret</p>
+      </div>
+    </article>
+
+    <article class="gallery-item" data-category="perjalanan"
+      data-title="Potret Malam di Kota Bandung"
+      data-desc="Labib Alwasi berdiri santai di jalan kota Bandung pada malam hari dengan latar pembatas jalan dan aktivitas orang di belakangnya."
+      data-cat="Perjalanan"
+      onclick="openLightbox(this)">
+<div class="carousel" data-index="0">
+    <div class="carousel-track">
+      <img src="https://i.ibb.co.com/0pBQZrPm/lv-0-20260306232326.jpg"
+        alt="Potret Labib yang berdiri santai di jalan kota Bandung pada malam hari dengan suasana kota yang masih ramai."
+        title="Potret Malam Kota Bandung" loading="lazy" width="800" />
+      <img src="https://i.ibb.co.com/PZxz6tYF/IMG-0649.jpg" alt="Potret Labib yang berdiri santai di jalan kota Bandung pada malam hari dengan suasana kota yang masih ramai." loading="lazy" width="800" />
+      <img src="https://i.ibb.co.com/mFGHhsMb/IMG-0651.jpg" alt="Potret Labib yang berdiri santai di jalan kota Bandung pada malam hari dengan suasana kota yang masih ramai." loading="lazy" width="800" />
+    </div>
+    <button class="carousel-btn prev" onclick="slideCarousel(event,this,-1)">&#8249;</button>
+    <button class="carousel-btn next" onclick="slideCarousel(event,this,1)">&#8250;</button>
+    <div class="carousel-dots">
+      <div class="carousel-dot active"></div>
+      <div class="carousel-dot"></div>
+      <div class="carousel-dot"></div>
+    </div>
+  </div>
+
+  <div class="item-overlay">
+    <p class="item-title">Potret Malam Kota Bandung</p>
+    <p class="item-category">Potret</p>
+  </div>
+</article>
+
+    <article class="gallery-item" data-category="potret"
+      data-title="Potret di Ruang Minimalis"
+      data-desc="Labib berdiri santai di dalam ruangan bergaya minimalis dengan cermin bundar bercahaya dan wastafel modern di belakangnya."
+      data-cat="Potret"
+      onclick="openLightbox(this)">
+      <img
+        src="https://i.ibb.co.com/CpqcWFKN/IMG-20260309-002748-148.jpg"
+        alt="Suasana Tenang di Ruang Minimalis"
+        title="Potret Interior Minimalis"
+        loading="lazy"
+        width="800"
+      />
+      <div class="item-overlay">
+        <p class="item-title">Potret di Ruang Minimalis</p>
+        <p class="item-category">Potret</p>
+      </div>
+    </article>
+
+    <article class="gallery-item" data-category="perjalanan"
+      data-title="Peron Statiun Bandung"
+      data-desc="Suasana peron stasiun kereta di Bandung dengan papan petunjuk keluar via skybridge dan penumpang yang berjalan di samping kereta."
+      data-cat="Perjalanan"
+      onclick="openLightbox(this)">
+      <img
+        src="https://i.ibb.co.com/PGGrf4kS/pm-1770985357669-cmp.jpg"
+        alt="Suasana peron stasiun kereta di Bandung dengan penumpang yang berjalan menuju pintu keluar melalui skybridge, dengan kereta yang berhenti di samping jalur."
+        title="Suasana Peron Statiun Bandung"
+        loading="lazy"
+        width="800"
+      />
+      <div class="item-overlay">
+        <p class="item-title">Suasana Peron Statiun Bandung</p>
+        <p class="item-category">Perjalanan</p>
+      </div>
+    </article>
+
+    <article class="gallery-item" data-category="potret"
+      data-title="Rak Koleksi Minuman Beralkohol di Lemari Display"
+      data-desc="Rak display berwarna merah dengan beberapa botol minuman beralkohol seperti whisky, bourbon, dan tequila yang tersusun rapi di dalam lemari kaca."
+      data-cat="Potret"
+      onclick="openLightbox(this)">
+      <img
+        src="https://i.ibb.co.com/jP9mmNc6/pm-1770985304571-cmp.jpg"
+        alt="Lemari display kaca dengan desain modern berwarna merah yang berisi berbagai koleksi minuman beralkohol seperti whisky, bourbon, dan tequila. Beberapa merek yang terlihat antara lain Glenfiddich, Jack Daniel’s, Jim Beam, dan Blue Agave. Botol-botol disusun rapi di rak kaca dengan pencahayaan lampu sehingga memberikan tampilan elegan yang cocok untuk bar rumah, restoran, atau lounge."
+        title="Rak Koleksi Minuman"
+        loading="lazy"
+        width="800"
+      />
+      <div class="item-overlay">
+        <p class="item-title">Rak Koleksi Minuman</p>
+        <p class="item-category">Potret</p>
+      </div>
+    </article>
+
+    <article class="gallery-item" data-category="potret"
+      data-title="Asia Afrika Monument"
+      data-desc="Tempat ini merupakan salah satu landmark terkenal di Bandung yang berkaitan dengan Konferensi Asia Afrika 1955, sebuah pertemuan internasional penting yang diadakan di Bandung dan dihadiri oleh negara-negara Asia dan Afrika."
+      data-cat="Perjalanan"
+      onclick="openLightbox(this)">
+      <img
+        src="https://i.ibb.co.com/DHYX15C1/pm-1770985357127-cmp.jpg"
+        alt="Monumen Asia Afrika di Jalan Asia Afrika Bandung pada malam hari dengan latar gedung Bank BJB Tower dan suasana jalan kota."
+        title="Monumen Asia Afrika Bandung di Jalan Asia Afrika pada Malam Hari"
+        loading="lazy"
+        width="800"
+      />
+      <div class="item-overlay">
+        <p class="item-title">Asia Afrika Monument Bandung</p>
+        <p class="item-category">Potret</p>
+      </div>
+    </article>
+
+    <article class="gallery-item" data-category="potret"
+      data-title="Riding Motor Cafe Racer Malam Hari untuk Beli Makanan."
+      data-desc="POV mengendarai motor cafe racer di gang sempit pada malam hari saat jalan-jalan keluar untuk membeli makanan."
+      data-cat="Potret"
+      onclick="openLightbox(this)">
+      <img
+        src="https://i.ibb.co.com/fYnw4kdP/pm-1770985358492-cmp.jpg"
+        alt="Night ride santai pakai cafe racer, keluar sebentar cari makanan di malam hari."
+        title="Riding Motor Cafe Racer Malam Hari untuk Beli Makanan."
+        loading="lazy"
+        width="800"
+      />
+      <div class="item-overlay">
+        <p class="item-title">Motor Custom Caferacer</p>
+        <p class="item-category">Potret</p>
+      </div>
+    </article>
+
+    <article class="gallery-item" data-category="potret"
+      data-title="Laptop ASUS ROG dipajang di rak toko komputer dengan pencahayaan RGB."
+      data-desc="Display laptop ASUS Republic of Gamers (ROG) di toko komputer dengan lampu LED merah dan ungu."
+      data-cat="Potret"
+      onclick="openLightbox(this)">
+      <img
+        src="https://i.ibb.co.com/Vp5QnznG/pm-1770985359748-cmp.jpg"
+        alt="Etalase laptop gaming ASUS ROG dengan logo Republic of Gamers menyala."
+        title="Republic Of Gamers ROG"
+        loading="lazy"
+        width="800"
+      />
+      <div class="item-overlay">
+        <p class="item-title">Republic Of Gamers ROG</p>
+        <p class="item-category">Potret</p>
+      </div>
+    </article>
+
+    <article class="gallery-item" data-category="alam"
+      data-title="Suasana Hutan Kota Bandung"
+      data-desc="Berjalan di jalan aspal yang berada di tengah hutan dengan pepohonan tinggi dan vegetasi hijau yang lebat. Ia mengenakan jaket tebal berwarna gelap dan celana jeans, sambil menoleh ke belakang saat berjalan. Jalan terlihat basah dan dipenuhi daun yang jatuh, memberikan kesan suasana alam yang sejuk dan tenang."
+      data-cat="Alam"
+      onclick="openLightbox(this)">
+      <img
+        src="https://i.ibb.co.com/z0fxGBL/file-000000005024720bb43d436c7ca43c3a.jpg"
+        alt="Berjalan di jalan aspal yang berada di tengah hutan dengan pepohonan tinggi dan vegetasi hijau yang lebat. Ia mengenakan jaket tebal berwarna gelap dan celana jeans, sambil menoleh ke belakang saat berjalan. Jalan terlihat basah dan dipenuhi daun yang jatuh, memberikan kesan suasana alam yang sejuk dan tenang."
+        title="Pemandangan Hutan Kota Bandung"
+        loading="lazy"
+        width="800"
+      />
+      <div class="item-overlay">
+        <p class="item-title">Pemandangan Hutan Kota Bandung</p>
+        <p class="item-category">Alam</p>
+      </div>
+    </article>
+
+  </div>
+</main>
+
+<!-- ✅ LIGHTBOX (popup detail foto) -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto detail" onclick="closeLightboxOutside(event)">
+  <div class="lb-inner">
+    <button class="lb-close" onclick="closeLightbox()" aria-label="Tutup">✕</button>
+    <div class="lb-img-wrap">
+      <img id="lb-img" src="" alt="" />
+    </div>
+    <div class="lb-info">
+      <p class="lb-category" id="lb-cat"></p>
+      <h2 class="lb-title" id="lb-title"></h2>
+      <p class="lb-desc" id="lb-desc"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ FOOTER -->
+<footer>
+  <p>© 2025 Bustanul Labib Alwasi · Public Fotografi</p>
+</footer>
+
+<!-- ✅ FLOATING CONTACT BUTTONS -->
+<div class="float-contacts" id="floatContacts">
+  <button class="float-toggle" onclick="toggleContacts()" aria-label="Kontak saya" title="Hubungi Saya">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  </button>
+
+  <!-- WhatsApp -->
+  <a class="float-btn float-wa"
+     href="https://wa.me/628XXXXXXXXXX"
+     target="_blank" rel="noopener"
+     aria-label="Chat WhatsApp"
+     title="WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <!-- Instagram -->
+  <a class="float-btn float-ig"
+     href="https://instagram.com/usernamekamu"
+     target="_blank" rel="noopener"
+     aria-label="Instagram"
+     title="Instagram">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+  </a>
+
+  <!-- Telegram -->
+  <a class="float-btn float-tg"
+     href="https://t.me/usernamekamu"
+     target="_blank" rel="noopener"
+     aria-label="Telegram"
+     title="Telegram">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+  </a>
+</div>
+
+<script>
+  // ── LOADING SCREEN ──
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loading-screen').classList.add('hide');
+      document.body.classList.remove('loading');
+    }, 1800); // minimal tampil 1.8 detik biar loading bar selesai
+  });
+
+  // ── FLOATING CONTACTS ──
+  function toggleContacts() {
+    document.getElementById('floatContacts').classList.toggle('open');
+  }
+
+  // Tutup kalau klik di luar
+  document.addEventListener('click', e => {
+    const fc = document.getElementById('floatContacts');
+    if (!fc.contains(e.target)) fc.classList.remove('open');
+  });
+
+  // ── AUTO GENERATE SCHEMA.ORG ──
+  function generateSchema() {
+    const siteUrl = window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '');
+    const items = document.querySelectorAll('.gallery-item');
+
+    const imageObjects = Array.from(items).map(item => {
+      const img = item.querySelector('img');
+      const src = img.src;
+      // Buat URL absolut kalau src-nya relatif
+      const absoluteUrl = src.startsWith('http') ? src : siteUrl + '/' + src.replace(/^\//, '');
+
+      return {
+        "@type": "ImageObject",
+        "contentUrl": absoluteUrl,
+        "name": item.dataset.title || img.getAttribute('title') || '',
+        "description": item.dataset.desc || img.alt || '',
+        "caption": img.alt || '',
+        "keywords": item.dataset.category || ''
+      };
+    });
+
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "ImageGallery",
+      "name": document.title,
+      "description": document.querySelector('meta[name="description"]')?.content || '',
+      "url": window.location.href,
+      "author": {
+        "@type": "Person",
+        "name": "Bustanul Labib Alwasi"   // ← ganti dengan nama Anda
+      },
+      "numberOfItems": imageObjects.length,
+      "image": imageObjects
+    };
+
+    document.getElementById('schema-jsonld').textContent = JSON.stringify(schema, null, 2);
+  }
+
+  // Jalankan setelah DOM siap
+  document.addEventListener('DOMContentLoaded', generateSchema);
+
+  // ── FILTER ──
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.gallery-item').forEach(item => {
+        const show = filter === 'all' || item.dataset.category === filter;
+        item.style.display = show ? 'block' : 'none';
+      });
+    });
+  });
+
+  // ── LIGHTBOX ──
+  function openLightbox(el) {
+    const img = el.querySelector('img');
+    document.getElementById('lb-img').src = img.src;
+    document.getElementById('lb-img').alt = img.alt;
+    document.getElementById('lb-title').textContent = el.dataset.title;
+    document.getElementById('lb-desc').textContent = el.dataset.desc;
+    document.getElementById('lb-cat').textContent = el.dataset.cat;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function closeLightboxOutside(e) {
+    if (e.target === document.getElementById('lightbox')) closeLightbox();
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+
+</body>
+</html>
