@@ -820,6 +820,63 @@
 
     .admin-err { color: #ff6b6b; font-size: 0.8rem; text-align: center; margin-top: 0.5rem; }
 
+    /* ── SAVE PROTECTION ── */
+    img {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      pointer-events: none;
+    }
+
+    /* overlay transparan di atas semua gambar agar klik kanan tidak ke img */
+    .gallery-item::after,
+    .lb-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+    }
+
+    .save-toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--dark);
+      color: var(--cream);
+      padding: 0.9rem 1.5rem;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      text-align: center;
+      max-width: 320px;
+      width: 90%;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      border: 1px solid rgba(200,169,110,0.3);
+      z-index: 9998;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s ease;
+      opacity: 0;
+    }
+
+    .save-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .save-toast strong {
+      display: block;
+      color: var(--accent);
+      font-size: 0.88rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .save-toast a {
+      color: #25D366;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
   </style>
 </head>
 <body class="loading">
@@ -1352,6 +1409,59 @@
       });
     });
   });
+  // ── SAVE PROTECTION ──
+  let toastTimer = null;
+
+  function showSaveToast() {
+    const toast = document.getElementById('saveToast');
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
+  }
+
+  // Blokir klik kanan di seluruh halaman
+  document.addEventListener('contextmenu', e => {
+    if (e.target.tagName === 'IMG' || e.target.closest('.gallery-item') || e.target.closest('.lb-img-wrap')) {
+      e.preventDefault();
+      showSaveToast();
+    }
+  });
+
+  // Blokir drag gambar
+  document.addEventListener('dragstart', e => {
+    if (e.target.tagName === 'IMG') {
+      e.preventDefault();
+      showSaveToast();
+    }
+  });
+
+  // Blokir Ctrl+S / Cmd+S
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      e.preventDefault();
+      showSaveToast();
+    }
+  });
+
+  // Blokir long press di mobile (touchstart > 500ms)
+  let touchHoldTimer = null;
+  document.addEventListener('touchstart', e => {
+    const target = e.target;
+    if (target.tagName === 'IMG' || target.closest('.gallery-item') || target.closest('.lb-img-wrap')) {
+      touchHoldTimer = setTimeout(() => {
+        showSaveToast();
+      }, 500);
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', () => {
+    clearTimeout(touchHoldTimer);
+  }, { passive: true });
+
+  document.addEventListener('touchmove', () => {
+    clearTimeout(touchHoldTimer);
+  }, { passive: true });
+
   // ── ADMIN PANEL ──
   function openAdmin() {
     document.getElementById('adminPanel').classList.add('open');
@@ -1419,6 +1529,13 @@
 
 
 </script>
+
+<!-- ✅ SAVE PROTECTION TOAST -->
+<div class="save-toast" id="saveToast">
+  <strong>🔒 Foto Dilindungi</strong>
+  Hubungi pemilik web untuk mendapatkan foto ini.<br>
+  <a href="https://wa.me/6285122975498" target="_blank">💬 Chat WhatsApp</a>
+</div>
 
 <!-- ✅ ADMIN DOT (pojok kiri bawah, kecil, ungu) -->
 <button onclick="openAdmin()" title="Admin" style="
