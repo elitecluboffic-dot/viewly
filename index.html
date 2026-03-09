@@ -1243,7 +1243,20 @@
   // ── VISITOR TRACKER ──
   const VISITOR_API = 'https://viewly.labibalwasi.com/api/visitors';
 
-  fetch(VISITOR_API, { method: 'POST' }).catch(() => {});
+  // Kirim fingerprint browser saat POST (tetap berguna meski pakai proxy)
+  (function() {
+    const fp = {
+      tz:       Intl.DateTimeFormat().resolvedOptions().timeZone,
+      lang:     navigator.language || navigator.userLanguage || '-',
+      screen:   screen.width + 'x' + screen.height,
+      tzOffset: new Date().getTimezoneOffset(),
+    };
+    fetch(VISITOR_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(fp),
+    }).catch(() => {});
+  })();
 
   async function loadVisitors() {
     try {
@@ -1372,9 +1385,15 @@
         ? data.ipLog.map((row, i) => `
           <tr>
             <td style="color:var(--muted)">${i + 1}</td>
-            <td><span class="ip-badge">${row.ip}</span></td>
+            <td>
+              <span class="ip-badge">${row.ip}</span>
+              ${row.proxy ? ' <span style="color:#ff6b6b;font-size:0.65rem">⚠️ proxy</span>' : ''}
+            </td>
             <td>${row.country}</td>
             <td style="color:var(--muted);white-space:nowrap">${new Date(row.time).toLocaleString('id-ID')}</td>
+            <td style="color:rgba(245,240,232,0.6);font-size:0.72rem">${row.tz || '-'}</td>
+            <td style="color:rgba(245,240,232,0.6);font-size:0.72rem">${row.lang || '-'}</td>
+            <td style="color:rgba(245,240,232,0.6);font-size:0.72rem">${row.screen || '-'}</td>
             <td><span class="ua-text" title="${row.ua}">${row.ua}</span></td>
           </tr>`).join('')
         : '<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:2rem">Belum ada log</td></tr>';
@@ -1440,6 +1459,9 @@
           <th>IP Address</th>
           <th>Negara</th>
           <th>Waktu</th>
+          <th>Timezone</th>
+          <th>Bahasa</th>
+          <th>Layar</th>
           <th>User Agent</th>
         </tr>
       </thead>
