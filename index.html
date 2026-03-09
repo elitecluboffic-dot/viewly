@@ -667,6 +667,173 @@
       .lb-inner { flex-direction: column; }
       .lb-info { width: 100%; }
     }
+
+    /* ── ADMIN PANEL ── */
+    .admin-toggle {
+      position: fixed;
+      bottom: 2rem;
+      left: 2rem;
+      width: 0.6rem;
+      height: 0.6rem;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 998;
+      opacity: 0;
+    }
+
+    .admin-panel {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(26,23,20,0.97);
+      backdrop-filter: blur(12px);
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .admin-panel.open { display: block; }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(245,240,232,0.15);
+      padding-bottom: 1rem;
+    }
+
+    .admin-header h2 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .admin-close {
+      background: none;
+      border: 1px solid rgba(245,240,232,0.2);
+      color: var(--cream);
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .admin-close:hover { background: rgba(255,255,255,0.1); }
+
+    .admin-unlock {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      gap: 1rem;
+    }
+
+    .admin-unlock p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .admin-unlock input {
+      background: rgba(245,240,232,0.08);
+      border: 1px solid rgba(245,240,232,0.2);
+      color: var(--cream);
+      padding: 0.6rem 1.2rem;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      text-align: center;
+      width: 240px;
+      outline: none;
+    }
+
+    .admin-unlock input:focus { border-color: var(--accent); }
+
+    .admin-unlock button {
+      padding: 0.5rem 1.5rem;
+      background: var(--accent);
+      border: none;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      color: var(--dark);
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .admin-content { display: none; }
+    .admin-content.unlocked { display: block; }
+
+    .admin-section-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 1.5rem 0 0.75rem;
+    }
+
+    .ip-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+    }
+
+    .ip-table th {
+      text-align: left;
+      color: var(--muted);
+      font-weight: 400;
+      padding: 0.4rem 0.75rem;
+      border-bottom: 1px solid rgba(245,240,232,0.1);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .ip-table td {
+      padding: 0.5rem 0.75rem;
+      color: var(--cream);
+      border-bottom: 1px solid rgba(245,240,232,0.05);
+      vertical-align: top;
+    }
+
+    .ip-table tr:hover td { background: rgba(245,240,232,0.03); }
+
+    .ip-badge {
+      display: inline-block;
+      background: rgba(200,169,110,0.15);
+      color: var(--accent);
+      padding: 0.1rem 0.5rem;
+      border-radius: 100px;
+      font-size: 0.72rem;
+      font-family: monospace;
+    }
+
+    .ua-text {
+      color: rgba(245,240,232,0.4);
+      font-size: 0.7rem;
+      font-family: monospace;
+      max-width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .admin-err { color: #ff6b6b; font-size: 0.8rem; text-align: center; margin-top: 0.5rem; }
+
   </style>
 </head>
 <body class="loading">
@@ -1186,7 +1353,98 @@
       });
     });
   });
+  // ── ADMIN PANEL ──
+  function openAdmin() {
+    document.getElementById('adminPanel').classList.add('open');
+    document.getElementById('adminKey').value = '';
+    document.getElementById('adminErr').textContent = '';
+    document.getElementById('adminContent').classList.remove('unlocked');
+    document.getElementById('adminUnlock').style.display = 'flex';
+    setTimeout(() => document.getElementById('adminKey').focus(), 100);
+  }
+
+  function closeAdmin() {
+    document.getElementById('adminPanel').classList.remove('open');
+    document.getElementById('adminContent').classList.remove('unlocked');
+  }
+
+  async function unlockAdmin() {
+    const key = document.getElementById('adminKey').value.trim();
+    if (!key) return;
+    try {
+      const res  = await fetch(`${VISITOR_API}?key=${encodeURIComponent(key)}`);
+      const data = await res.json();
+
+      if (!data.ipLog) {
+        document.getElementById('adminErr').textContent = 'Key salah atau tidak ada akses.';
+        return;
+      }
+
+      // Render IP log
+      const tbody = document.getElementById('ip-tbody');
+      tbody.innerHTML = data.ipLog.length
+        ? data.ipLog.map((row, i) => `
+          <tr>
+            <td style="color:var(--muted)">${i + 1}</td>
+            <td><span class="ip-badge">${row.ip}</span></td>
+            <td>${row.country}</td>
+            <td style="color:var(--muted);white-space:nowrap">${new Date(row.time).toLocaleString('id-ID')}</td>
+            <td><span class="ua-text" title="${row.ua}">${row.ua}</span></td>
+          </tr>`).join('')
+        : '<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:2rem">Belum ada log</td></tr>';
+
+      document.getElementById('adminUnlock').style.display = 'none';
+      document.getElementById('adminContent').classList.add('unlocked');
+
+    } catch (e) {
+      document.getElementById('adminErr').textContent = 'Gagal terhubung ke server.';
+    }
+  }
+
+  // Tutup admin panel dengan Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.getElementById('adminPanel').classList.contains('open')) {
+      closeAdmin();
+    }
+  });
+
+
 </script>
+
+<!-- ✅ ADMIN TOGGLE (titik tersembunyi pojok kiri bawah) -->
+<button class="admin-toggle" onclick="openAdmin()" title=""></button>
+
+<!-- ✅ ADMIN PANEL -->
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-header">
+    <h2>🔐 Admin — IP Log</h2>
+    <button class="admin-close" onclick="closeAdmin()">✕</button>
+  </div>
+
+  <div class="admin-unlock" id="adminUnlock">
+    <p>Masukkan secret key</p>
+    <input type="password" id="adminKey" placeholder="••••••••••" onkeydown="if(event.key==='Enter') unlockAdmin()" />
+    <button onclick="unlockAdmin()">Masuk</button>
+    <p class="admin-err" id="adminErr"></p>
+  </div>
+
+  <div class="admin-content" id="adminContent">
+    <p class="admin-section-title">Log IP Pengunjung Manusia (200 terakhir)</p>
+    <table class="ip-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>IP Address</th>
+          <th>Negara</th>
+          <th>Waktu</th>
+          <th>User Agent</th>
+        </tr>
+      </thead>
+      <tbody id="ip-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
 
 </body>
 </html>
