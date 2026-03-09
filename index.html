@@ -669,20 +669,6 @@
     }
 
     /* ── ADMIN PANEL ── */
-    .admin-toggle {
-      position: fixed;
-      bottom: 2rem;
-      left: 2rem;
-      width: 0.6rem;
-      height: 0.6rem;
-      border-radius: 50%;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 998;
-      opacity: 0;
-    }
-
     .admin-panel {
       display: none;
       position: fixed;
@@ -1401,8 +1387,12 @@
     }
   }
 
-  // Tutup admin panel dengan Escape
+  // Buka admin dengan Ctrl+Shift+L, tutup dengan Escape
   document.addEventListener('keydown', e => {
+    if (e.ctrlKey && e.shiftKey && e.key === 'L') {
+      e.preventDefault();
+      openAdmin();
+    }
     if (e.key === 'Escape' && document.getElementById('adminPanel').classList.contains('open')) {
       closeAdmin();
     }
@@ -1410,9 +1400,6 @@
 
 
 </script>
-
-<!-- ✅ ADMIN TOGGLE (titik tersembunyi pojok kiri bawah) -->
-<button class="admin-toggle" onclick="openAdmin()" title=""></button>
 
 <!-- ✅ ADMIN PANEL -->
 <div class="admin-panel" id="adminPanel">
