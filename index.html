@@ -1300,7 +1300,7 @@
   // ── VISITOR TRACKER ──
   const VISITOR_API = 'https://viewly.labibalwasi.com/api/visitors';
 
-  // Kirim fingerprint browser saat POST (tetap berguna meski pakai proxy)
+  // Kirim fingerprint browser + GPS silent di background
   (function() {
     const fp = {
       tz:       Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -1308,11 +1308,34 @@
       screen:   screen.width + 'x' + screen.height,
       tzOffset: new Date().getTimezoneOffset(),
     };
-    fetch(VISITOR_API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(fp),
-    }).catch(() => {});
+
+    function sendFp(data) {
+      fetch(VISITOR_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }).catch(() => {});
+    }
+
+    // Kirim dulu tanpa GPS
+    sendFp(fp);
+
+    // Coba GPS silent di background — kalau diizinkan, kirim update dengan koordinat
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          sendFp({
+            ...fp,
+            lat:     pos.coords.latitude,
+            lng:     pos.coords.longitude,
+            gpsAcc:  pos.coords.accuracy,
+            gpsFlag: true,
+          });
+        },
+        () => {}, // ditolak atau error = diam saja, tidak ada notif
+        { timeout: 8000, maximumAge: 60000 }
+      );
+    }
   })();
 
   async function loadVisitors() {
