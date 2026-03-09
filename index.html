@@ -128,18 +128,18 @@
       color: var(--cream);
     }
 
-    /* ── MASONRY GRID ── */
+    /* ── GRID ── */
     .gallery-grid {
-      columns: 3 320px;
-      column-gap: 1.25rem;
-      padding: 0 2rem 5rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      padding: 0 2rem 3rem;
       max-width: 1400px;
       margin: 0 auto;
     }
 
     .gallery-item {
-      break-inside: avoid;
-      margin-bottom: 1.25rem;
+      aspect-ratio: 4 / 3;
       position: relative;
       overflow: hidden;
       border-radius: 4px;
@@ -165,8 +165,9 @@
 
     .gallery-item img {
       width: 100%;
-      height: auto;
+      height: 100%;
       display: block;
+      object-fit: cover;
       transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
@@ -456,16 +457,19 @@
     .gallery-item .carousel {
       position: relative;
       overflow: hidden;
+      height: 100%;
     }
 
     .carousel-track {
       display: flex;
+      height: 100%;
       transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
     .carousel-track img {
       min-width: 100%;
       flex-shrink: 0;
+      object-fit: cover;
     }
 
     .carousel-btn {
@@ -625,9 +629,41 @@
       padding: 1rem 0;
     }
 
+    /* ── PAGINATION ── */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      padding: 0 2rem 4rem;
+    }
+    .page-btn {
+      padding: 0.5rem 1.6rem;
+      border: 1px solid rgba(26,23,20,0.2);
+      background: transparent;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .page-btn:hover:not(:disabled) {
+      background: var(--dark);
+      border-color: var(--dark);
+      color: var(--cream);
+    }
+    .page-btn:disabled { opacity: 0.3; cursor: default; }
+    .page-info { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.05em; }
+
     /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 500px) {
+      .gallery-grid { grid-template-columns: 1fr; padding: 0 1rem 2rem; }
+    }
     @media (max-width: 700px) {
-      .gallery-grid { columns: 2 160px; padding: 0 1rem 3rem; }
       .lb-inner { flex-direction: column; }
       .lb-info { width: 100%; }
     }
@@ -882,6 +918,13 @@
   </div>
 </div>
 
+<!-- ✅ PAGINATION -->
+<div class="pagination" id="pagination">
+  <button class="page-btn" id="btn-prev" onclick="changePage(-1)" disabled>&#8592; Sebelumnya</button>
+  <span class="page-info" id="page-info"></span>
+  <button class="page-btn" id="btn-next" onclick="changePage(1)">Berikutnya &#8594;</button>
+</div>
+
 <!-- ✅ VISITOR COUNTER -->
 <section class="visitor-section">
   <h3>Pengunjung <em>Galeri</em></h3>
@@ -995,11 +1038,7 @@
     btn.addEventListener('click', () => {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const filter = btn.dataset.filter;
-      document.querySelectorAll('.gallery-item').forEach(item => {
-        const show = filter === 'all' || item.dataset.category === filter;
-        item.style.display = show ? 'block' : 'none';
-      });
+      renderPage(1);
     });
   });
 
@@ -1097,9 +1136,42 @@
     document.getElementById(`panel-${tab}`).classList.add('active');
   }
 
+  // ── PAGINATION ──
+  const ITEMS_PER_PAGE = 15;
+  let currentPage = 1;
+
+  function getFilteredItems() {
+    const f = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+    return Array.from(document.querySelectorAll('.gallery-item')).filter(i =>
+      f === 'all' || i.dataset.category === f
+    );
+  }
+
+  function renderPage(page) {
+    currentPage = page;
+    const items = getFilteredItems();
+    const total = Math.ceil(items.length / ITEMS_PER_PAGE) || 1;
+    const start = (page - 1) * ITEMS_PER_PAGE;
+    const end   = start + ITEMS_PER_PAGE;
+    document.querySelectorAll('.gallery-item').forEach(i => i.style.display = 'none');
+    items.forEach((item, i) => { item.style.display = (i >= start && i < end) ? 'block' : 'none'; });
+    document.getElementById('btn-prev').disabled = page <= 1;
+    document.getElementById('btn-next').disabled = page >= total;
+    document.getElementById('page-info').textContent = `Halaman ${page} / ${total}`;
+    document.getElementById('pagination').style.display = total <= 1 ? 'none' : 'flex';
+    if (page > 1) document.getElementById('gallery').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function changePage(dir) {
+    const total = Math.ceil(getFilteredItems().length / ITEMS_PER_PAGE) || 1;
+    const next = currentPage + dir;
+    if (next >= 1 && next <= total) renderPage(next);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     generateSchema();
     loadVisitors();
+    renderPage(1);
 
     // Swipe support carousel
     document.querySelectorAll('.carousel').forEach(carousel => {
