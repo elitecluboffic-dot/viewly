@@ -4,8 +4,6 @@
   <meta name="google-site-verification" content="chqvD6nDErHaVDrK9juUbOh_EbDWpNTtLo7g2ofb6dk" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- ✅ SEO META TAGS -->
   <title>Galeri Foto | Bustanul Labib Alwasi</title>
   <meta name="description" content="Koleksi foto pribadi oleh Bustanul Labib Alwasi. Temukan foto-foto indah dari berbagai momen kehidupan." />
   <link rel="icon" type="image/png" href="https://i.ibb.co.com/hxnN4YwR/file-00000000f3b8720890e1c02108057a6c.png" />
@@ -13,875 +11,134 @@
   <meta name="author" content="Bustanul Labib Alwasi" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://viewly.labibalwasi.com" />
-
-  <!-- ✅ BING INDEXNOW -->
   <meta name="indexnow-key" content="def2d13c223c4c1a836aa49b3ce633a2" />
-
-  <!-- ✅ OPEN GRAPH (untuk share di sosmed & indexing) -->
   <meta property="og:title" content="Galeri Foto | Bustanul Labib Alwasi" />
   <meta property="og:description" content="Koleksi foto pribadi Bustanul Labib Alwasi." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://viewly.labibalwasi.com" />
   <meta property="og:image" content="https://i.ibb.co.com/hxnN4YwR/file-00000000f3b8720890e1c02108057a6c.png" />
-
-  <!-- ✅ STRUCTURED DATA — di-generate otomatis oleh script di bawah -->
   <script id="schema-jsonld" type="application/ld+json"></script>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --cream: #f5f0e8;
-      --dark: #1a1714;
-      --muted: #7a7269;
-      --accent: #c8a96e;
-      --white: #fdfcfa;
-    }
-
+    :root { --cream: #f5f0e8; --dark: #1a1714; --muted: #7a7269; --accent: #c8a96e; --white: #fdfcfa; }
     html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--cream);
-      color: var(--dark);
-      min-height: 100vh;
-    }
-
-    /* ── HEADER ── */
-    header {
-      padding: 3rem 2rem 2rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 50% 0%, rgba(200,169,110,0.15) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .site-label {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 500;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.75rem;
-    }
-
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 6vw, 4rem);
-      font-weight: 400;
-      line-height: 1.1;
-      color: var(--dark);
-      margin-bottom: 0.75rem;
-    }
-
-    h1 em {
-      font-style: italic;
-      color: var(--accent);
-    }
-
-    .subtitle {
-      font-size: 0.95rem;
-      color: var(--muted);
-      font-weight: 300;
-      max-width: 420px;
-      margin: 0 auto 2.5rem;
-      line-height: 1.6;
-    }
-
-    /* ── FILTER TABS ── */
-    .filter-bar {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      padding: 0 1rem 3rem;
-    }
-
-    .filter-btn {
-      padding: 0.45rem 1.2rem;
-      border: 1px solid rgba(26,23,20,0.2);
-      background: transparent;
-      border-radius: 100px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.82rem;
-      letter-spacing: 0.05em;
-      color: var(--muted);
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
-
-    .filter-btn:hover,
-    .filter-btn.active {
-      background: var(--dark);
-      border-color: var(--dark);
-      color: var(--cream);
-    }
-
-    /* ── GRID ── */
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
-      padding: 0 2rem 3rem;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .gallery-item {
-      aspect-ratio: 4 / 3;
-      position: relative;
-      overflow: hidden;
-      border-radius: 4px;
-      cursor: pointer;
-      opacity: 0;
-      transform: translateY(24px);
-      animation: fadeUp 0.6s ease forwards;
-    }
-
-    .gallery-item:nth-child(1) { animation-delay: 0.05s; }
-    .gallery-item:nth-child(2) { animation-delay: 0.1s; }
-    .gallery-item:nth-child(3) { animation-delay: 0.15s; }
-    .gallery-item:nth-child(4) { animation-delay: 0.2s; }
-    .gallery-item:nth-child(5) { animation-delay: 0.25s; }
-    .gallery-item:nth-child(6) { animation-delay: 0.3s; }
-    .gallery-item:nth-child(7) { animation-delay: 0.35s; }
-    .gallery-item:nth-child(8) { animation-delay: 0.4s; }
-    .gallery-item:nth-child(9) { animation-delay: 0.45s; }
-
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .gallery-item:hover img {
-      transform: scale(1.04);
-    }
-
-    /* Overlay */
-    .item-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(26,23,20,0.75) 0%, transparent 55%);
-      opacity: 0;
-      transition: opacity 0.35s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 1.25rem;
-    }
-
-    .gallery-item:hover .item-overlay {
-      opacity: 1;
-    }
-
-    .item-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      color: #fff;
-      font-weight: 400;
-      margin-bottom: 0.2rem;
-    }
-
-    .item-category {
-      font-size: 0.7rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
-
-    /* ── LIGHTBOX ── */
-    .lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      background: rgba(26,23,20,0.95);
-      backdrop-filter: blur(8px);
-      justify-content: center;
-      align-items: center;
-      padding: 2rem;
-    }
-
-    .lightbox.open {
-      display: flex;
-      animation: lbFadeIn 0.3s ease;
-    }
-
-    @keyframes lbFadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .lb-inner {
-      position: relative;
-      max-width: 1100px;
-      width: 100%;
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-    }
-
-    .lb-img-wrap {
-      flex: 1;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .lb-img-wrap img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 4px;
-    }
-
-    .lb-info {
-      width: 260px;
-      flex-shrink: 0;
-      color: var(--cream);
-    }
-
-    .lb-category {
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.75rem;
-    }
-
-    .lb-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.6rem;
-      font-weight: 400;
-      line-height: 1.25;
-      margin-bottom: 1rem;
-    }
-
-    .lb-desc {
-      font-size: 0.875rem;
-      color: rgba(245,240,232,0.65);
-      line-height: 1.7;
-    }
-
-    .lb-close {
-      position: absolute;
-      top: -1rem;
-      right: -1rem;
-      background: none;
-      border: 1px solid rgba(245,240,232,0.3);
-      color: var(--cream);
-      width: 2.5rem;
-      height: 2.5rem;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1.1rem;
-      transition: all 0.2s;
-      display: flex; align-items: center; justify-content: center;
-    }
-
-    .lb-close:hover {
-      background: var(--accent);
-      border-color: var(--accent);
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      text-align: center;
-      padding: 2rem;
-      border-top: 1px solid rgba(26,23,20,0.1);
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    /* ── FLOATING CONTACTS ── */
-    .float-contacts {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      display: flex;
-      flex-direction: column-reverse;
-      align-items: center;
-      gap: 0.75rem;
-      z-index: 999;
-    }
-
-    .float-toggle {
-      width: 3.2rem;
-      height: 3.2rem;
-      border-radius: 50%;
-      background: var(--dark);
-      border: none;
-      color: var(--cream);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-      transition: all 0.3s ease;
-    }
-
-    .float-toggle svg { width: 1.2rem; height: 1.2rem; }
-    .float-toggle:hover { background: var(--accent); transform: scale(1.08); }
-
-    .float-btn {
-      width: 2.8rem;
-      height: 2.8rem;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      opacity: 0;
-      transform: scale(0) translateY(10px);
-      pointer-events: none;
-    }
-
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); min-height: 100vh; }
+    header { padding: 3rem 2rem 2rem; text-align: center; position: relative; overflow: hidden; }
+    header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(200,169,110,0.15) 0%, transparent 70%); pointer-events: none; }
+    .site-label { font-family: 'DM Sans', sans-serif; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 400; line-height: 1.1; color: var(--dark); margin-bottom: 0.75rem; }
+    h1 em { font-style: italic; color: var(--accent); }
+    .subtitle { font-size: 0.95rem; color: var(--muted); font-weight: 300; max-width: 420px; margin: 0 auto 2.5rem; line-height: 1.6; }
+    .filter-bar { display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; padding: 0 1rem 3rem; }
+    .filter-btn { padding: 0.45rem 1.2rem; border: 1px solid rgba(26,23,20,0.2); background: transparent; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; letter-spacing: 0.05em; color: var(--muted); cursor: pointer; transition: all 0.25s ease; }
+    .filter-btn:hover, .filter-btn.active { background: var(--dark); border-color: var(--dark); color: var(--cream); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; padding: 0 2rem 3rem; max-width: 1400px; margin: 0 auto; }
+    .gallery-item { aspect-ratio: 4 / 3; position: relative; overflow: hidden; border-radius: 4px; cursor: pointer; opacity: 0; transform: translateY(24px); animation: fadeUp 0.6s ease forwards; }
+    .gallery-item:nth-child(1) { animation-delay: 0.05s; } .gallery-item:nth-child(2) { animation-delay: 0.1s; } .gallery-item:nth-child(3) { animation-delay: 0.15s; } .gallery-item:nth-child(4) { animation-delay: 0.2s; } .gallery-item:nth-child(5) { animation-delay: 0.25s; } .gallery-item:nth-child(6) { animation-delay: 0.3s; } .gallery-item:nth-child(7) { animation-delay: 0.35s; } .gallery-item:nth-child(8) { animation-delay: 0.4s; } .gallery-item:nth-child(9) { animation-delay: 0.45s; }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    .gallery-item img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+    .gallery-item:hover img { transform: scale(1.04); }
+    .item-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(26,23,20,0.75) 0%, transparent 55%); opacity: 0; transition: opacity 0.35s ease; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.25rem; }
+    .gallery-item:hover .item-overlay { opacity: 1; }
+    .item-title { font-family: 'Playfair Display', serif; font-size: 1rem; color: #fff; font-weight: 400; margin-bottom: 0.2rem; }
+    .item-category { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+    .lightbox { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(26,23,20,0.95); backdrop-filter: blur(8px); justify-content: center; align-items: center; padding: 2rem; }
+    .lightbox.open { display: flex; animation: lbFadeIn 0.3s ease; }
+    @keyframes lbFadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .lb-inner { position: relative; max-width: 1100px; width: 100%; display: flex; gap: 2rem; align-items: center; }
+    .lb-img-wrap { flex: 1; border-radius: 4px; overflow: hidden; }
+    .lb-img-wrap img { width: 100%; height: auto; display: block; border-radius: 4px; }
+    .lb-info { width: 260px; flex-shrink: 0; color: var(--cream); }
+    .lb-category { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    .lb-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 400; line-height: 1.25; margin-bottom: 1rem; }
+    .lb-desc { font-size: 0.875rem; color: rgba(245,240,232,0.65); line-height: 1.7; }
+    .lb-close { position: absolute; top: -1rem; right: -1rem; background: none; border: 1px solid rgba(245,240,232,0.3); color: var(--cream); width: 2.5rem; height: 2.5rem; border-radius: 50%; cursor: pointer; font-size: 1.1rem; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+    .lb-close:hover { background: var(--accent); border-color: var(--accent); }
+    footer { text-align: center; padding: 2rem; border-top: 1px solid rgba(26,23,20,0.1); font-size: 0.8rem; color: var(--muted); }
+    .float-contacts { position: fixed; bottom: 2rem; right: 2rem; display: flex; flex-direction: column-reverse; align-items: center; gap: 0.75rem; z-index: 999; }
+    .float-toggle { width: 3.2rem; height: 3.2rem; border-radius: 50%; background: var(--dark); border: none; color: var(--cream); cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.25); transition: all 0.3s ease; }
+    .float-toggle svg { width: 1.2rem; height: 1.2rem; } .float-toggle:hover { background: var(--accent); transform: scale(1.08); }
+    .float-btn { width: 2.8rem; height: 2.8rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,0,0,0.2); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 0; transform: scale(0) translateY(10px); pointer-events: none; }
     .float-btn svg { width: 1.1rem; height: 1.1rem; }
-
-    .float-contacts.open .float-btn {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-      pointer-events: all;
-    }
-
-    .float-contacts.open .float-wa { transition-delay: 0.05s; }
-    .float-contacts.open .float-ig { transition-delay: 0.1s; }
-    .float-contacts.open .float-tg { transition-delay: 0.15s; }
-
-    .float-wa { background: #25D366; color: #fff; }
-    .float-ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); color: #fff; }
-    .float-tg { background: #29ABE2; color: #fff; }
-
+    .float-contacts.open .float-btn { opacity: 1; transform: scale(1) translateY(0); pointer-events: all; }
+    .float-contacts.open .float-wa { transition-delay: 0.05s; } .float-contacts.open .float-ig { transition-delay: 0.1s; } .float-contacts.open .float-tg { transition-delay: 0.15s; }
+    .float-wa { background: #25D366; color: #fff; } .float-ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); color: #fff; } .float-tg { background: #29ABE2; color: #fff; }
     .float-btn:hover { transform: scale(1.12) !important; box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
-
-    /* ── LOADING SCREEN ── */
-    #loading-screen {
-      position: fixed;
-      inset: 0;
-      background: var(--cream);
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.6s ease, visibility 0.6s ease;
-    }
-
-    #loading-screen.hide {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .loading-logo {
-      animation: logoPulse 1.5s ease-in-out infinite;
-    }
-
-    @keyframes logoPulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(0.96); opacity: 0.7; }
-    }
-
-    .loading-bar-wrap {
-      margin-top: 2rem;
-      width: 160px;
-      height: 3px;
-      background: rgba(26,23,20,0.1);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-
-    .loading-bar {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #4F8CFF, #7A4DFF);
-      border-radius: 99px;
-      animation: loadBar 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-
-    @keyframes loadBar {
-      0%   { width: 0%; }
-      60%  { width: 75%; }
-      100% { width: 100%; }
-    }
-
+    #loading-screen { position: fixed; inset: 0; background: var(--cream); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.6s ease, visibility 0.6s ease; }
+    #loading-screen.hide { opacity: 0; visibility: hidden; }
+    .loading-logo { animation: logoPulse 1.5s ease-in-out infinite; }
+    @keyframes logoPulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.96); opacity: 0.7; } }
+    .loading-bar-wrap { margin-top: 2rem; width: 160px; height: 3px; background: rgba(26,23,20,0.1); border-radius: 99px; overflow: hidden; }
+    .loading-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #4F8CFF, #7A4DFF); border-radius: 99px; animation: loadBar 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+    @keyframes loadBar { 0% { width: 0%; } 60% { width: 75%; } 100% { width: 100%; } }
     body.loading { overflow: hidden; }
-
-    /* ── LIGHTBOX NAV ── */
-    .lb-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(245,240,232,0.1);
-      border: 1px solid rgba(245,240,232,0.2);
-      color: var(--cream);
-      width: 3rem;
-      height: 3rem;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1.6rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
-      z-index: 10;
-    }
-
-    .lb-nav:hover { background: var(--accent); border-color: var(--accent); }
-    .lb-prev { left: -4rem; }
-    .lb-next { right: -4rem; }
-
-    @media (max-width: 900px) {
-      .lb-prev { left: 0.25rem; }
-      .lb-next { right: 0.25rem; }
-    }
-
-    /* ── CAROUSEL ── */
-    .gallery-item .carousel {
-      position: relative;
-      overflow: hidden;
-      height: 100%;
-    }
-
-    .carousel-track {
-      display: flex;
-      height: 100%;
-      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .carousel-track img {
-      min-width: 100%;
-      flex-shrink: 0;
-      object-fit: cover;
-    }
-
-    .carousel-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(255,255,255,0.85);
-      border: none;
-      width: 2rem;
-      height: 2rem;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.25s ease;
-      z-index: 10;
-      color: var(--dark);
-    }
-
-    .carousel-btn.prev { left: 0.5rem; }
-    .carousel-btn.next { right: 0.5rem; }
-
-    .gallery-item:hover .carousel-btn { opacity: 1; }
-    .carousel-btn:hover { background: #fff; }
-
-    .carousel-dots {
-      position: absolute;
-      bottom: 0.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 0.3rem;
-      z-index: 10;
-    }
-
-    .carousel-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.5);
-      transition: background 0.2s;
-    }
-
+    .lb-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(245,240,232,0.1); border: 1px solid rgba(245,240,232,0.2); color: var(--cream); width: 3rem; height: 3rem; border-radius: 50%; cursor: pointer; font-size: 1.6rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; z-index: 10; }
+    .lb-nav:hover { background: var(--accent); border-color: var(--accent); } .lb-prev { left: -4rem; } .lb-next { right: -4rem; }
+    @media (max-width: 900px) { .lb-prev { left: 0.25rem; } .lb-next { right: 0.25rem; } }
+    .gallery-item .carousel { position: relative; overflow: hidden; height: 100%; }
+    .carousel-track { display: flex; height: 100%; transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+    .carousel-track img { min-width: 100%; flex-shrink: 0; object-fit: cover; }
+    .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.85); border: none; width: 2rem; height: 2rem; border-radius: 50%; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.25s ease; z-index: 10; color: var(--dark); }
+    .carousel-btn.prev { left: 0.5rem; } .carousel-btn.next { right: 0.5rem; }
+    .gallery-item:hover .carousel-btn { opacity: 1; } .carousel-btn:hover { background: #fff; }
+    .carousel-dots { position: absolute; bottom: 0.5rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.3rem; z-index: 10; }
+    .carousel-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.5); transition: background 0.2s; }
     .carousel-dot.active { background: #fff; }
-
-    /* ── VISITOR COUNTER ── */
-    .visitor-section {
-      max-width: 860px;
-      margin: 0 auto 4rem;
-      padding: 0 2rem;
-    }
-
-    .visitor-section h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      font-weight: 400;
-      color: var(--dark);
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-
-    .visitor-section h3 em {
-      font-style: italic;
-      color: var(--accent);
-    }
-
-    .visitor-tabs {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .visitor-tab {
-      padding: 0.4rem 1.2rem;
-      border: 1px solid rgba(26,23,20,0.2);
-      background: transparent;
-      border-radius: 100px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.8rem;
-      color: var(--muted);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .visitor-tab.active {
-      background: var(--dark);
-      border-color: var(--dark);
-      color: var(--cream);
-    }
-
-    .visitor-panel { display: none; }
-    .visitor-panel.active { display: block; }
-
-    .visitor-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-
-    .visitor-row {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .visitor-label {
-      font-size: 0.85rem;
-      color: var(--dark);
-      width: 180px;
-      flex-shrink: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .visitor-bar-wrap {
-      flex: 1;
-      height: 6px;
-      background: rgba(26,23,20,0.08);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-
-    .visitor-bar {
-      height: 100%;
-      border-radius: 99px;
-      transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .visitor-panel.humans .visitor-bar { background: var(--accent); }
-    .visitor-panel.bots   .visitor-bar { background: #7A4DFF; }
-
-    .visitor-count {
-      font-size: 0.78rem;
-      color: var(--muted);
-      width: 2.5rem;
-      text-align: right;
-      flex-shrink: 0;
-    }
-
-    .visitor-total {
-      text-align: center;
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-top: 1rem;
-      letter-spacing: 0.05em;
-    }
-
-    .visitor-loading {
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--muted);
-      padding: 1rem 0;
-    }
-
-    /* ── PAGINATION ── */
-    .pagination {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-      padding: 0 2rem 4rem;
-    }
-    .page-btn {
-      padding: 0.5rem 1.6rem;
-      border: 1px solid rgba(26,23,20,0.2);
-      background: transparent;
-      border-radius: 100px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.82rem;
-      color: var(--muted);
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
-    .page-btn:hover:not(:disabled) {
-      background: var(--dark);
-      border-color: var(--dark);
-      color: var(--cream);
-    }
-    .page-btn:disabled { opacity: 0.3; cursor: default; }
-    .page-info { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.05em; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 500px) {
-      .gallery-grid { grid-template-columns: 1fr; padding: 0 1rem 2rem; }
-    }
-    @media (max-width: 700px) {
-      .lb-inner { flex-direction: column; }
-      .lb-info { width: 100%; }
-    }
-
-    /* ── ADMIN PANEL ── */
-    .admin-panel {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 2000;
-      background: rgba(26,23,20,0.97);
-      backdrop-filter: blur(12px);
-      padding: 2rem;
-      overflow-y: auto;
-    }
-
+    .visitor-section { max-width: 860px; margin: 0 auto 4rem; padding: 0 2rem; }
+    .visitor-section h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 400; color: var(--dark); margin-bottom: 1.5rem; text-align: center; }
+    .visitor-section h3 em { font-style: italic; color: var(--accent); }
+    .visitor-tabs { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .visitor-tab { padding: 0.4rem 1.2rem; border: 1px solid rgba(26,23,20,0.2); background: transparent; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; color: var(--muted); cursor: pointer; transition: all 0.2s ease; }
+    .visitor-tab.active { background: var(--dark); border-color: var(--dark); color: var(--cream); }
+    .visitor-panel { display: none; } .visitor-panel.active { display: block; }
+    .visitor-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .visitor-row { display: flex; align-items: center; gap: 0.75rem; }
+    .visitor-label { font-size: 0.85rem; color: var(--dark); width: 180px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .visitor-bar-wrap { flex: 1; height: 6px; background: rgba(26,23,20,0.08); border-radius: 99px; overflow: hidden; }
+    .visitor-bar { height: 100%; border-radius: 99px; transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+    .visitor-panel.humans .visitor-bar { background: var(--accent); } .visitor-panel.bots .visitor-bar { background: #7A4DFF; }
+    .visitor-count { font-size: 0.78rem; color: var(--muted); width: 2.5rem; text-align: right; flex-shrink: 0; }
+    .visitor-total { text-align: center; font-size: 0.75rem; color: var(--muted); margin-top: 1rem; letter-spacing: 0.05em; }
+    .visitor-loading { text-align: center; font-size: 0.8rem; color: var(--muted); padding: 1rem 0; }
+    .pagination { display: flex; justify-content: center; align-items: center; gap: 1rem; padding: 0 2rem 4rem; }
+    .page-btn { padding: 0.5rem 1.6rem; border: 1px solid rgba(26,23,20,0.2); background: transparent; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; color: var(--muted); cursor: pointer; transition: all 0.25s ease; }
+    .page-btn:hover:not(:disabled) { background: var(--dark); border-color: var(--dark); color: var(--cream); }
+    .page-btn:disabled { opacity: 0.3; cursor: default; } .page-info { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.05em; }
+    @media (max-width: 900px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .gallery-grid { grid-template-columns: 1fr; padding: 0 1rem 2rem; } }
+    @media (max-width: 700px) { .lb-inner { flex-direction: column; } .lb-info { width: 100%; } }
+    .admin-panel { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(26,23,20,0.97); backdrop-filter: blur(12px); padding: 2rem; overflow-y: auto; }
     .admin-panel.open { display: block; }
-
-    .admin-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(245,240,232,0.15);
-      padding-bottom: 1rem;
-    }
-
-    .admin-header h2 {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
-
-    .admin-close {
-      background: none;
-      border: 1px solid rgba(245,240,232,0.2);
-      color: var(--cream);
-      width: 2rem;
-      height: 2rem;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
+    .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(245,240,232,0.15); padding-bottom: 1rem; }
+    .admin-header h2 { font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+    .admin-close { background: none; border: 1px solid rgba(245,240,232,0.2); color: var(--cream); width: 2rem; height: 2rem; border-radius: 50%; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; }
     .admin-close:hover { background: rgba(255,255,255,0.1); }
-
-    .admin-unlock {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 60vh;
-      gap: 1rem;
-    }
-
-    .admin-unlock p {
-      font-size: 0.8rem;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    .admin-unlock input {
-      background: rgba(245,240,232,0.08);
-      border: 1px solid rgba(245,240,232,0.2);
-      color: var(--cream);
-      padding: 0.6rem 1.2rem;
-      border-radius: 100px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.85rem;
-      text-align: center;
-      width: 240px;
-      outline: none;
-    }
-
+    .admin-unlock { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 1rem; }
+    .admin-unlock p { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+    .admin-unlock input { background: rgba(245,240,232,0.08); border: 1px solid rgba(245,240,232,0.2); color: var(--cream); padding: 0.6rem 1.2rem; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; text-align: center; width: 240px; outline: none; }
     .admin-unlock input:focus { border-color: var(--accent); }
-
-    .admin-unlock button {
-      padding: 0.5rem 1.5rem;
-      background: var(--accent);
-      border: none;
-      border-radius: 100px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.8rem;
-      color: var(--dark);
-      cursor: pointer;
-      font-weight: 500;
-    }
-
-    .admin-content { display: none; }
-    .admin-content.unlocked { display: block; }
-
-    .admin-section-title {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin: 1.5rem 0 0.75rem;
-    }
-
-    .ip-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.78rem;
-    }
-
-    .ip-table th {
-      text-align: left;
-      color: var(--muted);
-      font-weight: 400;
-      padding: 0.4rem 0.75rem;
-      border-bottom: 1px solid rgba(245,240,232,0.1);
-      font-size: 0.7rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .ip-table td {
-      padding: 0.5rem 0.75rem;
-      color: var(--cream);
-      border-bottom: 1px solid rgba(245,240,232,0.05);
-      vertical-align: top;
-    }
-
+    .admin-unlock button { padding: 0.5rem 1.5rem; background: var(--accent); border: none; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; color: var(--dark); cursor: pointer; font-weight: 500; }
+    .admin-content { display: none; } .admin-content.unlocked { display: block; }
+    .admin-section-title { font-family: 'DM Sans', sans-serif; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin: 1.5rem 0 0.75rem; }
+    .ip-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+    .ip-table th { text-align: left; color: var(--muted); font-weight: 400; padding: 0.4rem 0.75rem; border-bottom: 1px solid rgba(245,240,232,0.1); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .ip-table td { padding: 0.5rem 0.75rem; color: var(--cream); border-bottom: 1px solid rgba(245,240,232,0.05); vertical-align: top; }
     .ip-table tr:hover td { background: rgba(245,240,232,0.03); }
-
-    .ip-badge {
-      display: inline-block;
-      background: rgba(200,169,110,0.15);
-      color: var(--accent);
-      padding: 0.1rem 0.5rem;
-      border-radius: 100px;
-      font-size: 0.72rem;
-      font-family: monospace;
-    }
-
-    .ua-text {
-      color: rgba(245,240,232,0.4);
-      font-size: 0.7rem;
-      font-family: monospace;
-      max-width: 300px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
+    .ip-badge { display: inline-block; background: rgba(200,169,110,0.15); color: var(--accent); padding: 0.1rem 0.5rem; border-radius: 100px; font-size: 0.72rem; font-family: monospace; }
+    .ua-text { color: rgba(245,240,232,0.4); font-size: 0.7rem; font-family: monospace; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .admin-err { color: #ff6b6b; font-size: 0.8rem; text-align: center; margin-top: 0.5rem; }
-
-    /* ── SAVE PROTECTION ── */
-    img {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none;
-      -webkit-touch-callout: none;
-      pointer-events: none;
-    }
-
-    /* overlay transparan di atas semua gambar agar klik kanan tidak ke img */
-    .gallery-item::after,
-    .lb-img-wrap::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: 5;
-    }
-
-    .save-toast {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: var(--dark);
-      color: var(--cream);
-      padding: 0.9rem 1.5rem;
-      border-radius: 12px;
-      font-size: 0.82rem;
-      line-height: 1.5;
-      text-align: center;
-      max-width: 320px;
-      width: 90%;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-      border: 1px solid rgba(200,169,110,0.3);
-      z-index: 9998;
-      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s ease;
-      opacity: 0;
-    }
-
-    .save-toast.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-    }
-
-    .save-toast strong {
-      display: block;
-      color: var(--accent);
-      font-size: 0.88rem;
-      margin-bottom: 0.25rem;
-    }
-
-    .save-toast a {
-      color: #25D366;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
+    img { -webkit-user-select: none; -moz-user-select: none; user-select: none; -webkit-touch-callout: none; pointer-events: none; }
+    .gallery-item::after, .lb-img-wrap::after { content: ''; position: absolute; inset: 0; z-index: 5; }
+    .save-toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--dark); color: var(--cream); padding: 0.9rem 1.5rem; border-radius: 12px; font-size: 0.82rem; line-height: 1.5; text-align: center; max-width: 320px; width: 90%; box-shadow: 0 8px 32px rgba(0,0,0,0.4); border: 1px solid rgba(200,169,110,0.3); z-index: 9998; transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s ease; opacity: 0; }
+    .save-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .save-toast strong { display: block; color: var(--accent); font-size: 0.88rem; margin-bottom: 0.25rem; }
+    .save-toast a { color: #25D366; text-decoration: none; font-weight: 500; }
   </style>
 </head>
 <body class="loading">
 
-<!-- ✅ LOADING SCREEN -->
 <div id="loading-screen">
   <div class="loading-logo">
     <svg width="320" height="100" viewBox="0 0 520 160" xmlns="http://www.w3.org/2000/svg">
@@ -909,14 +166,12 @@
   </div>
 </div>
 
-<!-- ✅ HEADER -->
 <header>
   <p class="site-label">Public Fotografi</p>
   <h1>Galeri <em>Foto</em> Bustanul Labib Alwasi</h1>
   <p class="subtitle">Ruang pribadi untuk momen yang terabadikan.</p>
 </header>
 
-<!-- ✅ FILTER KATEGORI -->
 <div class="filter-bar">
   <button class="filter-btn active" data-filter="all">Semua</button>
   <button class="filter-btn" data-filter="alam">Alam</button>
@@ -925,30 +180,15 @@
   <button class="filter-btn" data-filter="arsitektur">Arsitektur</button>
 </div>
 
-<!-- ✅ GALERI -->
 <main>
   <div class="gallery-grid" id="gallery">
-
-    <!--
-      CARA MENGGANTI FOTO:
-      1. Ganti src="..." dengan path foto Anda, misal: src="images/foto-gunung.jpg"
-      2. WAJIB isi alt="" dengan deskripsi DETAIL (ini yang dibaca Google!)
-         Contoh alt yang BAIK: "Pemandangan Gunung Bromo saat matahari terbit dari lautan pasir"
-         Contoh alt yang BURUK: "foto1" atau kosong
-    -->
 
     <article class="gallery-item" data-category="potret"
       data-title="Momen malam di depan Alfamidi"
       data-desc="Potret suasana malam di depan Alfamidi dengan seorang pemuda duduk santai di area parkir, ditemani lampu kota dan aktivitas jalanan."
       data-cat="Potret"
       onclick="openLightbox(this)">
-      <img
-        src="https://i.ibb.co.com/FkwWhCs7/IMG-20260304-024957-236.jpg"
-        alt="Malam sederhana di sudut kota."
-        title="Momen Malam Alfamidi"
-        loading="lazy"
-        width="800"
-      />
+      <img src="https://i.ibb.co.com/FkwWhCs7/IMG-20260304-024957-236.jpg" alt="Malam sederhana di sudut kota." title="Momen Malam Alfamidi" loading="lazy" width="800" />
       <div class="item-overlay">
         <p class="item-title">Momen Malam Alfamidi</p>
         <p class="item-category">Potret</p>
@@ -962,9 +202,7 @@
       onclick="openLightbox(this)">
       <div class="carousel" data-index="0">
         <div class="carousel-track">
-          <img src="https://i.ibb.co.com/0pBQZrPm/lv-0-20260306232326.jpg"
-            alt="Potret Labib yang berdiri santai di jalan kota Bandung pada malam hari dengan suasana kota yang masih ramai."
-            title="Potret Malam Kota Bandung" loading="lazy" width="800" />
+          <img src="https://i.ibb.co.com/0pBQZrPm/lv-0-20260306232326.jpg" alt="Potret Labib yang berdiri santai di jalan kota Bandung pada malam hari dengan suasana kota yang masih ramai." title="Potret Malam Kota Bandung" loading="lazy" width="800" />
           <img src="https://i.ibb.co.com/PZxz6tYF/IMG-0649.jpg" alt="Potret Labib yang berdiri santai di jalan kota Bandung pada malam hari dengan suasana kota yang masih ramai." loading="lazy" width="800" />
           <img src="https://i.ibb.co.com/mFGHhsMb/IMG-0651.jpg" alt="Potret Labib yang berdiri santai di jalan kota Bandung pada malam hari dengan suasana kota yang masih ramai." loading="lazy" width="800" />
         </div>
@@ -987,13 +225,7 @@
       data-desc="Labib berdiri santai di dalam ruangan bergaya minimalis dengan cermin bundar bercahaya dan wastafel modern di belakangnya."
       data-cat="Potret"
       onclick="openLightbox(this)">
-      <img
-        src="https://i.ibb.co.com/CpqcWFKN/IMG-20260309-002748-148.jpg"
-        alt="Suasana Tenang di Ruang Minimalis"
-        title="Potret Interior Minimalis"
-        loading="lazy"
-        width="800"
-      />
+      <img src="https://i.ibb.co.com/CpqcWFKN/IMG-20260309-002748-148.jpg" alt="Suasana Tenang di Ruang Minimalis" title="Potret Interior Minimalis" loading="lazy" width="800" />
       <div class="item-overlay">
         <p class="item-title">Potret di Ruang Minimalis</p>
         <p class="item-category">Potret</p>
@@ -1005,13 +237,7 @@
       data-desc="Suasana peron stasiun kereta di Bandung dengan papan petunjuk keluar via skybridge dan penumpang yang berjalan di samping kereta."
       data-cat="Perjalanan"
       onclick="openLightbox(this)">
-      <img
-        src="https://i.ibb.co.com/PGGrf4kS/pm-1770985357669-cmp.jpg"
-        alt="Suasana peron stasiun kereta di Bandung dengan penumpang yang berjalan menuju pintu keluar melalui skybridge, dengan kereta yang berhenti di samping jalur."
-        title="Suasana Peron Statiun Bandung"
-        loading="lazy"
-        width="800"
-      />
+      <img src="https://i.ibb.co.com/PGGrf4kS/pm-1770985357669-cmp.jpg" alt="Suasana peron stasiun kereta di Bandung dengan penumpang yang berjalan menuju pintu keluar melalui skybridge, dengan kereta yang berhenti di samping jalur." title="Suasana Peron Statiun Bandung" loading="lazy" width="800" />
       <div class="item-overlay">
         <p class="item-title">Suasana Peron Statiun Bandung</p>
         <p class="item-category">Perjalanan</p>
@@ -1023,13 +249,7 @@
       data-desc="Rak display berwarna merah dengan beberapa botol minuman beralkohol seperti whisky, bourbon, dan tequila yang tersusun rapi di dalam lemari kaca."
       data-cat="Potret"
       onclick="openLightbox(this)">
-      <img
-        src="https://i.ibb.co.com/jP9mmNc6/pm-1770985304571-cmp.jpg"
-        alt="Lemari display kaca dengan desain modern berwarna merah yang berisi berbagai koleksi minuman beralkohol seperti whisky, bourbon, dan tequila. Beberapa merek yang terlihat antara lain Glenfiddich, Jack Daniel's, Jim Beam, dan Blue Agave. Botol-botol disusun rapi di rak kaca dengan pencahayaan lampu sehingga memberikan tampilan elegan yang cocok untuk bar rumah, restoran, atau lounge."
-        title="Rak Koleksi Minuman"
-        loading="lazy"
-        width="800"
-      />
+      <img src="https://i.ibb.co.com/jP9mmNc6/pm-1770985304571-cmp.jpg" alt="Lemari display kaca dengan desain modern berwarna merah yang berisi berbagai koleksi minuman beralkohol seperti whisky, bourbon, dan tequila. Beberapa merek yang terlihat antara lain Glenfiddich, Jack Daniel's, Jim Beam, dan Blue Agave. Botol-botol disusun rapi di rak kaca dengan pencahayaan lampu sehingga memberikan tampilan elegan yang cocok untuk bar rumah, restoran, atau lounge." title="Rak Koleksi Minuman" loading="lazy" width="800" />
       <div class="item-overlay">
         <p class="item-title">Rak Koleksi Minuman</p>
         <p class="item-category">Potret</p>
@@ -1041,13 +261,7 @@
       data-desc="Tempat ini merupakan salah satu landmark terkenal di Bandung yang berkaitan dengan Konferensi Asia Afrika 1955, sebuah pertemuan internasional penting yang diadakan di Bandung dan dihadiri oleh negara-negara Asia dan Afrika."
       data-cat="Perjalanan"
       onclick="openLightbox(this)">
-      <img
-        src="https://i.ibb.co.com/DHYX15C1/pm-1770985357127-cmp.jpg"
-        alt="Monumen Asia Afrika di Jalan Asia Afrika Bandung pada malam hari dengan latar gedung Bank BJB Tower dan suasana jalan kota."
-        title="Monumen Asia Afrika Bandung di Jalan Asia Afrika pada Malam Hari"
-        loading="lazy"
-        width="800"
-      />
+      <img src="https://i.ibb.co.com/DHYX15C1/pm-1770985357127-cmp.jpg" alt="Monumen Asia Afrika di Jalan Asia Afrika Bandung pada malam hari dengan latar gedung Bank BJB Tower dan suasana jalan kota." title="Monumen Asia Afrika Bandung di Jalan Asia Afrika pada Malam Hari" loading="lazy" width="800" />
       <div class="item-overlay">
         <p class="item-title">Asia Afrika Monument Bandung</p>
         <p class="item-category">Potret</p>
@@ -1059,13 +273,7 @@
       data-desc="POV mengendarai motor cafe racer di gang sempit pada malam hari saat jalan-jalan keluar untuk membeli makanan."
       data-cat="Potret"
       onclick="openLightbox(this)">
-      <img
-        src="https://i.ibb.co.com/fYnw4kdP/pm-1770985358492-cmp.jpg"
-        alt="Night ride santai pakai cafe racer, keluar sebentar cari makanan di malam hari."
-        title="Riding Motor Cafe Racer Malam Hari untuk Beli Makanan."
-        loading="lazy"
-        width="800"
-      />
+      <img src="https://i.ibb.co.com/fYnw4kdP/pm-1770985358492-cmp.jpg" alt="Night ride santai pakai cafe racer, keluar sebentar cari makanan di malam hari." title="Riding Motor Cafe Racer Malam Hari untuk Beli Makanan." loading="lazy" width="800" />
       <div class="item-overlay">
         <p class="item-title">Motor Custom Caferacer</p>
         <p class="item-category">Potret</p>
@@ -1077,13 +285,7 @@
       data-desc="Display laptop ASUS Republic of Gamers (ROG) di toko komputer dengan lampu LED merah dan ungu."
       data-cat="Potret"
       onclick="openLightbox(this)">
-      <img
-        src="https://i.ibb.co.com/Vp5QnznG/pm-1770985359748-cmp.jpg"
-        alt="Etalase laptop gaming ASUS ROG dengan logo Republic of Gamers menyala."
-        title="Republic Of Gamers ROG"
-        loading="lazy"
-        width="800"
-      />
+      <img src="https://i.ibb.co.com/Vp5QnznG/pm-1770985359748-cmp.jpg" alt="Etalase laptop gaming ASUS ROG dengan logo Republic of Gamers menyala." title="Republic Of Gamers ROG" loading="lazy" width="800" />
       <div class="item-overlay">
         <p class="item-title">Republic Of Gamers ROG</p>
         <p class="item-category">Potret</p>
@@ -1095,29 +297,21 @@
       data-desc="Berjalan di jalan aspal yang berada di tengah hutan dengan pepohonan tinggi dan vegetasi hijau yang lebat. Ia mengenakan jaket tebal berwarna gelap dan celana jeans, sambil menoleh ke belakang saat berjalan. Jalan terlihat basah dan dipenuhi daun yang jatuh, memberikan kesan suasana alam yang sejuk dan tenang."
       data-cat="Alam"
       onclick="openLightbox(this)">
-      <img
-        src="https://i.ibb.co.com/z0fxGBL/file-000000005024720bb43d436c7ca43c3a.jpg"
-        alt="Berjalan di jalan aspal yang berada di tengah hutan dengan pepohonan tinggi dan vegetasi hijau yang lebat. Ia mengenakan jaket tebal berwarna gelap dan celana jeans, sambil menoleh ke belakang saat berjalan. Jalan terlihat basah dan dipenuhi daun yang jatuh, memberikan kesan suasana alam yang sejuk dan tenang."
-        title="Pemandangan Hutan Kota Bandung"
-        loading="lazy"
-        width="800"
-      />
+      <img src="https://i.ibb.co.com/z0fxGBL/file-000000005024720bb43d436c7ca43c3a.jpg" alt="Berjalan di jalan aspal yang berada di tengah hutan dengan pepohonan tinggi dan vegetasi hijau yang lebat. Ia mengenakan jaket tebal berwarna gelap dan celana jeans, sambil menoleh ke belakang saat berjalan. Jalan terlihat basah dan dipenuhi daun yang jatuh, memberikan kesan suasana alam yang sejuk dan tenang." title="Pemandangan Hutan Kota Bandung" loading="lazy" width="800" />
       <div class="item-overlay">
         <p class="item-title">Pemandangan Hutan Kota Bandung</p>
         <p class="item-category">Alam</p>
       </div>
     </article>
 
-        <article class="gallery-item" data-category="potret"
+    <article class="gallery-item" data-category="potret"
       data-title="Papan Billboard Roblox – Jadi Pacarku"
       data-desc="Karakter Roblox bertema ninja berdiri di depan billboard biru besar bertuliskan kalimat gombal *jadi pacarku, kencannya naik naga."
       data-cat="Potret"
       onclick="openLightbox(this)">
       <div class="carousel" data-index="0">
         <div class="carousel-track">
-          <img src="https://i.ibb.co/LX1C8Z2Q/Roblox-Screen-Shot20260307-235808629.png"
-            alt="Karakter Roblox berdiri di depan billboard besar bertuliskan *jadi pacarku, kencannya naik naga* di dunia game dengan latar langit biru dan pulau terapung."
-            title="Roblox Billboard – Kencannya Naik Naga" loading="lazy" width="800" />
+          <img src="https://i.ibb.co/LX1C8Z2Q/Roblox-Screen-Shot20260307-235808629.png" alt="Karakter Roblox berdiri di depan billboard besar bertuliskan *jadi pacarku, kencannya naik naga* di dunia game dengan latar langit biru dan pulau terapung." title="Roblox Billboard – Kencannya Naik Naga" loading="lazy" width="800" />
           <img src="https://i.ibb.co/SDTk6CGZ/Roblox-Screen-Shot20260309-044148670.png" alt="Karakter Roblox berdiri di depan billboard besar bertuliskan *jadi pacarku, kencannya naik naga* di dunia game dengan latar langit biru dan pulau terapung." loading="lazy" width="800" />
         </div>
         <button class="carousel-btn prev" onclick="slideCarousel(event,this,-1)">&#8249;</button>
@@ -1136,7 +330,6 @@
   </div>
 </main>
 
-<!-- ✅ LIGHTBOX -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto detail" onclick="closeLightboxOutside(event)">
   <div class="lb-inner">
     <button class="lb-close" onclick="closeLightbox()" aria-label="Tutup">✕</button>
@@ -1153,14 +346,12 @@
   </div>
 </div>
 
-<!-- ✅ PAGINATION -->
 <div class="pagination" id="pagination">
   <button class="page-btn" id="btn-prev" onclick="changePage(-1)" disabled>&#8592; Sebelumnya</button>
   <span class="page-info" id="page-info"></span>
   <button class="page-btn" id="btn-next" onclick="changePage(1)">Berikutnya &#8594;</button>
 </div>
 
-<!-- ✅ VISITOR COUNTER -->
 <section class="visitor-section">
   <h3>Pengunjung <em>Galeri</em></h3>
   <div class="visitor-tabs">
@@ -1168,25 +359,19 @@
     <button class="visitor-tab" onclick="switchTab('bots', this)">🤖 Bot</button>
   </div>
   <div class="visitor-panel humans active" id="panel-humans">
-    <div class="visitor-list" id="list-humans">
-      <p class="visitor-loading">Memuat data...</p>
-    </div>
+    <div class="visitor-list" id="list-humans"><p class="visitor-loading">Memuat data...</p></div>
     <p class="visitor-total" id="total-humans"></p>
   </div>
   <div class="visitor-panel bots" id="panel-bots">
-    <div class="visitor-list" id="list-bots">
-      <p class="visitor-loading">Memuat data...</p>
-    </div>
+    <div class="visitor-list" id="list-bots"><p class="visitor-loading">Memuat data...</p></div>
     <p class="visitor-total" id="total-bots"></p>
   </div>
 </section>
 
-<!-- ✅ FOOTER -->
 <footer>
   <p>© 2025 Bustanul Labib Alwasi · Public Fotografi</p>
 </footer>
 
-<!-- ✅ FLOATING CONTACT BUTTONS -->
 <div class="float-contacts" id="floatContacts">
   <button class="float-toggle" onclick="toggleContacts()" aria-label="Kontak saya" title="Hubungi Saya">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -1239,32 +424,13 @@
   function generateSchema() {
     const siteUrl = window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '');
     const items = document.querySelectorAll('.gallery-item');
-
     const imageObjects = Array.from(items).map(item => {
       const img = item.querySelector('img');
       const src = img.src;
       const absoluteUrl = src.startsWith('http') ? src : siteUrl + '/' + src.replace(/^\//, '');
-      return {
-        "@type": "ImageObject",
-        "contentUrl": absoluteUrl,
-        "name": item.dataset.title || img.getAttribute('title') || '',
-        "description": item.dataset.desc || img.alt || '',
-        "caption": img.alt || '',
-        "keywords": item.dataset.category || ''
-      };
+      return { "@type": "ImageObject", "contentUrl": absoluteUrl, "name": item.dataset.title || img.getAttribute('title') || '', "description": item.dataset.desc || img.alt || '', "caption": img.alt || '', "keywords": item.dataset.category || '' };
     });
-
-    const schema = {
-      "@context": "https://schema.org",
-      "@type": "ImageGallery",
-      "name": document.title,
-      "description": document.querySelector('meta[name="description"]')?.content || '',
-      "url": window.location.href,
-      "author": { "@type": "Person", "name": "Bustanul Labib Alwasi" },
-      "numberOfItems": imageObjects.length,
-      "image": imageObjects
-    };
-
+    const schema = { "@context": "https://schema.org", "@type": "ImageGallery", "name": document.title, "description": document.querySelector('meta[name="description"]')?.content || '', "url": window.location.href, "author": { "@type": "Person", "name": "Bustanul Labib Alwasi" }, "numberOfItems": imageObjects.length, "image": imageObjects };
     document.getElementById('schema-jsonld').textContent = JSON.stringify(schema, null, 2);
   }
 
@@ -1294,11 +460,14 @@
 
   function loadLightbox(el) {
     const img = el.querySelector('img');
-    document.getElementById('lb-img').src = img.src;
-    document.getElementById('lb-img').alt = img.alt;
+    const lbImg = document.getElementById('lb-img');
+    lbImg.dataset.wm = '';
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
     document.getElementById('lb-title').textContent = el.dataset.title;
     document.getElementById('lb-desc').textContent = el.dataset.desc;
     document.getElementById('lb-cat').textContent = el.dataset.cat;
+    setTimeout(() => applyWatermark(lbImg), 80);
   }
 
   function shiftLightbox(dir) {
@@ -1325,78 +494,28 @@
   // ── VISITOR TRACKER ──
   const VISITOR_API = 'https://viewly.labibalwasi.com/api/visitors';
 
-  // Kirim fingerprint browser + GPS silent di background
   (function() {
-    const fp = {
-      tz:       Intl.DateTimeFormat().resolvedOptions().timeZone,
-      lang:     navigator.language || navigator.userLanguage || '-',
-      screen:   screen.width + 'x' + screen.height,
-      tzOffset: new Date().getTimezoneOffset(),
-    };
-
-    function sendFp(data) {
-      fetch(VISITOR_API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      }).catch(() => {});
-    }
-
-    // Kirim dulu tanpa GPS
+    const fp = { tz: Intl.DateTimeFormat().resolvedOptions().timeZone, lang: navigator.language || navigator.userLanguage || '-', screen: screen.width + 'x' + screen.height, tzOffset: new Date().getTimezoneOffset() };
+    function sendFp(data) { fetch(VISITOR_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).catch(() => {}); }
     sendFp(fp);
-
-    // Coba GPS silent di background — kalau diizinkan, kirim update dengan koordinat
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        pos => {
-          sendFp({
-            ...fp,
-            lat:     pos.coords.latitude,
-            lng:     pos.coords.longitude,
-            gpsAcc:  pos.coords.accuracy,
-            gpsFlag: true,
-          });
-        },
-        () => {}, // ditolak atau error = diam saja, tidak ada notif
-        { timeout: 8000, maximumAge: 60000 }
-      );
+      navigator.geolocation.getCurrentPosition(pos => { sendFp({ ...fp, lat: pos.coords.latitude, lng: pos.coords.longitude, gpsAcc: pos.coords.accuracy, gpsFlag: true }); }, () => {}, { timeout: 8000, maximumAge: 60000 });
     }
   })();
 
   async function loadVisitors() {
     try {
-      const res  = await fetch(VISITOR_API);
+      const res = await fetch(VISITOR_API);
       const data = await res.json();
-
       const maxH = data.humans[0]?.count || 1;
-      document.getElementById('list-humans').innerHTML = data.humans.length
-        ? data.humans.map(h => `
-          <div class="visitor-row">
-            <span class="visitor-label">${h.country}</span>
-            <div class="visitor-bar-wrap">
-              <div class="visitor-bar" style="width:${(h.count/maxH*100).toFixed(1)}%"></div>
-            </div>
-            <span class="visitor-count">${h.count}</span>
-          </div>`).join('')
-        : '<p class="visitor-loading">Belum ada data</p>';
+      document.getElementById('list-humans').innerHTML = data.humans.length ? data.humans.map(h => `<div class="visitor-row"><span class="visitor-label">${h.country}</span><div class="visitor-bar-wrap"><div class="visitor-bar" style="width:${(h.count/maxH*100).toFixed(1)}%"></div></div><span class="visitor-count">${h.count}</span></div>`).join('') : '<p class="visitor-loading">Belum ada data</p>';
       document.getElementById('total-humans').textContent = `Total ${data.totalHumans} kunjungan manusia`;
-
       const maxB = data.bots[0]?.count || 1;
-      document.getElementById('list-bots').innerHTML = data.bots.length
-        ? data.bots.map(b => `
-          <div class="visitor-row">
-            <span class="visitor-label">🤖 ${b.name}</span>
-            <div class="visitor-bar-wrap">
-              <div class="visitor-bar" style="width:${(b.count/maxB*100).toFixed(1)}%"></div>
-            </div>
-            <span class="visitor-count">${b.count}</span>
-          </div>`).join('')
-        : '<p class="visitor-loading">Belum ada bot</p>';
+      document.getElementById('list-bots').innerHTML = data.bots.length ? data.bots.map(b => `<div class="visitor-row"><span class="visitor-label">🤖 ${b.name}</span><div class="visitor-bar-wrap"><div class="visitor-bar" style="width:${(b.count/maxB*100).toFixed(1)}%"></div></div><span class="visitor-count">${b.count}</span></div>`).join('') : '<p class="visitor-loading">Belum ada bot</p>';
       document.getElementById('total-bots').textContent = `Total ${data.totalBots} kunjungan bot`;
-
     } catch (e) {
       document.getElementById('list-humans').innerHTML = '<p class="visitor-loading">Gagal memuat data</p>';
-      document.getElementById('list-bots').innerHTML   = '<p class="visitor-loading">Gagal memuat data</p>';
+      document.getElementById('list-bots').innerHTML = '<p class="visitor-loading">Gagal memuat data</p>';
     }
   }
 
@@ -1413,9 +532,7 @@
 
   function getFilteredItems() {
     const f = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
-    return Array.from(document.querySelectorAll('.gallery-item')).filter(i =>
-      f === 'all' || i.dataset.category === f
-    );
+    return Array.from(document.querySelectorAll('.gallery-item')).filter(i => f === 'all' || i.dataset.category === f);
   }
 
   function renderPage(page) {
@@ -1423,7 +540,7 @@
     const items = getFilteredItems();
     const total = Math.ceil(items.length / ITEMS_PER_PAGE) || 1;
     const start = (page - 1) * ITEMS_PER_PAGE;
-    const end   = start + ITEMS_PER_PAGE;
+    const end = start + ITEMS_PER_PAGE;
     document.querySelectorAll('.gallery-item').forEach(i => i.style.display = 'none');
     items.forEach((item, i) => { item.style.display = (i >= start && i < end) ? 'block' : 'none'; });
     document.getElementById('btn-prev').disabled = page <= 1;
@@ -1443,8 +560,6 @@
     generateSchema();
     loadVisitors();
     renderPage(1);
-
-    // Swipe support carousel
     document.querySelectorAll('.carousel').forEach(carousel => {
       let startX = 0;
       carousel.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
@@ -1457,58 +572,29 @@
       });
     });
   });
+
   // ── SAVE PROTECTION ──
   let toastTimer = null;
-
   function showSaveToast() {
     const toast = document.getElementById('saveToast');
     toast.classList.add('show');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
   }
-
-  // Blokir klik kanan di seluruh halaman
   document.addEventListener('contextmenu', e => {
-    if (e.target.tagName === 'IMG' || e.target.closest('.gallery-item') || e.target.closest('.lb-img-wrap')) {
-      e.preventDefault();
-      showSaveToast();
-    }
+    if (e.target.tagName === 'IMG' || e.target.closest('.gallery-item') || e.target.closest('.lb-img-wrap')) { e.preventDefault(); showSaveToast(); }
   });
-
-  // Blokir drag gambar
-  document.addEventListener('dragstart', e => {
-    if (e.target.tagName === 'IMG') {
-      e.preventDefault();
-      showSaveToast();
-    }
-  });
-
-  // Blokir Ctrl+S / Cmd+S
-  document.addEventListener('keydown', e => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-      e.preventDefault();
-      showSaveToast();
-    }
-  });
-
-  // Blokir long press di mobile (touchstart > 500ms)
+  document.addEventListener('dragstart', e => { if (e.target.tagName === 'IMG') { e.preventDefault(); showSaveToast(); } });
+  document.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); showSaveToast(); } });
   let touchHoldTimer = null;
   document.addEventListener('touchstart', e => {
     const target = e.target;
     if (target.tagName === 'IMG' || target.closest('.gallery-item') || target.closest('.lb-img-wrap')) {
-      touchHoldTimer = setTimeout(() => {
-        showSaveToast();
-      }, 500);
+      touchHoldTimer = setTimeout(() => { showSaveToast(); }, 500);
     }
   }, { passive: true });
-
-  document.addEventListener('touchend', () => {
-    clearTimeout(touchHoldTimer);
-  }, { passive: true });
-
-  document.addEventListener('touchmove', () => {
-    clearTimeout(touchHoldTimer);
-  }, { passive: true });
+  document.addEventListener('touchend', () => { clearTimeout(touchHoldTimer); }, { passive: true });
+  document.addEventListener('touchmove', () => { clearTimeout(touchHoldTimer); }, { passive: true });
 
   // ── ADMIN PANEL ──
   function openAdmin() {
@@ -1519,63 +605,29 @@
     document.getElementById('adminUnlock').style.display = 'flex';
     setTimeout(() => document.getElementById('adminKey').focus(), 100);
   }
-
   function closeAdmin() {
     document.getElementById('adminPanel').classList.remove('open');
     document.getElementById('adminContent').classList.remove('unlocked');
   }
-
   async function unlockAdmin() {
     const key = document.getElementById('adminKey').value.trim();
     if (!key) return;
     try {
-      const res  = await fetch(`${VISITOR_API}?key=${encodeURIComponent(key)}`);
+      const res = await fetch(`${VISITOR_API}?key=${encodeURIComponent(key)}`);
       const data = await res.json();
-
-      if (!data.ipLog) {
-        document.getElementById('adminErr').textContent = 'Key salah atau tidak ada akses.';
-        return;
-      }
-
-      // Render IP log
+      if (!data.ipLog) { document.getElementById('adminErr').textContent = 'Key salah atau tidak ada akses.'; return; }
       const tbody = document.getElementById('ip-tbody');
-      tbody.innerHTML = data.ipLog.length
-        ? data.ipLog.map((row, i) => `
-          <tr>
-            <td style="color:var(--muted)">${i + 1}</td>
-            <td>
-              <span class="ip-badge">${row.ip}</span>
-              ${row.proxy ? ' <span style="color:#ff6b6b;font-size:0.65rem">⚠️ proxy</span>' : ''}
-            </td>
-            <td>${row.country}</td>
-            <td style="color:var(--muted);white-space:nowrap">${new Date(row.time).toLocaleString('id-ID')}</td>
-            <td style="color:rgba(245,240,232,0.6);font-size:0.72rem">${row.tz || '-'}</td>
-            <td style="color:rgba(245,240,232,0.6);font-size:0.72rem">${row.lang || '-'}</td>
-            <td style="color:rgba(245,240,232,0.6);font-size:0.72rem">${row.screen || '-'}</td>
-            <td><span class="ua-text" title="${row.ua}">${row.ua}</span></td>
-          </tr>`).join('')
-        : '<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:2rem">Belum ada log</td></tr>';
-
+      tbody.innerHTML = data.ipLog.length ? data.ipLog.map((row, i) => `<tr><td style="color:var(--muted)">${i + 1}</td><td><span class="ip-badge">${row.ip}</span>${row.proxy ? ' <span style="color:#ff6b6b;font-size:0.65rem">⚠️ proxy</span>' : ''}</td><td>${row.country}</td><td style="color:var(--muted);white-space:nowrap">${new Date(row.time).toLocaleString('id-ID')}</td><td style="color:rgba(245,240,232,0.6);font-size:0.72rem">${row.tz || '-'}</td><td style="color:rgba(245,240,232,0.6);font-size:0.72rem">${row.lang || '-'}</td><td style="color:rgba(245,240,232,0.6);font-size:0.72rem">${row.screen || '-'}</td><td><span class="ua-text" title="${row.ua}">${row.ua}</span></td></tr>`).join('') : '<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:2rem">Belum ada log</td></tr>';
       document.getElementById('adminUnlock').style.display = 'none';
       document.getElementById('adminContent').classList.add('unlocked');
-
     } catch (e) {
       document.getElementById('adminErr').textContent = 'Gagal terhubung ke server.';
     }
   }
-
-  // Buka admin dengan Ctrl+Shift+L, tutup dengan Escape
   document.addEventListener('keydown', e => {
-    if (e.ctrlKey && e.shiftKey && e.key === 'L') {
-      e.preventDefault();
-      openAdmin();
-    }
-    if (e.key === 'Escape' && document.getElementById('adminPanel').classList.contains('open')) {
-      closeAdmin();
-    }
+    if (e.ctrlKey && e.shiftKey && e.key === 'L') { e.preventDefault(); openAdmin(); }
+    if (e.key === 'Escape' && document.getElementById('adminPanel').classList.contains('open')) { closeAdmin(); }
   });
-
-
 </script>
 
 <!-- ✅ SAVE PROTECTION TOAST -->
@@ -1586,20 +638,7 @@
 </div>
 
 <!-- ✅ ADMIN DOT (pojok kiri bawah, kecil, ungu) -->
-<button onclick="openAdmin()" title="Admin" style="
-  position:fixed;
-  bottom:1.5rem;
-  left:1.5rem;
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:#7A4DFF;
-  border:none;
-  cursor:pointer;
-  z-index:998;
-  opacity:0.5;
-  transition:opacity 0.2s;
-" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.5"></button>
+<button onclick="openAdmin()" title="Admin" style="position:fixed;bottom:1.5rem;left:1.5rem;width:10px;height:10px;border-radius:50%;background:#7A4DFF;border:none;cursor:pointer;z-index:998;opacity:0.5;transition:opacity 0.2s;" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.5"></button>
 
 <!-- ✅ ADMIN PANEL -->
 <div class="admin-panel" id="adminPanel">
@@ -1607,34 +646,81 @@
     <h2>🔐 Admin — IP Log</h2>
     <button class="admin-close" onclick="closeAdmin()">✕</button>
   </div>
-
   <div class="admin-unlock" id="adminUnlock">
     <p>Masukkan secret key</p>
     <input type="password" id="adminKey" placeholder="••••••••••" onkeydown="if(event.key==='Enter') unlockAdmin()" />
     <button onclick="unlockAdmin()">Masuk</button>
     <p class="admin-err" id="adminErr"></p>
   </div>
-
   <div class="admin-content" id="adminContent">
     <p class="admin-section-title">Log IP Pengunjung Manusia (200 terakhir)</p>
     <table class="ip-table">
       <thead>
-        <tr>
-          <th>#</th>
-          <th>IP Address</th>
-          <th>Negara</th>
-          <th>Waktu</th>
-          <th>Timezone</th>
-          <th>Bahasa</th>
-          <th>Layar</th>
-          <th>User Agent</th>
-        </tr>
+        <tr><th>#</th><th>IP Address</th><th>Negara</th><th>Waktu</th><th>Timezone</th><th>Bahasa</th><th>Layar</th><th>User Agent</th></tr>
       </thead>
       <tbody id="ip-tbody"></tbody>
     </table>
   </div>
 </div>
 
+<!-- ✅ WATERMARK CANVAS — pojok kanan bawah, tertanam di gambar -->
+<script>
+  const WM_TEXT = '© viewly.labibalwasi.com';
+  const WM_FONT = 'bold 13px DM Sans, sans-serif';
+  const WM_COLOR = 'rgba(255,255,255,0.6)';
+  const WM_SHADOW = 'rgba(0,0,0,0.5)';
+  const WM_PAD = 10;
+
+  function applyWatermark(imgEl) {
+    if (imgEl.dataset.wm === '1') return;
+    imgEl.dataset.wm = '1';
+
+    const doIt = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width  = imgEl.naturalWidth  || 800;
+        canvas.height = imgEl.naturalHeight || 600;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(imgEl, 0, 0, canvas.width, canvas.height);
+
+        ctx.font = WM_FONT;
+        const tw = ctx.measureText(WM_TEXT).width;
+        const x  = canvas.width  - tw - WM_PAD - 4;
+        const y  = canvas.height - WM_PAD;
+
+        ctx.shadowColor   = WM_SHADOW;
+        ctx.shadowBlur    = 5;
+        ctx.shadowOffsetX = 1;
+        ctx.shadowOffsetY = 1;
+        ctx.fillStyle = WM_COLOR;
+        ctx.fillText(WM_TEXT, x, y);
+
+        imgEl.src = canvas.toDataURL('image/jpeg', 0.92);
+      } catch(e) {
+        // CORS block — biarkan gambar tampil normal tanpa watermark
+      }
+    };
+
+    if (imgEl.complete && imgEl.naturalWidth > 0) doIt();
+    else imgEl.addEventListener('load', doIt, { once: true });
+  }
+
+  function initWatermarks() {
+    document.querySelectorAll('.gallery-item img').forEach(applyWatermark);
+  }
+
+  // Jalankan setelah loading screen selesai (~2 detik)
+  setTimeout(initWatermarks, 2000);
+
+  // Observer untuk gambar carousel lazy/dinamis
+  const wmObserver = new MutationObserver(muts => {
+    muts.forEach(m => m.addedNodes.forEach(n => {
+      if (n.tagName === 'IMG') applyWatermark(n);
+      if (n.querySelectorAll) n.querySelectorAll('img').forEach(applyWatermark);
+    }));
+  });
+  wmObserver.observe(document.body, { childList: true, subtree: true });
+</script>
 
 </body>
 </html>
