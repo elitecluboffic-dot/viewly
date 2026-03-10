@@ -165,15 +165,27 @@
 <main>
   <div class="news-grid" id="news-grid">
 
-    <article class="news-card featured" data-category="curhat" onclick="openArticle('art1')">
+    <article class="news-card featured" data-category="perjalanan" onclick="openArticle('art7')">
+      <div class="news-thumb">
+        <img src="https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773146098/pm_1770985324580_cmp_qnqnqk.jpg" alt="Jalanan tenang di dekat Stasiun Madiun sore hari" />
+      </div>
+      <div class="news-body">
+        <span class="featured-badge">✦ Lagi Viral</span>
+        <div class="news-meta"><span class="news-tag">Perjalanan</span><span class="news-date">10 Maret 2026</span></div>
+        <h2 class="news-title">Madiun Itu Bukan Kota Transit — Dia Kota yang Diam-diam Membuatmu Betah</h2>
+        <p class="news-excerpt">Semua orang bilang Madiun cuma kota lewatan. Turun stasiun, tunggu sambungan, lanjut perjalanan. Tapi ada yang berbeda ketika kakimu benar-benar menyentuh trotoarnya — udara pelan, pohon rindang, dan kota yang tidak terburu-buru mengusirmu pergi.</p>
+        <span class="news-read-more">Baca Selengkapnya</span>
+      </div>
+    </article>
+
+    <article class="news-card" data-category="curhat" onclick="openArticle('art1')">
       <div class="news-thumb">
         <img src="https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773121676/IMG-20260304-024957-236_w3rryc.jpg" alt="Duduk santai di depan Alfamidi malam hari" />
       </div>
       <div class="news-body">
-        <span class="featured-badge">✦ Lagi Viral</span>
         <div class="news-meta"><span class="news-tag">Curhat</span><span class="news-date">9 Maret 2026</span></div>
         <h2 class="news-title">Duduk di Depan Alfamidi Jam 2 Pagi — Bukan Galau, Cuma Laper</h2>
-        <p class="news-excerpt">Orang-orang kira aku sedang merenungi hidup. Padahal cuma nunggu indomie rebus selesai dimasak. Ini bukan konten aesthetic — ini survival. Dan ternyata parkiran Alfamidi jam 2 pagi punya filosofi tersendiri yang tidak diajarkan di sekolah manapun.</p>
+        <p class="news-excerpt">Orang-orang kira aku sedang merenungi hidup. Padahal cuma nunggu indomie rebus selesai dimasak. Ini bukan konten aesthetic — ini survival.</p>
         <span class="news-read-more">Baca Selengkapnya</span>
       </div>
     </article>
@@ -185,7 +197,7 @@
       <div class="news-body">
         <div class="news-meta"><span class="news-tag">Perjalanan</span><span class="news-date">8 Maret 2026</span></div>
         <h2 class="news-title">Naik Kereta Sendirian: Antara Mau Healing atau Kabur dari Kenyataan</h2>
-        <p class="news-excerpt">Beli tiket kereta tanpa tujuan jelas itu ternyata valid. Stasiun Bandung punya energi aneh yang bikin kamu tiba-tiba pengen pergi jauh.</p>
+        <p class="news-excerpt">Beli tiket kereta tanpa tujuan jelas itu ternyata valid. Stasiun Bandung punya energi aneh yang bikin kamu tiba-tiba pengen pergi jauh — padahal kosan cuma 10 menit dari sini.</p>
         <span class="news-read-more">Baca Selengkapnya</span>
       </div>
     </article>
@@ -197,7 +209,7 @@
       <div class="news-body">
         <div class="news-meta"><span class="news-tag">Teknologi</span><span class="news-date">7 Maret 2026</span></div>
         <h2 class="news-title">Niat Beli Laptop Buat Kerja, Malah Setengah Jam Megangin ROG yang Gak Kebeli</h2>
-        <p class="news-excerpt">Vibes-nya udah kayak orang kaya. Realitanya: Beli Axioo Hype 7 Amd bukan ROG, tapi foto udah keambil. Ini bukan review laptop, ini dokumentasi penderitaan finansial seorang pemuda yang terlalu sering lihat spesifikasi tapi gak pernah checkout.</p>
+        <p class="news-excerpt">Vibes-nya udah kayak orang kaya. Realitanya: dompet kosong, tapi foto udah keambil. Ini bukan review laptop — ini dokumentasi penderitaan finansial seorang pemuda yang terlalu sering lihat spesifikasi tapi gak pernah checkout.</p>
         <span class="news-read-more">Baca Selengkapnya</span>
       </div>
     </article>
@@ -286,6 +298,32 @@
   // Key harus sama dengan nilai onclick="openArticle('...')" di card
   // ================================================================
   const articles = {
+    'art7': {
+      tag: 'Perjalanan · Kota yang Tenang',
+      date: '10 Maret 2026',
+      title: 'Madiun Itu Bukan Kota Transit — Dia Kota yang Diam-diam <em>Membuatmu Betah</em>',
+      cover: 'https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773146098/pm_1770985324580_cmp_qnqnqk.jpg',
+      coverAlt: 'Jalanan tenang di dekat Stasiun Madiun sore hari',
+      body: `
+        <p>Semua orang bilang Madiun cuma kota lewatan. Turun stasiun, tunggu sambungan kereta, beli pecel di peron, lanjut perjalanan. Tidak ada yang benar-benar <em>singgah</em> — semua hanya numpang lewat seperti angin yang tidak punya alasan untuk tinggal.</p>
+        <p>Tapi ada yang berbeda ketika kakimu benar-benar menyentuh trotoarnya. Udara tidak terburu-buru. Pohon-pohon di pinggir jalan tumbuh besar dan serius, seolah sudah berdiri di sana jauh sebelum kamu lahir dan akan tetap berdiri lama setelah kamu pergi.</p>
+        <blockquote>"Kota yang baik bukan yang membuatmu kagum di hari pertama. Kota yang baik adalah yang membuatmu bertanya-tanya kenapa tidak datang lebih cepat."</blockquote>
+        <h3>Jalan di Dekat Stasiun yang Tidak Ada di Itinerary Siapapun</h3>
+        <p>Foto ini diambil beberapa langkah dari pintu keluar stasiun. Tidak ada landmark terkenal, tidak ada tempat wisata yang masuk rekomendasi Google. Hanya jalan raya, pohon angsana yang rindang, motor yang lewat pelan, dan satu becak yang tidak terburu-buru mengayuh.</p>
+        <img src="https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773146096/pm_1770985324367_cmp_bqcijv.jpg" alt="Suasana jalan Madiun dekat stasiun" style="width:100%;border-radius:8px;margin:1.5rem 0;pointer-events:none;-webkit-user-select:none;user-select:none;" />
+        <p>Langitnya sore itu putih berawan, jenis langit yang di kota besar sudah lama tergantikan oleh gedung dan polusi. Di sini langit masih punya ruang untuk bernafas.</p>
+        <h3>Kenapa Madiun Sering Diremehkan</h3>
+        <ul>
+          <li>Tidak ada pantai — salah satu alasan klasik orang skip kota ini</li>
+          <li>Tidak ada gunung populer — padahal di sekitarnya ada banyak jalur pendakian yang tenang</li>
+          <li>Tidak viral di TikTok — ini justru kelebihannya</li>
+          <li>Terlalu dekat dengan Solo dan Surabaya — selalu jadi batu loncatan, bukan tujuan</li>
+        </ul>
+        <h3>Yang Sebenarnya Ada di Sini</h3>
+        <p>Pecel Madiun yang beda dari pecel mana pun. Brem yang legendaris. Kota yang punya ritme sendiri — lambat tapi pasti, tenang tapi hidup. Dan jalanan di dekat stasiun yang diam-diam cukup indah kalau kamu mau berhenti sebentar dan menatapnya.</p>
+        <p>Mungkin bukan kota untuk semua orang. Tapi untuk mereka yang bosan dengan keramaian yang pura-pura bahagia, Madiun menawarkan sesuatu yang langka: <em>ketenangan yang tidak dibuat-buat.</em></p>
+      `
+    },
     'art1': {
       tag: 'Curhat · Malam Minggu',
       date: '9 Maret 2026',
@@ -316,11 +354,11 @@
       cover: 'https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773121894/pm-1770985357669-cmp_gqc5wk.jpg',
       coverAlt: 'Suasana peron Stasiun Bandung',
       body: `
-        <p>Ada momen di mana kamu buka aplikasi KAI, milih kota tujuan secara random, dan langsung checkout sebelum otak sempat protes. Bukan impulsif, ini disebut <em>healing yang terencana dalam 3 detik.</em></p>
+        <p>Ada momen di mana kamu buka aplikasi KAI, milih kota tujuan secara random, dan langsung checkout sebelum otak sempat protes. Bukan impulsif — ini disebut <em>healing yang terencana dalam 3 detik.</em></p>
         <p>Stasiun Bandung pagi itu ramai tapi entah kenapa terasa sepi. Mungkin karena aku datang sendirian sambil bawa headset dan muka yang jelas-jelas bilang "jangan diajak ngobrol dulu."</p>
         <blockquote>"Naik kereta sendirian itu ada dua kemungkinan: kamu sangat dewasa dan menikmati kesendirian, atau kamu habis lihat story doi sama orang lain."</blockquote>
         <h3>Kenapa Stasiun Itu Tempat Paling Jujur</h3>
-        <p>Di stasiun, semua orang punya tujuan. Atau setidaknya pura-pura punya tujuan. Tidak ada yang bengong tanpa alasan, semua sedang menunggu sesuatu. Kereta, orang, atau momen yang tepat untuk akhirnya move on.</p>
+        <p>Di stasiun, semua orang punya tujuan. Atau setidaknya pura-pura punya tujuan. Tidak ada yang bengong tanpa alasan — semua sedang menunggu sesuatu. Kereta, orang, atau momen yang tepat untuk akhirnya move on.</p>
         <ul>
           <li>Skybridge Stasiun Bandung: tempat terbaik untuk dramatic walk sambil dengerin lagu sad</li>
           <li>Peron 1: penuh energi, cocok kalau mau pura-pura sibuk</li>
@@ -337,21 +375,21 @@
       cover: 'https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773121970/pm-1770985359748-cmp_lhz0nx.jpg',
       coverAlt: 'Display laptop ASUS ROG di toko komputer',
       body: `
-        <p>Rencananya masuk toko 5 menit, keluar. Kenyataannya: 47 menit kemudian aku masih berdiri di depan etalase sambil pegang-pegang Laptop ROG yang sudah jelas-jelas tidak akan kubeli.</p>
+        <p>Rencananya masuk toko 5 menit, beli mouse wireless, keluar. Kenyataannya: 47 menit kemudian aku masih berdiri di depan etalase ROG sambil pegang-pegang keyboard demo yang sudah jelas-jelas tidak akan kubeli.</p>
         <p>Lampu RGB-nya berkedip merah ungu biru. Seperti menggoda. Seperti bilang: <em>"Kamu mampu kok, cicil aja."</em></p>
         <blockquote>"Orang miskin bukan yang tidak punya uang. Orang miskin adalah yang terlalu sering pegang barang mahal di toko sambil pura-pura pertimbangan."</blockquote>
         <h3>Proses Berduka yang Nyata</h3>
         <p>Ada 5 tahap ketika lihat laptop gaming yang tidak kebeli:</p>
         <ul>
           <li><strong>Denial</strong> — "Ah ini pasti ada yang lebih murah"</li>
-          <li><strong>Bargaining</strong> — Cuma ke Beli Axioo Hype 7 AMD X7-2</li>
+          <li><strong>Bargaining</strong> — Buka Tokopedia cek cicilan 0%</li>
           <li><strong>Anger</strong> — Kenapa gaji segini</li>
           <li><strong>Depression</strong> — Scrolling specs sambil sesekali menghela nafas</li>
           <li><strong>Acceptance</strong> — Beli mouse-nya aja, pulang, buka YouTube review ROG sampai jam 2 pagi</li>
         </ul>
         <h3>Yang Akhirnya Kubeli</h3>
-        <p>Axioo Hype 7 AMD X7-2. Kerja bagus, tidak ada RGB, tidak ada logo mata iblis. Hidupku tetap berjalan normal.</p>
-        <p>Tapi foto etalase ROG itu masih tersimpan di galeri. Dijadikan wallpaper. Sebagai motivasi. Atau sebagai pengingat bahwa suatu saat aku akan punya.</p>
+        <p>Mouse wireless 85 ribu. Kerja bagus, tidak ada RGB, tidak ada logo mata iblis. Hidupku tetap berjalan normal.</p>
+        <p>Tapi foto etalase ROG itu masih tersimpan di galeri. Dijadikan wallpaper. Sebagai motivasi. Atau sebagai pengingat bahwa hidup itu keras.</p>
       `
     },
     'art4': {
