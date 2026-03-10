@@ -14,10 +14,17 @@
   <link rel="canonical" href="https://viewly.labibalwasi.com" />
   <meta name="indexnow-key" content="def2d13c223c4c1a836aa49b3ce633a2" />
   <meta property="og:title" content="Galeri Foto | Bustanul Labib Alwasi" />
-  <meta property="og:description" content="Koleksi foto pribadi Bustanul Labib Alwasi." />
+  <meta property="og:description" content="Galeri foto dan jurnal visual milik Labib Alwasi. Dari jalanan Bandung sampai kota-kota yang jarang disebut — semua ada di sini." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://viewly.labibalwasi.com" />
-  <meta property="og:image" content="https://i.ibb.co.com/hxnN4YwR/file-00000000f3b8720890e1c02108057a6c.png" />
+  <meta property="og:image" content="https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773121676/IMG-20260304-024957-236_w3rryc.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Viewly Labib" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Galeri Foto | Bustanul Labib Alwasi" />
+  <meta name="twitter:description" content="Galeri foto dan jurnal visual milik Labib Alwasi. Dari jalanan Bandung sampai kota-kota yang jarang disebut — semua ada di sini." />
+  <meta name="twitter:image" content="https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773121676/IMG-20260304-024957-236_w3rryc.jpg" />
   <script id="schema-jsonld" type="application/ld+json"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -338,8 +345,7 @@
       </div>
     </article>
 
-
-        <article class="gallery-item" data-category="alam"
+    <article class="gallery-item" data-category="alam"
       data-title="Papan Petunjuk Arah Curug 7 Pondok Kayu Bogor"
       data-desc="Papan petunjuk arah kayu berwarna oranye di kawasan wisata Curug 7 Pondok Kayu, menunjukkan arah area camping, mushola, dan terapi ikan di tengah hutan hijau Bogor."
       data-cat="Alam"
@@ -355,6 +361,7 @@
         <div class="carousel-dots">
           <div class="carousel-dot active"></div>
           <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
         </div>
       </div>
       <div class="item-overlay">
@@ -363,8 +370,7 @@
       </div>
     </article>
 
-
-        <article class="gallery-item" data-category="perjalanan"
+    <article class="gallery-item" data-category="perjalanan"
       data-title="Jalan Pagi di Dekat Stasiun Madiun"
       data-desc="Langit luas, pohon tua di pinggir jalan, dan ritme kota yang bergerak pelan tapi pasti. Ini Madiun di luar jadwal kereta."
       data-cat="Perjalanan"
@@ -387,8 +393,7 @@
       </div>
     </article>
 
-
-        <article class="gallery-item" data-category="potret"
+    <article class="gallery-item" data-category="potret"
       data-title="Roblox Street Session — Elite Club with The Gangs TDR"
       data-desc="Ketika karakter Roblox punya outfit lebih keren dari outfit dunia nyata. Sesi foto bareng Elite Club di area urban."
       data-cat="Potret"
@@ -752,7 +757,6 @@
     localStorage.setItem('viewly-theme', isDark ? 'dark' : 'light');
   }
 
-  // Restore tema terakhir
   (function() {
     const saved = localStorage.getItem('viewly-theme');
     if (saved === 'dark') {
@@ -806,14 +810,12 @@
   const WM_SHADOW = 'rgba(0,0,0,0.5)';
   const WM_PAD = 10;
 
-  // Gambar watermark via fetch() blob — bypass cache CORS issue 100%
   async function applyWatermark(imgEl) {
     if (imgEl.dataset.wm === '1') return;
     if (!imgEl.src || imgEl.src === window.location.href) return;
     imgEl.dataset.wm = '1';
 
     try {
-      // Fetch gambar fresh dengan CORS mode — bypass cache lama yang mungkin tanpa CORS header
       const res = await fetch(imgEl.src, { mode: 'cors', cache: 'reload' });
       const blob = await res.blob();
       const blobUrl = URL.createObjectURL(blob);
@@ -847,7 +849,6 @@
       };
       tmpImg.src = blobUrl;
     } catch(e) {
-      // Fetch gagal — fallback langsung dari imgEl
       try {
         if (!imgEl.complete || !imgEl.naturalWidth) return;
         const canvas = document.createElement('canvas');
@@ -868,15 +869,13 @@
 
   function initWatermarks() {
     document.querySelectorAll('.gallery-item img').forEach(img => {
-      img.dataset.wm = ''; // reset flag
+      img.dataset.wm = '';
       applyWatermark(img);
     });
   }
 
-  // Jalankan setelah loading screen + pastikan semua foto sudah di-fetch
   setTimeout(initWatermarks, 1800);
 
-  // Observer untuk gambar carousel lazy/dinamis
   const wmObserver = new MutationObserver(muts => {
     muts.forEach(m => m.addedNodes.forEach(n => {
       if (n.tagName === 'IMG') applyWatermark(n);
