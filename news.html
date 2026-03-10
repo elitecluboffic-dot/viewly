@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>News & Cerita | Viewly Labib</title>
+  <meta name="description" content="Cerita perjalanan dan tulisan pribadi oleh Bustanul Labib Alwasi." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://viewly.labibalwasi.com/news" />
+  <link rel="icon" type="image/png" href="https://i.ibb.co.com/hxnN4YwR/file-00000000f3b8720890e1c02108057a6c.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--cream:#f5f0e8;--dark:#1a1714;--muted:#7a7269;--accent:#c8a96e;--white:#fdfcfa}
+    body.dark-mode{--cream:#0f0e0c;--dark:#f5f0e8;--muted:#9a9289;--white:#1a1714}
+    body,body *{transition:background-color .35s ease,color .35s ease,border-color .35s ease}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);min-height:100vh}
+
+    /* LOADING */
+    #loading-screen{position:fixed;inset:0;background:var(--cream);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s ease,visibility .6s ease}
+    #loading-screen.hide{opacity:0;visibility:hidden}
+    .loading-logo{animation:logoPulse 1.5s ease-in-out infinite}
+    @keyframes logoPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.96);opacity:.7}}
+    .loading-bar-wrap{margin-top:2rem;width:160px;height:3px;background:rgba(26,23,20,.1);border-radius:99px;overflow:hidden}
+    .loading-bar{height:100%;width:0%;background:linear-gradient(90deg,#4F8CFF,#7A4DFF);border-radius:99px;animation:loadBar 1.8s cubic-bezier(.4,0,.2,1) forwards}
+    @keyframes loadBar{0%{width:0%}60%{width:75%}100%{width:100%}}
+    body.loading{overflow:hidden}
+
+    /* THEME */
+    #theme-toggle{position:fixed;top:1.2rem;right:1.5rem;z-index:997;background:var(--dark);border:1px solid rgba(200,169,110,.25);color:var(--cream);width:2.6rem;height:2.6rem;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.15);transition:background .3s ease,transform .2s ease !important}
+    #theme-toggle:hover{background:var(--accent);transform:scale(1.1)}
+
+    /* HEADER */
+    header{padding:3rem 2rem 2rem;text-align:center;position:relative;overflow:hidden}
+    header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(200,169,110,.15) 0%,transparent 70%);pointer-events:none}
+    .site-label{font-size:.7rem;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
+    .back-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--muted);text-decoration:none;letter-spacing:.05em;margin-bottom:1.25rem;padding:.3rem .9rem;border:1px solid rgba(122,114,105,.25);border-radius:100px;transition:all .2s}
+    .back-link:hover{color:var(--accent);border-color:rgba(200,169,110,.4)}
+    h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,4rem);font-weight:400;line-height:1.1;color:var(--dark);margin-bottom:.75rem}
+    h1 em{font-style:italic;color:var(--accent)}
+    .subtitle{font-size:.95rem;color:var(--muted);font-weight:300;max-width:420px;margin:0 auto 2.5rem;line-height:1.6}
+
+    /* FILTER */
+    .filter-bar{display:flex;justify-content:center;gap:.5rem;flex-wrap:wrap;padding:0 1rem 3rem}
+    .filter-btn{padding:.45rem 1.2rem;border:1px solid rgba(26,23,20,.2);background:transparent;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.82rem;letter-spacing:.05em;color:var(--muted);cursor:pointer;transition:all .25s ease}
+    .filter-btn:hover,.filter-btn.active{background:var(--dark);border-color:var(--dark);color:var(--cream)}
+
+    /* NEWS GRID */
+    .news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;padding:0 2rem 5rem;max-width:1400px;margin:0 auto}
+
+    /* NEWS CARD */
+    .news-card{background:var(--white);border:1px solid rgba(26,23,20,.08);border-radius:10px;overflow:hidden;cursor:pointer;opacity:0;transform:translateY(24px);animation:fadeUp .6s ease forwards;transition:box-shadow .3s,transform .3s,border-color .3s}
+    .news-card:nth-child(1){animation-delay:.05s}.news-card:nth-child(2){animation-delay:.1s}.news-card:nth-child(3){animation-delay:.15s}.news-card:nth-child(4){animation-delay:.2s}.news-card:nth-child(5){animation-delay:.25s}.news-card:nth-child(6){animation-delay:.3s}
+    .news-card:hover{box-shadow:0 8px 32px rgba(26,23,20,.12);transform:translateY(-3px);border-color:rgba(200,169,110,.3)}
+    @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+
+    /* FEATURED */
+    .news-card.featured{grid-column:1/-1;display:grid;grid-template-columns:1.1fr .9fr}
+    .news-card.featured .news-thumb{aspect-ratio:unset;min-height:280px}
+    .news-card.featured .news-body{padding:2.5rem;display:flex;flex-direction:column;justify-content:center}
+    .news-card.featured .news-title{font-size:1.65rem;margin-bottom:.9rem}
+    .news-card.featured .news-excerpt{-webkit-line-clamp:5;font-size:.88rem}
+    .featured-badge{display:inline-block;font-size:.6rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;background:var(--accent);color:var(--dark);padding:.2rem .7rem;border-radius:100px;margin-bottom:.9rem}
+
+    /* THUMBNAIL */
+    .news-thumb{width:100%;aspect-ratio:16/9;overflow:hidden;background:rgba(26,23,20,.05)}
+    .news-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.25,.46,.45,.94);-webkit-user-select:none;user-select:none;pointer-events:none}
+    .news-card:hover .news-thumb img{transform:scale(1.04)}
+
+    /* CARD BODY */
+    .news-body{padding:1.3rem 1.5rem 1.6rem}
+    .news-meta{display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem;flex-wrap:wrap}
+    .news-tag{font-size:.62rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:rgba(200,169,110,.1);padding:.2rem .65rem;border-radius:100px}
+    .news-date{font-size:.72rem;color:var(--muted)}
+    .news-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:400;color:var(--dark);line-height:1.35;margin-bottom:.6rem}
+    .news-excerpt{font-size:.82rem;color:var(--muted);line-height:1.75;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+    .news-read-more{display:inline-flex;align-items:center;gap:.35rem;margin-top:1rem;font-size:.74rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);transition:gap .2s}
+    .news-read-more::after{content:'→'}
+    .news-card:hover .news-read-more{gap:.55rem}
+
+    /* ARTICLE LIGHTBOX */
+    .article-lb{display:none;position:fixed;inset:0;z-index:1000;background:rgba(26,23,20,.97);backdrop-filter:blur(8px);overflow-y:auto}
+    .article-lb.open{display:block;animation:lbIn .3s ease}
+    @keyframes lbIn{from{opacity:0}to{opacity:1}}
+    .article-wrap{max-width:720px;margin:0 auto;padding:5rem 2rem 7rem;color:var(--cream)}
+    .article-close{position:fixed;top:1.5rem;right:1.5rem;background:none;border:1px solid rgba(245,240,232,.25);color:var(--cream);width:2.6rem;height:2.6rem;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:10}
+    .article-close:hover{background:var(--accent);border-color:var(--accent);color:var(--dark)}
+    .article-tag{font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:block}
+    .article-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:400;line-height:1.2;margin-bottom:.75rem}
+    .article-title em{font-style:italic;color:var(--accent)}
+    .article-meta{font-size:.78rem;color:rgba(245,240,232,.4);margin-bottom:2.5rem;border-bottom:1px solid rgba(245,240,232,.1);padding-bottom:1.5rem}
+    .article-cover{width:100%;border-radius:8px;margin-bottom:2.5rem;display:block;-webkit-user-select:none;user-select:none;pointer-events:none}
+    .article-body{font-size:.95rem;line-height:1.95;color:rgba(245,240,232,.78)}
+    .article-body p{margin-bottom:1.4rem}
+    .article-body h3{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:400;color:var(--cream);margin:2.5rem 0 .85rem}
+    .article-body blockquote{border-left:3px solid var(--accent);padding:.85rem 1.4rem;margin:1.75rem 0;background:rgba(200,169,110,.06);border-radius:0 8px 8px 0;font-style:italic;color:rgba(245,240,232,.65);line-height:1.7}
+    .article-body ul{list-style:none;padding:0;margin:.75rem 0 1.4rem}
+    .article-body ul li{padding:.3rem 0 .3rem 1.5rem;position:relative;color:rgba(245,240,232,.72);font-size:.92rem;line-height:1.75}
+    .article-body ul li::before{content:'—';position:absolute;left:0;color:var(--accent)}
+    .article-back{display:inline-flex;align-items:center;gap:.4rem;margin-top:3rem;font-size:.78rem;color:var(--muted);cursor:pointer;background:none;border:1px solid rgba(245,240,232,.15);padding:.45rem 1rem;border-radius:100px;transition:all .2s}
+    .article-back:hover{color:var(--accent);border-color:rgba(200,169,110,.3)}
+
+    /* SAVE TOAST */
+    img{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;pointer-events:none}
+    .save-toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--dark);color:var(--cream);padding:.9rem 1.5rem;border-radius:12px;font-size:.82rem;line-height:1.5;text-align:center;max-width:320px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.4);border:1px solid rgba(200,169,110,.3);z-index:9998;transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .35s ease;opacity:0}
+    .save-toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+    .save-toast strong{display:block;color:var(--accent);font-size:.88rem;margin-bottom:.25rem}
+    .save-toast a{color:#25D366;text-decoration:none;font-weight:500}
+
+    /* FOOTER */
+    footer{text-align:center;padding:2rem;border-top:1px solid rgba(26,23,20,.1);font-size:.8rem;color:var(--muted)}
+
+    /* FLOAT CONTACTS */
+    .float-contacts{position:fixed;bottom:2rem;right:2rem;display:flex;flex-direction:column-reverse;align-items:center;gap:.75rem;z-index:999}
+    .float-toggle{width:3.2rem;height:3.2rem;border-radius:50%;background:var(--dark);border:none;color:var(--cream);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.25);transition:all .3s ease}
+    .float-toggle svg{width:1.2rem;height:1.2rem}
+    .float-toggle:hover{background:var(--accent);transform:scale(1.08)}
+    .float-btn{width:2.8rem;height:2.8rem;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.2);transition:all .3s cubic-bezier(.34,1.56,.64,1);opacity:0;transform:scale(0) translateY(10px);pointer-events:none}
+    .float-btn svg{width:1.1rem;height:1.1rem}
+    .float-contacts.open .float-btn{opacity:1;transform:scale(1) translateY(0);pointer-events:all}
+    .float-contacts.open .float-wa{transition-delay:.05s}.float-contacts.open .float-ig{transition-delay:.1s}.float-contacts.open .float-tg{transition-delay:.15s}
+    .float-wa{background:#25D366;color:#fff}.float-ig{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285AEB 90%);color:#fff}.float-tg{background:#29ABE2;color:#fff}
+    .float-btn:hover{transform:scale(1.12) !important;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+
+    @media(max-width:900px){.news-grid{grid-template-columns:repeat(2,1fr)}.news-card.featured{grid-template-columns:1fr}.news-card.featured .news-thumb{min-height:220px}}
+    @media(max-width:560px){.news-grid{grid-template-columns:1fr;padding:0 1rem 3rem}}
+  </style>
+</head>
+<body class="loading">
+
+<button id="theme-toggle" onclick="toggleTheme()" title="Toggle tema" aria-label="Toggle dark mode">🌙</button>
+
+<!-- LOADING -->
+<div id="loading-screen">
+  <div class="loading-logo">
+    <svg width="320" height="100" viewBox="0 0 520 160" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4F8CFF"/><stop offset="100%" stop-color="#7A4DFF"/></linearGradient></defs>
+      <g transform="translate(20,30)"><rect x="0" y="0" width="100" height="100" rx="22" fill="url(#g)"/><circle cx="50" cy="50" r="26" fill="white" opacity=".9"/><circle cx="50" cy="50" r="14" fill="url(#g)"/><path d="M15 35L15 20L30 20" stroke="white" stroke-width="4" fill="none"/><path d="M85 35L85 20L70 20" stroke="white" stroke-width="4" fill="none"/><path d="M15 65L15 80L30 80" stroke="white" stroke-width="4" fill="none"/><path d="M85 65L85 80L70 80" stroke="white" stroke-width="4" fill="none"/></g>
+      <text x="150" y="70" font-family="Segoe UI,Arial,sans-serif" font-size="42" font-weight="700" fill="#1a1a1a">Viewly Labib</text>
+      <text x="150" y="105" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#666">viewly.labibalwasi.com</text>
+    </svg>
+  </div>
+  <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <p class="site-label">Viewly Labib · Tulisan & Cerita</p>
+  <h1>News &amp; <em>Cerita</em></h1>
+  <p class="subtitle">Catatan perjalanan, momen, dan pikiran yang layak dibagikan.</p>
+</header>
+
+<!-- FILTER -->
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">Semua</button>
+  <button class="filter-btn" data-filter="perjalanan">Perjalanan</button>
+  <button class="filter-btn" data-filter="wisata">Wisata</button>
+  <button class="filter-btn" data-filter="curhat">Curhat</button>
+  <button class="filter-btn" data-filter="teknologi">Teknologi</button>
+</div>
+
+<!-- NEWS GRID — tambahkan artikel baru di sini -->
+<main>
+  <div class="news-grid" id="news-grid">
+
+    <article class="news-card featured" data-category="curhat" onclick="openArticle('art1')">
+      <div class="news-thumb">
+        <img src="https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773121676/IMG-20260304-024957-236_w3rryc.jpg" alt="Duduk santai di depan Alfamidi malam hari" />
+      </div>
+      <div class="news-body">
+        <span class="featured-badge">✦ Lagi Viral</span>
+        <div class="news-meta"><span class="news-tag">Curhat</span><span class="news-date">9 Maret 2026</span></div>
+        <h2 class="news-title">Duduk di Depan Alfamidi Jam 2 Pagi — Bukan Galau, Cuma Laper</h2>
+        <p class="news-excerpt">Orang-orang kira aku sedang merenungi hidup. Padahal cuma nunggu indomie rebus selesai dimasak. Ini bukan konten aesthetic — ini survival. Dan ternyata parkiran Alfamidi jam 2 pagi punya filosofi tersendiri yang tidak diajarkan di sekolah manapun.</p>
+        <span class="news-read-more">Baca Selengkapnya</span>
+      </div>
+    </article>
+
+    <article class="news-card" data-category="perjalanan" onclick="openArticle('art2')">
+      <div class="news-thumb">
+        <img src="https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773121894/pm-1770985357669-cmp_gqc5wk.jpg" alt="Peron Stasiun Bandung" />
+      </div>
+      <div class="news-body">
+        <div class="news-meta"><span class="news-tag">Perjalanan</span><span class="news-date">8 Maret 2026</span></div>
+        <h2 class="news-title">Naik Kereta Sendirian: Antara Mau Healing atau Kabur dari Kenyataan</h2>
+        <p class="news-excerpt">Beli tiket kereta tanpa tujuan jelas itu ternyata valid. Stasiun Bandung punya energi aneh yang bikin kamu tiba-tiba pengen pergi jauh — padahal kosan cuma 10 menit dari sini.</p>
+        <span class="news-read-more">Baca Selengkapnya</span>
+      </div>
+    </article>
+
+    <article class="news-card" data-category="teknologi" onclick="openArticle('art3')">
+      <div class="news-thumb">
+        <img src="https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773121970/pm-1770985359748-cmp_lhz0nx.jpg" alt="Laptop ASUS ROG di toko" />
+      </div>
+      <div class="news-body">
+        <div class="news-meta"><span class="news-tag">Teknologi</span><span class="news-date">7 Maret 2026</span></div>
+        <h2 class="news-title">Niat Beli Laptop Buat Kerja, Malah Setengah Jam Megangin ROG yang Gak Kebeli</h2>
+        <p class="news-excerpt">Vibes-nya udah kayak orang kaya. Realitanya: dompet kosong, tapi foto udah keambil. Ini bukan review laptop — ini dokumentasi penderitaan finansial seorang pemuda yang terlalu sering lihat spesifikasi tapi gak pernah checkout.</p>
+        <span class="news-read-more">Baca Selengkapnya</span>
+      </div>
+    </article>
+
+    <article class="news-card" data-category="wisata" onclick="openArticle('art4')">
+      <div class="news-thumb">
+        <img src="https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773129359/pm_1770985399252_cmp_znr0si.jpg" alt="Papan petunjuk Curug 7 Bogor" />
+      </div>
+      <div class="news-body">
+        <div class="news-meta"><span class="news-tag">Wisata</span><span class="news-date">6 Maret 2026</span></div>
+        <h2 class="news-title">Ke Curug 7 Naik Motor: GPS Nyuruh Lurus, Hutan Bilang Lain Cerita</h2>
+        <p class="news-excerpt">Papan petunjuknya bilang 200 meter. Kakinya bilang sudah 2 kilometer. Entah siapa yang bohong — yang jelas sampai juga, dan ternyata worth it banget. Wisata alam Bogor yang underrated abis ini wajib masuk bucket list kamu.</p>
+        <span class="news-read-more">Baca Selengkapnya</span>
+      </div>
+    </article>
+
+    <article class="news-card" data-category="curhat" onclick="openArticle('art5')">
+      <div class="news-thumb">
+        <img src="https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773121879/IMG-20260309-002748-148_dephrx.jpg" alt="Foto di ruangan minimalis" />
+      </div>
+      <div class="news-body">
+        <div class="news-meta"><span class="news-tag">Curhat</span><span class="news-date">5 Maret 2026</span></div>
+        <h2 class="news-title">Cermin Bundar, Lampu Hangat, dan Satu Pertanyaan: "Kenapa Masih Jomblo?"</h2>
+        <p class="news-excerpt">Setting-nya udah kayak coffee shop mahal. Outfit oke. Pencahayaan sempurna. Tapi tetap aja pulang sendirian. Ini bukan tentang foto aesthetic — ini tentang seorang pemuda yang sudah berusaha maksimal tapi alam semesta kayaknya belum setuju.</p>
+        <span class="news-read-more">Baca Selengkapnya</span>
+      </div>
+    </article>
+
+    <article class="news-card" data-category="perjalanan" onclick="openArticle('art6')">
+      <div class="news-thumb">
+        <img src="https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773121953/pm-1770985358492-cmp_ilstgx.jpg" alt="Motor cafe racer di gang malam hari" />
+      </div>
+      <div class="news-body">
+        <div class="news-meta"><span class="news-tag">Perjalanan</span><span class="news-date">4 Maret 2026</span></div>
+        <h2 class="news-title">Keluar Malam Naik Caferacer Cuma Buat Beli Nasi Uduk — dan Tidak Menyesal</h2>
+        <p class="news-excerpt">Motor custom, jaket keren, helm retro. Tujuan: warung nasi uduk di gang belakang yang buka sampai subuh. Ini bukan gaya hidup mewah — ini adalah bentuk cinta paling tulus kepada perut yang tidak bisa diajak kompromi.</p>
+        <span class="news-read-more">Baca Selengkapnya</span>
+      </div>
+    </article>
+
+  </div>
+</main>
+
+<!-- ARTICLE LIGHTBOX -->
+<div class="article-lb" id="articleLb">
+  <button class="article-close" onclick="closeArticle()">✕</button>
+  <div class="article-wrap" id="articleContent"></div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Bustanul Labib Alwasi · <a href="https://viewly.labibalwasi.com" style="color:var(--accent);text-decoration:none;">viewly.labibalwasi.com</a></p>
+  <p style="margin-top:.6rem;display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;">
+    <a href="https://viewly.labibalwasi.com" style="font-size:.75rem;color:var(--muted);text-decoration:none;border-bottom:1px solid rgba(122,114,105,.3);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">← Galeri Foto</a>
+    <a href="/privacy-policy" style="font-size:.75rem;color:var(--muted);text-decoration:none;border-bottom:1px solid rgba(122,114,105,.3);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">Kebijakan Privasi</a>
+    <a href="/terms" style="font-size:.75rem;color:var(--muted);text-decoration:none;border-bottom:1px solid rgba(122,114,105,.3);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">Syarat &amp; Ketentuan</a>
+  </p>
+</footer>
+
+<!-- FLOAT CONTACTS -->
+<div class="float-contacts" id="floatContacts">
+  <button class="float-toggle" onclick="toggleContacts()" title="Hubungi Saya">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  </button>
+  <a class="float-btn float-wa" href="https://wa.me/6285122975498" target="_blank" rel="noopener" title="WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+  <a class="float-btn float-ig" href="https://instagram.com/bustanullabibalwasi" target="_blank" rel="noopener" title="Instagram">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+  </a>
+  <a class="float-btn float-tg" href="https://t.me/bitcoinbim" target="_blank" rel="noopener" title="Telegram">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+  </a>
+</div>
+
+<!-- SAVE TOAST -->
+<div class="save-toast" id="saveToast">
+  <strong>🔒 Foto Dilindungi</strong>
+  Hubungi pemilik web untuk mendapatkan foto ini.<br>
+  <a href="https://wa.me/6285122975498" target="_blank">💬 Chat WhatsApp</a>
+</div>
+
+<script>
+  // ================================================================
+  // DATA ARTIKEL — tambahkan entri baru di sini untuk artikel baru
+  // Key harus sama dengan nilai onclick="openArticle('...')" di card
+  // ================================================================
+  const articles = {
+    'art1': {
+      tag: 'Curhat · Malam Minggu',
+      date: '9 Maret 2026',
+      title: 'Duduk di Depan Alfamidi Jam 2 Pagi — Bukan Galau, <em>Cuma Laper</em>',
+      cover: 'https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773121676/IMG-20260304-024957-236_w3rryc.jpg',
+      coverAlt: 'Duduk santai di depan Alfamidi dini hari',
+      body: `
+        <p>Jam 2 pagi. Angin Bandung dingin kayak mantan. Dan aku duduk di depan Alfamidi sambil nunggu mas kasir yang lagi masak indomie goreng double telur pesananku.</p>
+        <p>Beberapa orang yang lewat melirik dengan tatapan penuh simpati. Mungkin mereka kira aku lagi merenungi hidup. Mungkin mereka kira aku habis diputusin. Mungkin mereka kira aku sedang menulis puisi untuk seseorang yang tidak membalas chat.</p>
+        <blockquote>"Tidak semua yang duduk sendirian dini hari itu galau. Sebagian cuma lapar dan terlalu mager masak."</blockquote>
+        <h3>Filosofi Parkiran Alfamidi Jam 2 Pagi</h3>
+        <p>Ternyata ada komunitas tersendiri di sini. Ada yang baru pulang kerja, ada yang habis main game dari warnet, ada ojol yang lagi rehat, dan ada aku — yang keluar dengan alasan "cari angin" tapi sebenarnya cari cemilan.</p>
+        <p>Yang menarik: tidak ada yang saling kenal, tapi semua saling mengangguk. Solidaritas dini hari. Brotherhood of the hungry. Kami tidak perlu ngobrol — cukup duduk berdampingan dalam keheningan yang penuh kebersamaan.</p>
+        <h3>Menu Andalan</h3>
+        <ul>
+          <li>Indomie goreng double telur — klasik, tidak pernah salah</li>
+          <li>Susu ultra coklat dingin — buat penetralisir</li>
+          <li>Sosis goreng yang harganya naik tapi porsinya sama aja</li>
+          <li>Kerupuk yang diambil random dari rak karena lapar tidak sabar milih</li>
+        </ul>
+        <p>Pukul 2.47 pagi aku pulang kenyang. Besok mungkin akan menyesal karena kalori. Tapi malam itu, hidup terasa cukup baik.</p>
+      `
+    },
+    'art2': {
+      tag: 'Perjalanan · Eksistensial',
+      date: '8 Maret 2026',
+      title: 'Naik Kereta Sendirian: Antara Mau Healing atau <em>Kabur dari Kenyataan</em>',
+      cover: 'https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773121894/pm-1770985357669-cmp_gqc5wk.jpg',
+      coverAlt: 'Suasana peron Stasiun Bandung',
+      body: `
+        <p>Ada momen di mana kamu buka aplikasi KAI, milih kota tujuan secara random, dan langsung checkout sebelum otak sempat protes. Bukan impulsif — ini disebut <em>healing yang terencana dalam 3 detik.</em></p>
+        <p>Stasiun Bandung pagi itu ramai tapi entah kenapa terasa sepi. Mungkin karena aku datang sendirian sambil bawa headset dan muka yang jelas-jelas bilang "jangan diajak ngobrol dulu."</p>
+        <blockquote>"Naik kereta sendirian itu ada dua kemungkinan: kamu sangat dewasa dan menikmati kesendirian, atau kamu habis lihat story doi sama orang lain."</blockquote>
+        <h3>Kenapa Stasiun Itu Tempat Paling Jujur</h3>
+        <p>Di stasiun, semua orang punya tujuan. Atau setidaknya pura-pura punya tujuan. Tidak ada yang bengong tanpa alasan — semua sedang menunggu sesuatu. Kereta, orang, atau momen yang tepat untuk akhirnya move on.</p>
+        <ul>
+          <li>Skybridge Stasiun Bandung: tempat terbaik untuk dramatic walk sambil dengerin lagu sad</li>
+          <li>Peron 1: penuh energi, cocok kalau mau pura-pura sibuk</li>
+          <li>Minimarket stasiun: snack mahal tapi beli juga karena lapar dan baper bikin kalap</li>
+        </ul>
+        <p>Kereta berangkat. Aku duduk di dekat jendela. Melihat Bandung pelan-pelan menghilang. Dan untuk pertama kalinya dalam beberapa hari, aku tidak memikirkan apapun yang berat.</p>
+        <p>Mungkin ini memang healing. Atau mungkin aku cuma butuh pemandangan berbeda. Dua-duanya valid.</p>
+      `
+    },
+    'art3': {
+      tag: 'Teknologi · Dompet Tipis',
+      date: '7 Maret 2026',
+      title: 'Niat Beli Laptop Buat Kerja, Malah Setengah Jam Megangin ROG yang <em>Gak Kebeli</em>',
+      cover: 'https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773121970/pm-1770985359748-cmp_lhz0nx.jpg',
+      coverAlt: 'Display laptop ASUS ROG di toko komputer',
+      body: `
+        <p>Rencananya masuk toko 5 menit, beli mouse wireless, keluar. Kenyataannya: 47 menit kemudian aku masih berdiri di depan etalase ROG sambil pegang-pegang keyboard demo yang sudah jelas-jelas tidak akan kubeli.</p>
+        <p>Lampu RGB-nya berkedip merah ungu biru. Seperti menggoda. Seperti bilang: <em>"Kamu mampu kok, cicil aja."</em></p>
+        <blockquote>"Orang miskin bukan yang tidak punya uang. Orang miskin adalah yang terlalu sering pegang barang mahal di toko sambil pura-pura pertimbangan."</blockquote>
+        <h3>Proses Berduka yang Nyata</h3>
+        <p>Ada 5 tahap ketika lihat laptop gaming yang tidak kebeli:</p>
+        <ul>
+          <li><strong>Denial</strong> — "Ah ini pasti ada yang lebih murah"</li>
+          <li><strong>Bargaining</strong> — Buka Tokopedia cek cicilan 0%</li>
+          <li><strong>Anger</strong> — Kenapa gaji segini</li>
+          <li><strong>Depression</strong> — Scrolling specs sambil sesekali menghela nafas</li>
+          <li><strong>Acceptance</strong> — Beli mouse-nya aja, pulang, buka YouTube review ROG sampai jam 2 pagi</li>
+        </ul>
+        <h3>Yang Akhirnya Kubeli</h3>
+        <p>Mouse wireless 85 ribu. Kerja bagus, tidak ada RGB, tidak ada logo mata iblis. Hidupku tetap berjalan normal.</p>
+        <p>Tapi foto etalase ROG itu masih tersimpan di galeri. Dijadikan wallpaper. Sebagai motivasi. Atau sebagai pengingat bahwa hidup itu keras.</p>
+      `
+    },
+    'art4': {
+      tag: 'Wisata · Kaki Protes',
+      date: '6 Maret 2026',
+      title: 'Ke Curug 7 Naik Motor: GPS Nyuruh Lurus, <em>Hutan Bilang Lain Cerita</em>',
+      cover: 'https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773129359/pm_1770985399252_cmp_znr0si.jpg',
+      coverAlt: 'Papan petunjuk arah oranye Curug 7 Pondok Kayu Bogor',
+      body: `
+        <p>Papan petunjuknya jelas: <strong>Curug 7 — 200 meter.</strong> Oke, 200 meter. Jalan kaki santai paling 3 menit. Itu yang kubayangkan sebelum sadar bahwa 200 meter di dalam hutan beda dimensi dengan 200 meter di jalan raya.</p>
+        <p>Lima belas menit kemudian, kaki mulai protes. GPS sudah tidak bisa diajak kerjasama. Dan aku sedang berdiri di tengah hutan pinus sambil bertanya-tanya apakah ini masih jalur yang benar atau aku sudah masuk ke episode tersendiri.</p>
+        <blockquote>"Traveling itu bukan tentang sampai tujuan. Traveling itu tentang cerita absurd yang kamu dapat dalam perjalanan."</blockquote>
+        <h3>Fasilitasnya Ternyata Lengkap Banget</h3>
+        <p>Yang bikin surprise: kawasan ini jauh lebih lengkap dari yang dibayangkan. Ada camping area, mushola, kolam terapi ikan, dan pondok kayu buat istirahat. Semua ditunjuk oleh papan-papan oranye ikonik yang jadi landmark tersendiri.</p>
+        <ul>
+          <li>Curug 7 — worth the struggle, airnya jernih dan segar</li>
+          <li>Terapi ikan — ikan kecilnya agresif, tapi somehow enak</li>
+          <li>Area camping — kalau mau ngerasain tidur di alam tanpa sinyal</li>
+          <li>Papan oranye — wajib foto, ini yang paling iconic</li>
+        </ul>
+        <p>Pulangnya turun lebih cepat. Entah karena sudah hafal jalan, atau karena kaki tidak mau diajak negosiasi lebih lama. Dua-duanya mungkin.</p>
+        <p style="font-size:.82rem;color:rgba(245,240,232,.4);margin-top:2rem;">📞 Info: (0251) 8258890 · 0813-9410-1424</p>
+      `
+    },
+    'art5': {
+      tag: 'Curhat · Filosofi',
+      date: '5 Maret 2026',
+      title: 'Cermin Bundar, Lampu Hangat, dan Satu Pertanyaan: <em>"Kenapa Masih Jomblo?"</em>',
+      cover: 'https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773121879/IMG-20260309-002748-148_dephrx.jpg',
+      coverAlt: 'Berdiri di ruangan minimalis dengan cermin bundar bercahaya',
+      body: `
+        <p>Ruangannya aesthetic. Cermin bundanya perfect. Lampunya hangat dan flattering. Bahkan outfitnya hari itu tidak mengecewakan. Semua komponen sudah terpenuhi untuk seseorang yang seharusnya sudah punya gebetan.</p>
+        <p>Tapi tetap aja, pas foto ini diambil, status WhatsApp masih kosong dan chat terakhir adalah notifikasi dari BRI.</p>
+        <blockquote>"Hidup terkadang ironis. Kamu bisa terlihat good-looking di foto tapi tetap dijomblokan oleh semesta."</blockquote>
+        <h3>Analisis Mendalam Kenapa Ini Bisa Terjadi</h3>
+        <p>Setelah kontemplasi panjang di depan cermin bundar tersebut, aku berhasil menyimpulkan beberapa kemungkinan:</p>
+        <ul>
+          <li>Alam semesta sedang sibuk dan belum sempat ngurusin urusan percintaanku</li>
+          <li>Standarku terlalu tinggi (kata orang-orang, bukan kataku)</li>
+          <li>Aku terlalu asyik dengan diri sendiri sampai lupa PDKT</li>
+          <li>Atau memang belum waktunya — ini yang paling sering dipakai sebagai pembenaran</li>
+        </ul>
+        <h3>Kesimpulan</h3>
+        <p>Foto ini bagus. Cerminnya aesthetic. Ruangannya minimalis dan instagramable. Dan sampai artikel ini ditulis, situasinya masih sama.</p>
+        <p>Tapi setidaknya kontennya bagus. Dan mungkin suatu hari nanti seseorang akan lihat foto ini dan DM. Belum terjadi. Tapi mungkin.</p>
+      `
+    },
+    'art6': {
+      tag: 'Perjalanan · Perut Berbicara',
+      date: '4 Maret 2026',
+      title: 'Keluar Malam Naik Caferacer Cuma Buat Beli Nasi Uduk — <em>dan Tidak Menyesal</em>',
+      cover: 'https://res.cloudinary.com/dhg2g8syu/image/upload/fl_immutable_cache,f_auto/v1773121953/pm-1770985358492-cmp_ilstgx.jpg',
+      coverAlt: 'Motor cafe racer di gang sempit malam hari',
+      body: `
+        <p>Ada momen di mana kamu pakai jaket terbaik, helm retro yang beli di Shopee tapi terlihat mahal, dan start motor custom yang suaranya bisa bikin tetangga menoleh — hanya untuk pergi ke warung nasi uduk yang jaraknya bisa ditempuh dengan jalan kaki 7 menit.</p>
+        <p>Tapi jalan kaki itu membosankan. Dan malam itu motor perlu diajak jalan.</p>
+        <blockquote>"Tidak ada yang namanya overkill kalau soal cari makan malam. Setiap perjalanan kuliner itu sacred."</blockquote>
+        <h3>Mengapa Caferacer dan Nasi Uduk Adalah Kombinasi Sempurna</h3>
+        <p>Motor custom dengan estetika vintage, jalanan gang yang sempit, lampu kuning dari warung pinggir jalan — ini bukan adegan film, ini kehidupan nyata yang kebetulan sinematik.</p>
+        <ul>
+          <li>Nasi uduk + ayam goreng + tempe orek = kombinasi yang belum pernah salah sejak 1987</li>
+          <li>Harga 15 ribu — lebih murah dari ongkos parkir mall</li>
+          <li>Buka sampai subuh — UMKM sejati, tidak kenal lelah</li>
+          <li>Bonus: ngobrol singkat sama ibu warung yang ternyata lebih wise dari semua podcast yang pernah kamu dengerin</li>
+        </ul>
+        <h3>Moral Cerita</h3>
+        <p>Bukan tentang motornya. Bukan tentang outfitnya. Ini tentang keberanian untuk pergi mengambil apa yang kamu mau — meski itu cuma nasi uduk di gang belakang jam 11 malam.</p>
+        <p>Hidup terlalu singkat untuk makan yang tidak enak. Dan motor itu tidak akan selamanya muda. Jadi gas aja.</p>
+      `
+    }
+  };
+
+  function openArticle(id) {
+    const art = articles[id];
+    if (!art) return;
+    const lb = document.getElementById('articleLb');
+    document.getElementById('articleContent').innerHTML = `
+      <span class="article-tag">${art.tag}</span>
+      <h1 class="article-title">${art.title}</h1>
+      <p class="article-meta">${art.date} &nbsp;·&nbsp; Bustanul Labib Alwasi &nbsp;·&nbsp; viewly.labibalwasi.com</p>
+      ${art.cover ? `<img src="${art.cover}" alt="${art.coverAlt}" class="article-cover" />` : ''}
+      <div class="article-body">${art.body}</div>
+      <button class="article-back" onclick="closeArticle()">← Kembali ke News</button>
+    `;
+    lb.classList.add('open');
+    lb.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeArticle() {
+    document.getElementById('articleLb').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeArticle(); });
+
+  // FILTER
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      document.querySelectorAll('.news-card').forEach((card, i) => {
+        const match = f === 'all' || card.dataset.category === f;
+        card.style.display = match ? '' : 'none';
+        card.classList.toggle('featured', match && i === 0 && f === 'all');
+      });
+    });
+  });
+
+  // LOADING
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loading-screen').classList.add('hide');
+      document.body.classList.remove('loading');
+    }, 1800);
+  });
+
+  // FLOAT CONTACTS
+  function toggleContacts() { document.getElementById('floatContacts').classList.toggle('open'); }
+  document.addEventListener('click', e => {
+    const fc = document.getElementById('floatContacts');
+    if (!fc.contains(e.target)) fc.classList.remove('open');
+  });
+
+  // DARK MODE
+  function toggleTheme() {
+    const isDark = document.body.classList.toggle('dark-mode');
+    document.getElementById('theme-toggle').textContent = isDark ? '☀️' : '🌙';
+    localStorage.setItem('viewly-theme', isDark ? 'dark' : 'light');
+  }
+  (function() {
+    if (localStorage.getItem('viewly-theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+      document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('theme-toggle');
+        if (btn) btn.textContent = '☀️';
+      });
+    }
+  })();
+
+  // SAVE PROTECTION
+  let toastTimer;
+  function showSaveToast() {
+    const t = document.getElementById('saveToast');
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 4000);
+  }
+  document.addEventListener('contextmenu', e => { if (e.target.tagName === 'IMG') { e.preventDefault(); showSaveToast(); } });
+  document.addEventListener('dragstart', e => { if (e.target.tagName === 'IMG') { e.preventDefault(); showSaveToast(); } });
+  document.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); showSaveToast(); } });
+</script>
+
+</body>
+</html>
