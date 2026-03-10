@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta name="google-site-verification" content="chqvD6nDErHaVDrK9juUbOh_EbDWpNTtLo7g2ofb6dk" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kebijakan Privasi | Viewly Labib</title>
+  <meta name="description" content="Kebijakan Privasi Galeri Foto Bustanul Labib Alwasi — viewly.labibalwasi.com" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://viewly.labibalwasi.com/privacy-policy" />
+  <link rel="icon" type="image/png" href="https://i.ibb.co.com/hxnN4YwR/file-00000000f3b8720890e1c02108057a6c.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --cream: #f5f0e8; --dark: #1a1714; --muted: #7a7269; --accent: #c8a96e; --white: #fdfcfa; }
+    body.dark-mode { --cream: #0f0e0c; --dark: #f5f0e8; --muted: #9a9289; --white: #1a1714; }
+    body, body * { transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); min-height: 100vh; }
+
+    /* THEME TOGGLE */
+    #theme-toggle { position: fixed; top: 1.2rem; right: 1.5rem; z-index: 997; background: var(--dark); border: 1px solid rgba(200,169,110,0.25); color: var(--cream); width: 2.6rem; height: 2.6rem; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 12px rgba(0,0,0,0.15); transition: background 0.3s ease, transform 0.2s ease !important; }
+    #theme-toggle:hover { background: var(--accent); transform: scale(1.1); }
+
+    /* HEADER */
+    header { padding: 3rem 2rem 2rem; text-align: center; position: relative; overflow: hidden; border-bottom: 1px solid rgba(26,23,20,0.08); }
+    header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(200,169,110,0.15) 0%, transparent 70%); pointer-events: none; }
+    .site-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    .back-link { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; margin-bottom: 1.5rem; transition: color 0.2s; }
+    .back-link:hover { color: var(--accent); }
+    .back-link::before { content: '←'; }
+    h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 400; line-height: 1.15; color: var(--dark); margin-bottom: 0.6rem; }
+    h1 em { font-style: italic; color: var(--accent); }
+    .header-meta { font-size: 0.78rem; color: var(--muted); margin-top: 0.5rem; letter-spacing: 0.04em; }
+
+    /* CONTENT */
+    .content-wrap { max-width: 760px; margin: 0 auto; padding: 3.5rem 2rem 6rem; }
+
+    .intro-box { background: var(--white); border: 1px solid rgba(26,23,20,0.1); border-radius: 12px; padding: 1.5rem 2rem; margin-bottom: 3rem; box-shadow: 0 2px 16px rgba(26,23,20,0.05); }
+    .intro-box p { font-size: 0.9rem; color: var(--muted); line-height: 1.8; }
+    .intro-box strong { color: var(--accent); }
+
+    /* SECTIONS */
+    .pp-section { margin-bottom: 2.8rem; }
+    .pp-section h2 { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 400; color: var(--dark); margin-bottom: 1rem; padding-bottom: 0.6rem; border-bottom: 1px solid rgba(26,23,20,0.08); display: flex; align-items: center; gap: 0.6rem; }
+    .pp-section h2 .sec-num { font-family: 'DM Sans', sans-serif; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); background: rgba(200,169,110,0.1); padding: 0.2rem 0.5rem; border-radius: 100px; }
+    .pp-section p { font-size: 0.9rem; color: var(--muted); line-height: 1.85; margin-bottom: 0.85rem; }
+    .pp-section p:last-child { margin-bottom: 0; }
+    .pp-section ul { list-style: none; padding: 0; margin: 0.5rem 0 0.85rem; }
+    .pp-section ul li { font-size: 0.9rem; color: var(--muted); line-height: 1.75; padding: 0.3rem 0 0.3rem 1.4rem; position: relative; }
+    .pp-section ul li::before { content: '—'; position: absolute; left: 0; color: var(--accent); font-weight: 400; }
+    .pp-section a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(200,169,110,0.3); transition: border-color 0.2s; }
+    .pp-section a:hover { border-color: var(--accent); }
+
+    /* HIGHLIGHT BOX */
+    .highlight-box { background: rgba(200,169,110,0.08); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin: 1rem 0; }
+    .highlight-box p { margin-bottom: 0 !important; font-size: 0.875rem !important; }
+
+    /* CONTACT CARD */
+    .contact-card { background: var(--white); border: 1px solid rgba(26,23,20,0.1); border-radius: 12px; padding: 1.5rem 2rem; margin-top: 1rem; box-shadow: 0 2px 16px rgba(26,23,20,0.05); }
+    .contact-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.75; margin-bottom: 0.5rem; }
+    .contact-card p:last-child { margin-bottom: 0; }
+    .contact-card strong { color: var(--dark); font-weight: 500; }
+
+    /* DIVIDER */
+    .pp-divider { border: none; border-top: 1px solid rgba(26,23,20,0.08); margin: 2.5rem 0; }
+
+    /* FOOTER */
+    footer { text-align: center; padding: 2rem; border-top: 1px solid rgba(26,23,20,0.1); font-size: 0.8rem; color: var(--muted); }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .content-wrap { padding: 2.5rem 1.25rem 5rem; }
+      .intro-box, .contact-card { padding: 1.25rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<button id="theme-toggle" onclick="toggleTheme()" title="Toggle tema gelap/terang" aria-label="Toggle dark mode">🌙</button>
+
+<header>
+  <p class="site-label">Viewly Labib · Legal</p>
+  <a class="back-link" href="https://viewly.labibalwasi.com">Kembali ke Galeri</a>
+  <h1>Kebijakan <em>Privasi</em></h1>
+  <p class="header-meta">Terakhir diperbarui: Maret 2025 &nbsp;·&nbsp; viewly.labibalwasi.com</p>
+</header>
+
+<div class="content-wrap">
+
+  <div class="intro-box">
+    <p>Halaman ini menjelaskan bagaimana <strong>Bustanul Labib Alwasi</strong> mengumpulkan, menggunakan, dan melindungi informasi yang diperoleh saat kamu mengunjungi <strong>viewly.labibalwasi.com</strong>. Dengan mengakses situs ini, kamu menyetujui ketentuan yang dijelaskan di bawah ini.</p>
+  </div>
+
+  <!-- 1 -->
+  <div class="pp-section">
+    <h2><span class="sec-num">01</span> Informasi yang Dikumpulkan</h2>
+    <p>Saat kamu mengunjungi situs ini, kami secara otomatis mengumpulkan beberapa data teknis untuk keperluan analitik dan keamanan, meliputi:</p>
+    <ul>
+      <li>Alamat IP dan perkiraan lokasi berdasarkan IP (negara/kota)</li>
+      <li>Zona waktu, bahasa browser, dan resolusi layar</li>
+      <li>Jenis perangkat dan User Agent (browser & sistem operasi)</li>
+      <li>Waktu kunjungan dan halaman yang diakses</li>
+      <li>Data lokasi GPS — <em>hanya jika kamu memberikan izin</em> secara eksplisit melalui browser</li>
+    </ul>
+    <div class="highlight-box">
+      <p>Kami <strong>tidak</strong> mengumpulkan nama, email, nomor telepon, atau informasi pribadi lainnya kecuali kamu menghubungi kami secara langsung.</p>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="pp-section">
+    <h2><span class="sec-num">02</span> Cara Penggunaan Data</h2>
+    <p>Data yang dikumpulkan digunakan semata-mata untuk:</p>
+    <ul>
+      <li>Memahami demografi dan asal pengunjung situs</li>
+      <li>Memantau keamanan dan mendeteksi akses tidak sah</li>
+      <li>Menampilkan statistik kunjungan (manusia vs bot) secara anonim di halaman galeri</li>
+      <li>Meningkatkan pengalaman pengguna dan performa situs</li>
+    </ul>
+    <p>Data ini tidak dijual, disewakan, atau dibagikan kepada pihak ketiga untuk tujuan komersial.</p>
+  </div>
+
+  <!-- 3 -->
+  <div class="pp-section">
+    <h2><span class="sec-num">03</span> Cookie & Penyimpanan Lokal</h2>
+    <p>Situs ini menggunakan <strong>localStorage</strong> browser untuk menyimpan preferensi tema (terang/gelap) kamu secara lokal di perangkatmu. Data ini tidak dikirim ke server dan sepenuhnya bersifat lokal.</p>
+    <p>Kami tidak menggunakan cookie pihak ketiga, cookie pelacak, maupun alat analitik eksternal seperti Google Analytics.</p>
+  </div>
+
+  <!-- 4 -->
+  <div class="pp-section">
+    <h2><span class="sec-num">04</span> Konten & Hak Cipta Foto</h2>
+    <p>Seluruh foto yang ditampilkan di situs ini adalah karya dan milik <strong>Bustanul Labib Alwasi</strong>, dilindungi oleh hak cipta. Penggunaan, reproduksi, atau distribusi foto tanpa izin tertulis dilarang keras.</p>
+    <ul>
+      <li>Foto tidak boleh diunduh, disalin, atau disebarluaskan tanpa persetujuan pemilik</li>
+      <li>Situs dilengkapi perlindungan teknis (watermark, blokir klik kanan, dll.)</li>
+      <li>Untuk permohonan penggunaan foto, hubungi pemilik melalui kontak yang tersedia</li>
+    </ul>
+  </div>
+
+  <!-- 5 -->
+  <div class="pp-section">
+    <h2><span class="sec-num">05</span> Layanan Pihak Ketiga</h2>
+    <p>Situs ini menggunakan layanan eksternal berikut untuk keperluan teknis:</p>
+    <ul>
+      <li><strong>Cloudinary</strong> — hosting dan penyajian gambar. Kebijakan privasi: <a href="https://cloudinary.com/privacy" target="_blank" rel="noopener">cloudinary.com/privacy</a></li>
+      <li><strong>Google Fonts</strong> — font tipografi. Kebijakan privasi: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></li>
+    </ul>
+    <p>Kami tidak bertanggung jawab atas praktik privasi layanan pihak ketiga tersebut.</p>
+  </div>
+
+  <!-- 6 -->
+  <div class="pp-section">
+    <h2><span class="sec-num">06</span> Keamanan Data</h2>
+    <p>Kami menerapkan langkah-langkah teknis yang wajar untuk melindungi data yang dikumpulkan dari akses tidak sah, perubahan, atau kebocoran. Namun, tidak ada metode transmisi data melalui internet yang 100% aman.</p>
+    <div class="highlight-box">
+      <p>Log IP pengunjung hanya dapat diakses oleh administrator situs dengan autentikasi khusus, dan tidak dapat dilihat oleh pengunjung umum.</p>
+    </div>
+  </div>
+
+  <!-- 7 -->
+  <div class="pp-section">
+    <h2><span class="sec-num">07</span> Hak Pengunjung</h2>
+    <p>Sebagai pengunjung, kamu memiliki hak untuk:</p>
+    <ul>
+      <li>Mengetahui data apa saja yang kami simpan terkait kunjunganmu</li>
+      <li>Meminta penghapusan data kunjunganmu dari log kami</li>
+      <li>Menolak pengumpulan data lokasi GPS melalui pengaturan browser</li>
+    </ul>
+    <p>Untuk mengajukan permintaan tersebut, hubungi kami melalui kontak di bawah ini.</p>
+  </div>
+
+  <!-- 8 -->
+  <div class="pp-section">
+    <h2><span class="sec-num">08</span> Perubahan Kebijakan</h2>
+    <p>Kami dapat memperbarui kebijakan privasi ini sewaktu-waktu. Perubahan akan ditandai dengan memperbarui tanggal "Terakhir diperbarui" di bagian atas halaman ini. Kami menyarankan untuk meninjau halaman ini secara berkala.</p>
+  </div>
+
+  <hr class="pp-divider" />
+
+  <!-- KONTAK -->
+  <div class="pp-section">
+    <h2><span class="sec-num">09</span> Hubungi Kami</h2>
+    <p>Jika kamu memiliki pertanyaan, keberatan, atau permintaan terkait kebijakan privasi ini, jangan ragu menghubungi kami:</p>
+    <div class="contact-card">
+      <p><strong>Pemilik Situs</strong><br>Bustanul Labib Alwasi</p>
+      <p><strong>Website</strong><br><a href="https://viewly.labibalwasi.com">viewly.labibalwasi.com</a></p>
+      <p><strong>WhatsApp</strong><br><a href="https://wa.me/6285122975498" target="_blank" rel="noopener">+62 851-2297-5498</a></p>
+      <p><strong>Instagram</strong><br><a href="https://instagram.com/bustanullabibalwasi" target="_blank" rel="noopener">@bustanullabibalwasi</a></p>
+      <p><strong>Telegram</strong><br><a href="https://t.me/bitcoinbim" target="_blank" rel="noopener">@bitcoinbim</a></p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2025 Bustanul Labib Alwasi · <a href="https://viewly.labibalwasi.com">viewly.labibalwasi.com</a></p>
+</footer>
+
+<script>
+  function toggleTheme() {
+    const isDark = document.body.classList.toggle('dark-mode');
+    document.getElementById('theme-toggle').textContent = isDark ? '☀️' : '🌙';
+    localStorage.setItem('viewly-theme', isDark ? 'dark' : 'light');
+  }
+  (function() {
+    const saved = localStorage.getItem('viewly-theme');
+    if (saved === 'dark') {
+      document.body.classList.add('dark-mode');
+      document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('theme-toggle');
+        if (btn) btn.textContent = '☀️';
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
