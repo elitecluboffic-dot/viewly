@@ -4,6 +4,8 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Marketplace | Bustanul Labib Alwasi</title>
+  <meta name="description" content="Marketplace Bustanul Labib Alwasi — platform jual-beli online terpercaya. Beli produk digital, fisik, dan jasa pilihan, atau daftarkan produkmu sendiri dengan mudah.">
+  <meta name="author" content="Bustanul Labib Alwasi">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="https://i.ibb.co.com/hxnN4YwR/file-00000000f3b8720890e1c02108057a6c.png" />
@@ -31,6 +33,9 @@
     .nav-user{display:flex;align-items:center;gap:.5rem;cursor:pointer;padding:.3rem .75rem;border:1px solid var(--border);border-radius:100px;font-size:.8rem;font-weight:500;background:var(--cream);color:var(--dark);transition:all .2s}
     .nav-user:hover{border-color:var(--accent)}
     .nav-avatar{width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0}
+    .nav-role-badge{font-size:.6rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;letter-spacing:.05em;text-transform:uppercase}
+    .nav-role-badge.seller{background:rgba(200,169,110,.2);color:var(--accent)}
+    .nav-role-badge.buyer{background:rgba(76,175,125,.15);color:var(--success)}
     .btn-auth{padding:.4rem .9rem;background:transparent;border:1px solid var(--border);color:var(--dark);border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;cursor:pointer;transition:all .2s}
     .btn-auth:hover{border-color:var(--accent);color:var(--accent)}
     .btn-auth-primary{background:var(--dark);color:var(--cream);border-color:var(--dark)}
@@ -40,10 +45,96 @@
     .user-dd-info{padding:.75rem 1rem;border-bottom:1px solid var(--border);margin-bottom:.5rem}
     .user-dd-name{font-size:.88rem;font-weight:600}
     .user-dd-email{font-size:.72rem;color:var(--muted)}
+    .user-dd-role{font-size:.7rem;font-weight:600;margin-top:.3rem;padding:.2rem .6rem;border-radius:100px;display:inline-block}
+    .user-dd-role.seller{background:rgba(200,169,110,.15);color:var(--accent)}
+    .user-dd-role.buyer{background:rgba(76,175,125,.12);color:var(--success)}
     .user-dd-item{display:flex;align-items:center;gap:.5rem;padding:.55rem 1rem;border-radius:8px;font-size:.82rem;cursor:pointer;color:var(--dark);transition:background .15s}
     .user-dd-item:hover{background:var(--cream)}
     .user-dd-item.danger{color:var(--danger)}
 
+    /* ── ROLE SELECTOR pada form register ── */
+    .role-selector{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.25rem}
+    .role-card{border:1.5px solid var(--border);border-radius:12px;padding:1rem;cursor:pointer;transition:all .2s;text-align:center;position:relative}
+    .role-card:hover{border-color:var(--accent)}
+    .role-card.selected{border-color:var(--accent);background:rgba(200,169,110,.07)}
+    .role-card input[type="radio"]{position:absolute;opacity:0;width:0;height:0}
+    .role-card-icon{font-size:1.6rem;margin-bottom:.35rem}
+    .role-card-title{font-size:.85rem;font-weight:600;margin-bottom:.2rem}
+    .role-card-sub{font-size:.7rem;color:var(--muted);line-height:1.45}
+
+    /* ── DASHBOARD PENJUAL ── */
+    .dashboard-overlay{position:fixed;inset:0;z-index:150;background:var(--cream);overflow-y:auto;display:none}
+    .dashboard-overlay.open{display:block;animation:fd .3s ease}
+    .dashboard-nav{position:sticky;top:0;background:var(--white);border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;z-index:10}
+    .dashboard-nav-left{display:flex;align-items:center;gap:1rem}
+    .dashboard-nav-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;color:var(--dark)}
+    .dashboard-nav-tabs{display:flex;gap:.25rem}
+    .dash-tab{padding:.4rem .9rem;border:none;background:transparent;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all .2s}
+    .dash-tab.active{background:var(--dark);color:var(--cream)}
+    .dash-tab:hover:not(.active){background:var(--cream)}
+    .btn-dash-close{background:none;border:1px solid var(--border);color:var(--dark);width:2rem;height:2rem;border-radius:50%;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center}
+    .btn-dash-close:hover{background:var(--cream)}
+
+    .dashboard-body{max-width:1100px;margin:0 auto;padding:2rem}
+    .dashboard-section{display:none}
+    .dashboard-section.active{display:block;animation:fd .25s ease}
+
+    /* OVERVIEW */
+    .dash-greeting{margin-bottom:2rem}
+    .dash-greeting h2{font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:400;margin-bottom:.25rem}
+    .dash-greeting p{font-size:.88rem;color:var(--muted)}
+    .dash-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}
+    .stat-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.5rem}
+    .stat-card-label{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+    .stat-card-value{font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:400;color:var(--dark)}
+    .stat-card-sub{font-size:.72rem;color:var(--muted);margin-top:.2rem}
+    .stat-card.accent .stat-card-value{color:var(--accent)}
+    .stat-card.success .stat-card-value{color:var(--success)}
+
+    /* PRODUK SAYA */
+    .dash-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+    .dash-section-title{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:400}
+    .btn-new-product{padding:.45rem 1.1rem;background:var(--accent);color:var(--dark);border:none;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:.35rem;transition:all .2s}
+    .btn-new-product:hover{background:var(--dark);color:var(--cream)}
+    .my-products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem}
+    .my-product-card{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+    .my-product-img{width:100%;aspect-ratio:1/1;object-fit:cover}
+    .my-product-info{padding:.85rem}
+    .my-product-name{font-size:.88rem;font-weight:600;margin-bottom:.25rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .my-product-price{font-size:.82rem;color:var(--accent);font-weight:600;margin-bottom:.35rem}
+    .my-product-status{display:inline-flex;align-items:center;gap:.3rem;font-size:.68rem;font-weight:600;padding:.2rem .6rem;border-radius:100px}
+    .my-product-status.approved{background:rgba(76,175,125,.12);color:var(--success)}
+    .my-product-status.pending{background:rgba(200,169,110,.12);color:var(--accent)}
+    .my-product-status.rejected{background:rgba(224,82,82,.1);color:var(--danger)}
+    .my-products-empty{text-align:center;padding:3rem;color:var(--muted)}
+    .my-products-empty div{font-size:2rem;margin-bottom:.5rem}
+
+    /* ORDER MASUK */
+    .orders-list{display:flex;flex-direction:column;gap:.85rem}
+    .order-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.25rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+    .order-card-left{}
+    .order-card-id{font-size:.68rem;letter-spacing:.1em;color:var(--accent);margin-bottom:.25rem}
+    .order-card-buyer{font-size:.9rem;font-weight:600;margin-bottom:.2rem}
+    .order-card-items{font-size:.78rem;color:var(--muted);margin-bottom:.35rem}
+    .order-card-meta{font-size:.72rem;color:var(--muted)}
+    .order-card-right{text-align:right;flex-shrink:0}
+    .order-card-total{font-size:1rem;font-weight:600;color:var(--dark);margin-bottom:.35rem}
+    .order-status{display:inline-flex;align-items:center;gap:.3rem;font-size:.68rem;font-weight:600;padding:.2rem .65rem;border-radius:100px}
+    .order-status.new{background:rgba(200,169,110,.12);color:var(--accent)}
+    .order-status.confirmed{background:rgba(76,175,125,.12);color:var(--success)}
+    .orders-empty{text-align:center;padding:3rem;color:var(--muted)}
+
+    /* ── DASHBOARD PEMBELI ── */
+    .buyer-dashboard-overlay{position:fixed;inset:0;z-index:150;background:var(--cream);overflow-y:auto;display:none}
+    .buyer-dashboard-overlay.open{display:block;animation:fd .3s ease}
+    .buyer-dash-nav{position:sticky;top:0;background:var(--white);border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;z-index:10}
+    .buyer-dash-body{max-width:1100px;margin:0 auto;padding:2rem}
+    .buyer-greeting{margin-bottom:2rem}
+    .buyer-greeting h2{font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:400;margin-bottom:.25rem}
+    .buyer-greeting p{font-size:.88rem;color:var(--muted)}
+    .buyer-products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem}
+
+    /* ─── SEMUA STYLE LAMA TETAP ─── */
     .hero{padding:4rem 2rem 3rem;text-align:center;position:relative;overflow:hidden;background:var(--white);border-bottom:1px solid var(--border)}
     .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% -10%,rgba(200,169,110,.18) 0%,transparent 65%);pointer-events:none}
     .hero-label{font-size:.7rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem}
@@ -53,13 +144,11 @@
     .hero-cta{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.5rem;background:var(--accent);color:var(--dark);border:none;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .2s}
     .hero-cta:hover{background:var(--dark);color:var(--cream);transform:scale(1.03)}
     .fee-tag{display:inline-flex;align-items:center;background:rgba(200,169,110,.12);border:1px solid rgba(200,169,110,.3);border-radius:100px;padding:.25rem .85rem;font-size:.75rem;color:var(--accent);font-weight:500;margin-left:.5rem}
-
     .filter-section{padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:1300px;margin:0 auto}
     .filter-chips{display:flex;gap:.5rem;flex-wrap:wrap}
     .chip{padding:.4rem 1rem;border:1px solid var(--border);background:transparent;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.8rem;color:var(--muted);cursor:pointer;transition:all .2s}
     .chip:hover,.chip.active{background:var(--dark);border-color:var(--dark);color:var(--cream)}
     .sort-select{padding:.4rem 1rem;border:1px solid var(--border);background:var(--white);border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.8rem;color:var(--muted);cursor:pointer;outline:none}
-
     .products-section{max-width:1300px;margin:0 auto;padding:0 2rem 4rem}
     .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem}
     .empty-state{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--muted)}
@@ -90,7 +179,6 @@
     .btn-add-cart{padding:.45rem .9rem;background:var(--dark);color:var(--cream);border:none;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;cursor:pointer;transition:all .2s}
     .btn-add-cart:hover{background:var(--accent);color:var(--dark)}
     .btn-add-cart.added{background:var(--success);color:#fff}
-
     .cart-overlay{position:fixed;inset:0;background:rgba(26,23,20,.5);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px)}
     .cart-overlay.open{opacity:1;pointer-events:all}
     .cart-sidebar{position:fixed;top:0;right:0;bottom:0;width:min(420px,100vw);background:var(--white);z-index:201;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.25,.46,.45,.94);border-left:1px solid var(--border)}
@@ -122,7 +210,6 @@
     .btn-checkout{width:100%;padding:.85rem;background:var(--dark);color:var(--cream);border:none;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:500;cursor:pointer;transition:background .2s}
     .btn-checkout:hover{background:var(--accent);color:var(--dark)}
     .btn-checkout:disabled{opacity:.4;cursor:default}
-
     .modal-overlay{position:fixed;inset:0;background:rgba(26,23,20,.72);z-index:300;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(6px)}
     .modal-overlay.open{opacity:1;pointer-events:all}
     .modal{background:var(--white);border-radius:20px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;padding:2rem;position:relative;transform:scale(.95);transition:transform .3s;box-shadow:0 20px 60px rgba(0,0,0,.2)}
@@ -138,7 +225,6 @@
     .auth-tabs{display:flex;gap:0;border:1px solid var(--border);border-radius:100px;padding:.2rem;margin-bottom:1.5rem}
     .auth-tab{flex:1;padding:.5rem;border:none;border-radius:100px;background:transparent;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;color:var(--muted);transition:all .2s}
     .auth-tab.active{background:var(--dark);color:var(--cream)}
-
     .form-group{margin-bottom:1.1rem}
     .form-group label{display:block;font-size:.78rem;font-weight:500;margin-bottom:.4rem}
     .form-group input,.form-group select,.form-group textarea{width:100%;padding:.65rem 1rem;border:1px solid var(--border);border-radius:10px;background:var(--cream);color:var(--dark);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;transition:border-color .2s}
@@ -172,8 +258,6 @@
     .upload-text{font-size:.82rem;color:var(--muted);line-height:1.5}
     .upload-text strong{color:var(--dark);display:block;margin-bottom:.15rem;font-size:.85rem}
     .upload-preview{width:100%;border-radius:8px;margin-top:.75rem;display:none;max-height:200px;object-fit:contain}
-
-    /* 4 FOTO GRID */
     .photos-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-top:.5rem}
     .photo-slot{aspect-ratio:1/1;border:2px dashed var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;background:var(--cream);transition:all .2s}
     .photo-slot:hover{border-color:var(--accent)}
@@ -183,7 +267,6 @@
     .slot-rm{position:absolute;top:.25rem;right:.25rem;background:rgba(224,82,82,.9);color:#fff;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:.65rem;display:flex;align-items:center;justify-content:center;z-index:5;line-height:1}
     .photo-slot input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;z-index:2}
     .photo-main-badge{position:absolute;bottom:.2rem;left:.2rem;background:var(--accent);color:var(--dark);font-size:.55rem;font-weight:700;padding:.1rem .35rem;border-radius:4px;z-index:4}
-
     .btn-primary{width:100%;padding:.85rem;background:var(--dark);color:var(--cream);border:none;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:500;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:.5rem}
     .btn-primary:hover{background:var(--accent);color:var(--dark)}
     .btn-primary:disabled{opacity:.5;cursor:default}
@@ -204,7 +287,6 @@
     .fee-box-icon{font-size:1.25rem;flex-shrink:0}
     .fee-box-text{font-size:.82rem;line-height:1.6}
     .fee-box-text strong{color:var(--accent)}
-
     .admin-panel{display:none;position:fixed;inset:0;z-index:2000;background:rgba(12,11,9,.97);backdrop-filter:blur(12px);padding:2rem;overflow-y:auto}
     .admin-panel.open{display:block}
     .admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;border-bottom:1px solid rgba(245,240,232,.1);padding-bottom:1rem}
@@ -250,27 +332,22 @@
       .modal{padding:1.5rem}
       .nav-brand-text{display:none}
       .photos-grid{grid-template-columns:repeat(2,1fr)}
+      .role-selector{grid-template-columns:1fr 1fr}
+      .dashboard-nav-tabs{display:none}
+      .dash-stats{grid-template-columns:1fr 1fr}
     }
   </style>
 </head>
 <body>
 
 <script>
-  // ══ CONFIG ══
   const WORKER_URL = 'https://worker.internetdnsofficial.workers.dev';
-
-  // EmailJS — setup di dashboard.emailjs.com
-  // Service ID  : buat service "Gmail" dengan akun bustanullabib@gmail.com
-  // Template    : buat 3 template (order, sell, register) — lihat komentar di bawah
-  // Public Key  : kode app gmail kamu: wsrk prvg sjee vnku (tanpa spasi)
-  const EJ_PUBLIC   = '7XUXjtF-ko_D5cz5_'; // ← ganti sesuai Public Key di EmailJS dashboard
-  const EJ_SVC      = 'service_7nw21xn';     // ← ganti dengan Service ID kamu di EmailJS
-  const EJ_TPL_ORDER= 'template_dpljy7v';    // ← Template ID untuk order masuk
-  const EJ_TPL_SELL = 'template_dpljy7v';     // ← Template ID untuk produk didaftarkan
-  const EJ_TPL_REG  = 'template_81z20ih';      // ← Template ID untuk user baru register
-
+  const EJ_PUBLIC   = '7XUXjtF-ko_D5cz5_';
+  const EJ_SVC      = 'service_7nw21xn';
+  const EJ_TPL_ORDER= 'template_dpljy7v';
+  const EJ_TPL_SELL = 'template_dpljy7v';
+  const EJ_TPL_REG  = 'template_81z20ih';
   const ADMIN_EMAIL = 'bustanullabib@gmail.com';
-
   const PAY = {
     bca:     { name:'BCA',     icon:'🏦', no:'1234567890',   an:'Bustanul Labib Alwasi' },
     mandiri: { name:'Seabank', icon:'🏛️', no:'9015 1357 9165',   an:'Bustanul Labib Alwasi' },
@@ -286,9 +363,14 @@
     <span class="nav-brand-text">Marketplace Labib</span>
   </a>
   <div class="nav-actions">
-    <button class="btn-sell" onclick="guardSell()">
+    <!-- tombol Jual hanya muncul jika belum login / seller -->
+    <button class="btn-sell" id="navBtnSell" onclick="guardSell()" style="display:none">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       Jual Produk
+    </button>
+    <!-- tombol Dashboard -->
+    <button class="btn-sell" id="navBtnDash" onclick="openDashboard()" style="display:none;background:var(--dark);color:var(--cream)">
+      📊 Dashboard
     </button>
     <button class="btn-icon" id="themBtn" onclick="toggleTheme()">🌙</button>
     <div id="navAuthArea" style="display:flex;align-items:center;gap:.5rem"></div>
@@ -305,8 +387,10 @@
   <div class="user-dd-info">
     <div class="user-dd-name" id="ddName">-</div>
     <div class="user-dd-email" id="ddEmail">-</div>
+    <span class="user-dd-role" id="ddRole">-</span>
   </div>
-  <div class="user-dd-item" onclick="guardSell();closeDropdown()">📦 Jual Produk</div>
+  <div class="user-dd-item" id="ddDashItem" onclick="openDashboard();closeDropdown()">📊 Dashboard Saya</div>
+  <div class="user-dd-item" id="ddSellItem" onclick="guardSell();closeDropdown()" style="display:none">📦 Jual Produk</div>
   <div class="user-dd-item danger" onclick="doLogout()">🚪 Keluar</div>
 </div>
 
@@ -372,7 +456,7 @@
     <button class="modal-close" onclick="closeAuthModal()">✕</button>
     <p class="modal-label">Akun Kamu</p>
     <h2>Masuk / <em style="font-style:italic;color:var(--accent)">Daftar</em></h2>
-    <p class="modal-sub" style="margin-bottom:1.25rem">Wajib login untuk jual produk.</p>
+    <p class="modal-sub" style="margin-bottom:1.25rem">Wajib login untuk akses dashboard.</p>
     <div class="auth-tabs">
       <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Masuk</button>
       <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Daftar</button>
@@ -389,8 +473,24 @@
       <div class="divider">atau</div>
       <p style="text-align:center;font-size:.82rem;color:var(--muted)">Belum punya akun? <a onclick="switchAuthTab('register')" style="color:var(--accent);cursor:pointer;font-weight:600">Daftar sekarang</a></p>
     </div>
-    <!-- REGISTER -->
+    <!-- REGISTER — UPDATED: role selector ditambahkan -->
     <div id="authRegisterForm" style="display:none">
+      <div class="form-group"><label>Kamu mau bergabung sebagai? *</label>
+        <div class="role-selector">
+          <label class="role-card selected" id="roleCardBuyer" onclick="selectRole('buyer',this)">
+            <input type="radio" name="userRole" value="buyer" checked/>
+            <div class="role-card-icon">🛍️</div>
+            <div class="role-card-title">Pembeli</div>
+            <div class="role-card-sub">Belanja produk pilihan dari berbagai penjual</div>
+          </label>
+          <label class="role-card" id="roleCardSeller" onclick="selectRole('seller',this)">
+            <input type="radio" name="userRole" value="seller"/>
+            <div class="role-card-icon">🏪</div>
+            <div class="role-card-title">Penjual</div>
+            <div class="role-card-sub">Upload & jual produkmu di marketplace ini</div>
+          </label>
+        </div>
+      </div>
       <div class="form-group"><label>Nama Lengkap *</label><input type="text" id="regName" placeholder="Nama kamu"/></div>
       <div class="form-group"><label>Email *</label><input type="email" id="regEmail" placeholder="email@example.com"/></div>
       <div class="form-group"><label>Nomor WhatsApp *</label><input type="tel" id="regWA" placeholder="08xxxxxxxxxx"/></div>
@@ -405,7 +505,7 @@
   </div>
 </div>
 
-<!-- ════ CHECKOUT MODAL ════ -->
+<!-- ════ CHECKOUT MODAL (TIDAK DIUBAH) ════ -->
 <div class="modal-overlay" id="checkoutModal">
   <div class="modal">
     <button class="modal-close" onclick="closeCheckout()">✕</button>
@@ -467,7 +567,7 @@
   </div>
 </div>
 
-<!-- ════ SELL MODAL ════ -->
+<!-- ════ SELL MODAL (TIDAK DIUBAH) ════ -->
 <div class="modal-overlay" id="sellModal">
   <div class="modal" style="max-width:580px">
     <button class="modal-close" onclick="closeSellModal()">✕</button>
@@ -533,13 +633,132 @@
         <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.6">Produk & bukti fee sudah dikirim ke admin. Akan muncul di marketplace setelah disetujui.</p>
         <div class="success-id-box"><span>Kode Listing</span><strong id="sListingId">#SELL-000000</strong></div>
         <p style="font-size:.78rem;color:var(--muted);margin-bottom:1.5rem">Estimasi review: <strong>1×24 jam kerja</strong>.</p>
-        <button class="btn-primary" onclick="closeSellModal()">Kembali ke Marketplace</button>
+        <button class="btn-primary" onclick="closeSellModal();loadMyProducts()">Kembali ke Dashboard</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ════ ADMIN PANEL ════ -->
+<!-- ════ DASHBOARD PENJUAL ════ -->
+<div class="dashboard-overlay" id="sellerDashboard">
+  <div class="dashboard-nav">
+    <div class="dashboard-nav-left">
+      <span class="dashboard-nav-brand">Dashboard Penjual</span>
+      <div class="dashboard-nav-tabs">
+        <button class="dash-tab active" onclick="switchDashTab('overview',this)">📊 Ringkasan</button>
+        <button class="dash-tab" onclick="switchDashTab('products',this)">📦 Produk Saya</button>
+        <button class="dash-tab" onclick="switchDashTab('orders',this)">🧾 Order Masuk</button>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:.75rem">
+      <button class="btn-sell" onclick="openSellModal()" style="font-size:.78rem;padding:.4rem .9rem">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Upload Produk
+      </button>
+      <button class="btn-dash-close" onclick="closeDashboard()">✕</button>
+    </div>
+  </div>
+  <div class="dashboard-body">
+    <!-- OVERVIEW -->
+    <div class="dashboard-section active" id="dashOverview">
+      <div class="dash-greeting">
+        <h2>Halo, <em id="dashSellerName" style="font-style:italic;color:var(--accent)">Penjual</em> 👋</h2>
+        <p>Berikut ringkasan aktivitas toko kamu.</p>
+      </div>
+      <div class="dash-stats">
+        <div class="stat-card accent">
+          <div class="stat-card-label">Total Produk</div>
+          <div class="stat-card-value" id="statTotalProducts">—</div>
+          <div class="stat-card-sub">Produk terdaftar</div>
+        </div>
+        <div class="stat-card success">
+          <div class="stat-card-label">Produk Aktif</div>
+          <div class="stat-card-value" id="statActiveProducts">—</div>
+          <div class="stat-card-sub">Sudah diapprove</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Pending Review</div>
+          <div class="stat-card-value" id="statPendingProducts">—</div>
+          <div class="stat-card-sub">Menunggu admin</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Order Masuk</div>
+          <div class="stat-card-value" id="statOrders">—</div>
+          <div class="stat-card-sub">Total pesanan</div>
+        </div>
+      </div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.5rem;margin-top:1rem">
+        <p style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem">Produk Terbaru</p>
+        <div id="dashRecentProducts" style="display:flex;flex-direction:column;gap:.6rem"></div>
+      </div>
+    </div>
+    <!-- PRODUK SAYA -->
+    <div class="dashboard-section" id="dashProducts">
+      <div class="dash-section-header">
+        <h3 class="dash-section-title">Produk <em style="font-style:italic;color:var(--accent)">Saya</em></h3>
+        <button class="btn-new-product" onclick="openSellModal()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Upload Baru
+        </button>
+      </div>
+      <div class="my-products-grid" id="myProductsGrid">
+        <div class="my-products-empty"><div>⏳</div><p>Memuat produk...</p></div>
+      </div>
+    </div>
+    <!-- ORDER MASUK -->
+    <div class="dashboard-section" id="dashOrders">
+      <div class="dash-section-header">
+        <h3 class="dash-section-title">Order <em style="font-style:italic;color:var(--accent)">Masuk</em></h3>
+        <span style="font-size:.75rem;color:var(--muted)" id="ordersLastUpdate">—</span>
+      </div>
+      <div class="orders-list" id="myOrdersList">
+        <div class="orders-empty"><div style="font-size:2rem;margin-bottom:.5rem">📭</div><p style="font-size:.85rem;color:var(--muted)">Belum ada order yang masuk.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ DASHBOARD PEMBELI ════ -->
+<div class="buyer-dashboard-overlay" id="buyerDashboard">
+  <div class="buyer-dash-nav">
+    <div style="display:flex;align-items:center;gap:.75rem">
+      <span style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;color:var(--dark)">Dashboard Pembeli</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:.65rem">
+      <button class="btn-cart" onclick="closeBuyerDashboard();openCart()" style="font-size:.78rem;padding:.4rem .85rem .4rem .7rem">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        Keranjang <span id="buyerDashCartBadge" style="background:var(--danger);color:#fff;font-size:.6rem;font-weight:700;padding:.05rem .35rem;border-radius:100px;display:none"></span>
+      </button>
+      <button class="btn-dash-close" onclick="closeBuyerDashboard()">✕</button>
+    </div>
+  </div>
+  <div class="buyer-dash-body">
+    <div class="buyer-greeting">
+      <h2>Halo, <em id="dashBuyerName" style="font-style:italic;color:var(--accent)">Pembeli</em> 🛍️</h2>
+      <p>Temukan produk favoritmu di bawah ini.</p>
+    </div>
+    <!-- Filter chips buyer dashboard -->
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;margin-bottom:1.5rem">
+      <div class="filter-chips" id="buyerFilterChips">
+        <button class="chip active" data-bfilter="all">Semua</button>
+        <button class="chip" data-bfilter="digital">Digital</button>
+        <button class="chip" data-bfilter="fisik">Fisik</button>
+        <button class="chip" data-bfilter="jasa">Jasa</button>
+      </div>
+      <select class="sort-select" id="buyerSortSelect" onchange="renderBuyerProducts()">
+        <option value="default">Urutkan: Default</option>
+        <option value="low">Harga: Termurah</option>
+        <option value="high">Harga: Termahal</option>
+        <option value="name">Nama A–Z</option>
+      </select>
+    </div>
+    <div class="buyer-products-grid" id="buyerProductsGrid">
+      <div class="empty-state"><div>⏳</div><p>Memuat produk...</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ ADMIN PANEL (TIDAK DIUBAH) ════ -->
 <div class="admin-panel" id="adminPanel">
   <div class="admin-header">
     <h2>🔐 Admin Panel — Marketplace Labib</h2>
@@ -554,14 +773,14 @@
     </button>
     <p class="admin-err" id="adminErr"></p>
   </div>
-<div class="admin-content" id="adminContent">
+  <div class="admin-content" id="adminContent">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem">
-        <p style="font-size:.75rem;color:#9a9289;letter-spacing:.1em">Logged in sebagai Admin</p>
-        <button onclick="doAdminLogout()" style="padding:.35rem 1rem;background:var(--danger);color:#fff;border:none;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.78rem;cursor:pointer">🚪 Logout</button>
+      <p style="font-size:.75rem;color:#9a9289;letter-spacing:.1em">Logged in sebagai Admin</p>
+      <button onclick="doAdminLogout()" style="padding:.35rem 1rem;background:var(--danger);color:#fff;border:none;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.78rem;cursor:pointer">🚪 Logout</button>
     </div>
     <p class="admin-section-label">Produk Menunggu Persetujuan</p>
     <div class="pending-list" id="pendingList"></div>
-</div>
+  </div>
 </div>
 
 <button class="admin-dot" onclick="openAdmin()" title="Admin Panel"></button>
@@ -575,22 +794,57 @@
 let products = [];
 let cart = [];
 let currentFilter = 'all';
+let buyerFilter = 'all';
 let cPayKey = 'bca', sPayKey = 'bca';
 let cProof = null, sProof = null;
 let pImgs = [null,null,null,null];
 let adminToken = sessionStorage.getItem('mkt_admin_token') || null;
+let selectedRole = 'buyer'; // default role pada register
 
 // ══ AUTH ══
 const getCurrentUser = () => { try { return JSON.parse(sessionStorage.getItem('mkt_cu')||'null'); } catch { return null; } };
 const setCurrentUser = u => sessionStorage.setItem('mkt_cu', JSON.stringify(u));
+const isSeller = () => { const u = getCurrentUser(); return u && u.role === 'seller'; };
+const isBuyer  = () => { const u = getCurrentUser(); return u && u.role === 'buyer'; };
+
+// ── Pilih role saat register ──
+function selectRole(role, el) {
+  selectedRole = role;
+  document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
 
 function renderNavAuth() {
   const u = getCurrentUser();
   const el = document.getElementById('navAuthArea');
+  const btnSell = document.getElementById('navBtnSell');
+  const btnDash = document.getElementById('navBtnDash');
+
   if (u) {
-    el.innerHTML = `<div class="nav-user" onclick="toggleDropdown()"><div class="nav-avatar">${u.name.charAt(0).toUpperCase()}</div><span style="max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${u.name.split(' ')[0]}</span></div>`;
+    const roleLabel = u.role === 'seller' ? 'Penjual' : 'Pembeli';
+    el.innerHTML = `<div class="nav-user" onclick="toggleDropdown()">
+      <div class="nav-avatar">${u.name.charAt(0).toUpperCase()}</div>
+      <span style="max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${u.name.split(' ')[0]}</span>
+      <span class="nav-role-badge ${u.role}">${roleLabel}</span>
+    </div>`;
     document.getElementById('ddName').textContent = u.name;
     document.getElementById('ddEmail').textContent = u.email;
+    const ddRole = document.getElementById('ddRole');
+    ddRole.textContent = u.role === 'seller' ? '🏪 Penjual' : '🛍️ Pembeli';
+    ddRole.className = 'user-dd-role ' + u.role;
+
+    // Tombol navbar sesuai role
+    if (u.role === 'seller') {
+      btnSell.style.display = 'flex';
+      btnDash.style.display = 'flex';
+      document.getElementById('ddSellItem').style.display = 'flex';
+    } else {
+      btnSell.style.display = 'none';
+      btnDash.style.display = 'flex';
+      document.getElementById('ddSellItem').style.display = 'none';
+    }
+
+    // Prefill form
     document.getElementById('sSellerName').value = u.name;
     document.getElementById('sSellerWA').value = u.wa || '';
     document.getElementById('buyerName').value = u.name;
@@ -598,6 +852,8 @@ function renderNavAuth() {
     document.getElementById('buyerEmail').value = u.email;
   } else {
     el.innerHTML = `<button class="btn-auth" onclick="openAuthModal('login')">Masuk</button><button class="btn-auth btn-auth-primary" onclick="openAuthModal('register')">Daftar</button>`;
+    btnSell.style.display = 'none';
+    btnDash.style.display = 'none';
   }
 }
 
@@ -627,7 +883,12 @@ async function doLogin() {
   try {
     const res = await api('/api/login-user', { email, pw: pass });
     if (!res.ok) { document.getElementById('loginErr').textContent='❌ '+(res.error||'Email atau password salah.'); }
-    else { setCurrentUser(res.user); closeAuthModal(); renderNavAuth(); toast('👋 Selamat datang, '+res.user.name.split(' ')[0]+'!','ok'); }
+    else {
+      setCurrentUser(res.user); closeAuthModal(); renderNavAuth();
+      toast('👋 Selamat datang, '+res.user.name.split(' ')[0]+'!','ok');
+      // Auto buka dashboard sesuai role
+      setTimeout(() => openDashboard(), 400);
+    }
   } catch { document.getElementById('loginErr').textContent='❌ Gagal terhubung ke server.'; }
   document.getElementById('loginBtnTxt').textContent='Masuk';
   document.getElementById('loginSpinner').style.display='none';
@@ -645,9 +906,17 @@ async function doRegister() {
   document.getElementById('regBtnTxt').textContent='Mendaftar...';
   document.getElementById('regSpinner').style.display='block';
   try {
-    const res = await api('/api/register', { name, email, wa, pw: pass });
+    // role dikirim bersama data registrasi
+    const res = await api('/api/register', { name, email, wa, pw: pass, role: selectedRole });
     if (!res.ok) { document.getElementById('regErr').textContent='❌ '+(res.error||'Gagal daftar.'); }
-    else { setCurrentUser(res.user); closeAuthModal(); renderNavAuth(); toast('🎉 Akun dibuat! Selamat datang, '+res.user.name.split(' ')[0]+'!','ok'); }
+    else {
+      // Pastikan user object punya role (fallback jika worker lama)
+      const user = res.user;
+      if (!user.role) user.role = selectedRole;
+      setCurrentUser(user); closeAuthModal(); renderNavAuth();
+      toast('🎉 Akun dibuat! Selamat datang, '+user.name.split(' ')[0]+'!','ok');
+      setTimeout(() => openDashboard(), 400);
+    }
   } catch { document.getElementById('regErr').textContent='❌ Gagal terhubung ke server.'; }
   document.getElementById('regBtnTxt').textContent='Buat Akun';
   document.getElementById('regSpinner').style.display='none';
@@ -655,13 +924,195 @@ async function doRegister() {
 
 function doLogout() {
   sessionStorage.removeItem('mkt_cu'); closeDropdown(); renderNavAuth();
+  closeDashboard(); closeBuyerDashboard();
   toast('👋 Sampai jumpa!','');
 }
 
 function guardSell() {
   if (!getCurrentUser()) { openAuthModal('login'); toast('❗ Login dulu untuk jual produk.','err'); return; }
+  if (!isSeller()) { toast('❗ Fitur ini hanya untuk akun Penjual.','err'); return; }
   openSellModal();
 }
+
+// ══ DASHBOARD ROUTING ══
+function openDashboard() {
+  const u = getCurrentUser();
+  if (!u) { openAuthModal('login'); return; }
+  if (u.role === 'seller') openSellerDashboard();
+  else openBuyerDashboard();
+}
+function closeDashboard() {
+  document.getElementById('sellerDashboard').classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeBuyerDashboard() {
+  document.getElementById('buyerDashboard').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// ── SELLER DASHBOARD ──
+function openSellerDashboard() {
+  const u = getCurrentUser();
+  document.getElementById('dashSellerName').textContent = u.name.split(' ')[0];
+  document.getElementById('sellerDashboard').classList.add('open');
+  document.body.style.overflow='hidden';
+  switchDashTab('overview', document.querySelector('.dash-tab'));
+  loadMyProducts();
+  loadMyOrders();
+}
+function switchDashTab(tab, btn) {
+  document.querySelectorAll('.dashboard-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.dash-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('dash'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
+  if(btn) btn.classList.add('active');
+}
+
+async function loadMyProducts() {
+  const u = getCurrentUser(); if(!u) return;
+  const grid = document.getElementById('myProductsGrid');
+  grid.innerHTML = '<div class="my-products-empty"><div>⏳</div><p>Memuat...</p></div>';
+  try {
+    // ambil semua produk lalu filter berdasarkan nama seller
+    const d = await api('/api/products');
+    const all = d.list || [];
+    const mine = all.filter(p => p.seller === u.name || p.sellerWA === u.wa);
+
+    // juga coba ambil dari pending
+    let pending = [];
+    try {
+      const pd = await api('/api/my-products', { sellerName: u.name, sellerWA: u.wa });
+      if (pd.ok) pending = pd.list || [];
+    } catch{}
+
+    const total = mine.length + pending.length;
+    const active = mine.length;
+    const pend = pending.length;
+
+    document.getElementById('statTotalProducts').textContent = total;
+    document.getElementById('statActiveProducts').textContent = active;
+    document.getElementById('statPendingProducts').textContent = pend;
+
+    // recent 3 untuk overview
+    const recent = [...mine].slice(0,3);
+    const rEl = document.getElementById('dashRecentProducts');
+    rEl.innerHTML = recent.length ? recent.map(p=>`
+      <div style="display:flex;align-items:center;gap:.75rem;padding:.5rem 0;border-bottom:1px solid var(--border)">
+        <img src="${Array.isArray(p.imgs)&&p.imgs[0]?p.imgs[0]:p.img||''}" style="width:40px;height:40px;border-radius:8px;object-fit:cover;flex-shrink:0" onerror="this.style.opacity='.2'"/>
+        <div style="flex:1;min-width:0"><div style="font-size:.84rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div><div style="font-size:.72rem;color:var(--accent);font-weight:600">${fmt(p.price)}</div></div>
+        <span class="my-product-status approved">✓ Aktif</span>
+      </div>`).join('') : '<p style="font-size:.82rem;color:var(--muted)">Belum ada produk aktif.</p>';
+
+    if (!mine.length && !pending.length) {
+      grid.innerHTML=`<div class="my-products-empty" style="grid-column:1/-1"><div>📦</div><p>Belum ada produk. <a onclick="openSellModal()" style="color:var(--accent);cursor:pointer;font-weight:600">Upload sekarang →</a></p></div>`;
+      return;
+    }
+    grid.innerHTML = [
+      ...mine.map(p=>`<div class="my-product-card">
+        <img class="my-product-img" src="${Array.isArray(p.imgs)&&p.imgs[0]?p.imgs[0]:p.img||''}" onerror="this.style.opacity='.2'" alt="${p.name}"/>
+        <div class="my-product-info">
+          <div class="my-product-name">${p.name}</div>
+          <div class="my-product-price">${fmt(p.price)}</div>
+          <span class="my-product-status approved">✓ Aktif</span>
+        </div></div>`),
+      ...pending.map(p=>`<div class="my-product-card">
+        <div style="width:100%;aspect-ratio:1/1;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:2rem">📦</div>
+        <div class="my-product-info">
+          <div class="my-product-name">${p.name||'Produk baru'}</div>
+          <div class="my-product-price">${p.price?fmt(p.price):'—'}</div>
+          <span class="my-product-status pending">⏳ Pending Review</span>
+        </div></div>`),
+    ].join('');
+  } catch {
+    grid.innerHTML='<div class="my-products-empty" style="grid-column:1/-1"><div>❌</div><p>Gagal memuat produk.</p></div>';
+  }
+}
+
+async function loadMyOrders() {
+  const u = getCurrentUser(); if(!u) return;
+  const list = document.getElementById('myOrdersList');
+  document.getElementById('ordersLastUpdate').textContent = 'Update: '+new Date().toLocaleTimeString('id-ID');
+  try {
+    const d = await api('/api/my-orders', { sellerName: u.name, sellerWA: u.wa });
+    const orders = d.ok ? (d.list||[]) : [];
+    document.getElementById('statOrders').textContent = orders.length;
+    if (!orders.length) {
+      list.innerHTML='<div class="orders-empty"><div style="font-size:2rem;margin-bottom:.5rem">📭</div><p style="font-size:.85rem;color:var(--muted)">Belum ada order yang masuk.</p></div>';
+      return;
+    }
+    list.innerHTML = orders.map(o=>`<div class="order-card">
+      <div class="order-card-left">
+        <div class="order-card-id">${o.orderId||'#—'}</div>
+        <div class="order-card-buyer">${o.buyerName||'—'}</div>
+        <div class="order-card-items">${(o.items||[]).map(i=>i.name+' ×'+i.qty).join(', ')}</div>
+        <div class="order-card-meta">📱 ${o.buyerWA||'—'} · 💳 ${o.payMethod||'—'}</div>
+      </div>
+      <div class="order-card-right">
+        <div class="order-card-total">${fmt(o.total||0)}</div>
+        <span class="order-status new">🆕 Baru</span>
+      </div>
+    </div>`).join('');
+  } catch {
+    list.innerHTML='<div class="orders-empty"><p style="font-size:.82rem;color:var(--muted)">Belum ada data order.</p></div>';
+    document.getElementById('statOrders').textContent = '0';
+  }
+}
+
+// ── BUYER DASHBOARD ──
+function openBuyerDashboard() {
+  const u = getCurrentUser();
+  document.getElementById('dashBuyerName').textContent = u.name.split(' ')[0];
+  document.getElementById('buyerDashboard').classList.add('open');
+  document.body.style.overflow='hidden';
+  renderBuyerProducts();
+  updateBuyerCartBadge();
+}
+function updateBuyerCartBadge() {
+  const n = cart.reduce((s,c)=>s+c.qty,0);
+  const b = document.getElementById('buyerDashCartBadge');
+  b.style.display = n>0?'inline':'none'; b.textContent=n;
+}
+
+function renderBuyerProducts() {
+  const grid = document.getElementById('buyerProductsGrid');
+  const sort = document.getElementById('buyerSortSelect').value;
+  let list = buyerFilter==='all' ? [...products] : products.filter(p=>p.category===buyerFilter);
+  if(sort==='low')  list.sort((a,b)=>a.price-b.price);
+  if(sort==='high') list.sort((a,b)=>b.price-a.price);
+  if(sort==='name') list.sort((a,b)=>a.name.localeCompare(b.name));
+  if(!list.length){grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div>📦</div><p>Belum ada produk tersedia.</p></div>';return;}
+  grid.innerHTML = list.map(p=>{
+    const inCart=cart.some(c=>c.id===p.id);
+    const imgs=Array.isArray(p.imgs)&&p.imgs.length?p.imgs:[p.img||'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=400&q=80'];
+    return `<div class="product-card">
+      <div class="product-img-wrap">
+        <img src="${imgs[0]}" alt="${p.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=400&q=80'"/>
+        ${p.badge?`<span class="product-badge${p.badge==='Sale'?' sale':''}">${p.badge}</span>`:''}
+      </div>
+      <div class="product-info">
+        <p class="product-category">${p.category}</p>
+        <h3 class="product-name">${p.name}</h3>
+        <p class="product-desc">${p.desc}</p>
+        <div class="product-footer">
+          <div><span class="product-price">${fmt(p.price)}</span>${p.oldPrice?`<span class="product-price-old">${fmt(p.oldPrice)}</span>`:''}</div>
+          <button class="btn-add-cart${inCart?' added':''}" onclick="addToCartFromDash(${p.id},this)">${inCart?'✓ Ditambah':'+ Keranjang'}</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function addToCartFromDash(id, btn) {
+  addToCart(id, btn);
+  updateBuyerCartBadge();
+}
+
+// filter chips di buyer dashboard
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-bfilter]').forEach(c => c.addEventListener('click', () => {
+    document.querySelectorAll('[data-bfilter]').forEach(x=>x.classList.remove('active'));
+    c.classList.add('active'); buyerFilter=c.dataset.bfilter; renderBuyerProducts();
+  }));
+});
 
 // ══ UTILS ══
 const fmt = n => 'Rp '+Number(n).toLocaleString('id-ID');
@@ -969,7 +1420,11 @@ if(localStorage.getItem('mkt-theme')==='dark'){document.body.classList.add('dark
 document.addEventListener('click',e=>{const dd=document.getElementById('userDropdown');if(!dd.contains(e.target)&&!e.target.closest('.nav-user'))closeDropdown();});
 document.addEventListener('keydown',e=>{
   if(e.ctrlKey&&e.shiftKey&&e.key==='A'){e.preventDefault();openAdmin();}
-  if(e.key==='Escape'){['adminPanel','checkoutModal','sellModal','authModal'].forEach(id=>document.getElementById(id).classList.remove('open'));closeDropdown();document.body.style.overflow='';}
+  if(e.key==='Escape'){
+    ['adminPanel','checkoutModal','sellModal','authModal'].forEach(id=>document.getElementById(id).classList.remove('open'));
+    closeDashboard(); closeBuyerDashboard();
+    closeDropdown(); document.body.style.overflow='';
+  }
 });
 
 // ══ INIT ══
