@@ -1058,46 +1058,30 @@ async function doRegister() {
   const wa = document.getElementById('regWA').value.trim();
   const pass = document.getElementById('regPassword').value;
   const pass2 = document.getElementById('regPassword2').value;
-
-  if (!name || !email || !wa || !pass) {
-    document.getElementById('regErr').textContent = '❗ Semua field wajib diisi.';
-    return;
-  }
-  if (pass.length < 6) {
-    document.getElementById('regErr').textContent = '❗ Password min. 6 karakter.';
-    return;
-  }
-  if (pass !== pass2) {
-    document.getElementById('regErr').textContent = '❗ Password tidak cocok.';
-    return;
-  }
-
+  if(!name||!email||!wa||!pass) { document.getElementById('regErr').textContent='❗ Semua field wajib diisi.'; return; }
+  if(pass.length<6) { document.getElementById('regErr').textContent='❗ Password min. 6 karakter.'; return; }
+  if(pass!==pass2) { document.getElementById('regErr').textContent='❗ Password tidak cocok.'; return; }
   const btn = document.getElementById('regSubmitBtn');
   const txt = document.getElementById('regBtnTxt');
   const spin = document.getElementById('regSpinner');
-  const errEl = document.getElementById('regErr');
-
-  btn.disabled = true;
-  txt.textContent = 'Memeriksa email...';
-  spin.style.display = 'block';
-  errEl.textContent = ''; // clear error sebelum mulai
-
-  // Step 1: Cek email sudah terdaftar atau belum
-  let emailExists = false;
+  btn.disabled=true; txt.textContent='Memeriksa email...'; spin.style.display='block';
+  // Check if email already exists
   try {
     const chk = await api('/api/check-email', { email });
     if (chk && chk.exists) {
-      errEl.textContent = '❗ Email ini sudah terdaftar. Silakan masuk atau gunakan email lain.';
-      resetButton();
+      document.getElementById('regErr').textContent = '❗ Email ini sudah terdaftar. Silakan masuk atau gunakan email lain.';
+      btn.disabled=false; txt.textContent='Kirim Kode OTP →'; spin.style.display='none';
       return;
     }
-  } catch (e) {
-    console.warn('Gagal cek email exists:', e);
-    // Lanjut saja kalau gagal cek (jangan blokir user)
-  }
-
-  txt.textContent = 'Mengirim OTP...';
-
+} catch(e) {
+  console.error('reCAPTCHA / EmailJS error detail:', e);
+  console.log('Error name:', e.name);
+  console.log('Error message:', e.message);
+  console.log('Error stack:', e.stack);
+  const detail = e?.message || 'Timeout atau network error';
+  document.getElementById('regErr').textContent = '❌ Gagal kirim OTP: ' + detail;
+}
+  txt.textContent='Mengirim OTP...';
 
   
   // Step 2: Generate OTP + Kirim via EmailJS + reCAPTCHA
