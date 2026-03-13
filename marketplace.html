@@ -1025,7 +1025,21 @@ async function doRegister() {
   const btn  = document.getElementById('regSubmitBtn');
   const txt  = document.getElementById('regBtnTxt');
   const spin = document.getElementById('regSpinner');
-  btn.disabled=true; txt.textContent='Mengirim OTP...'; spin.style.display='block';
+  btn.disabled=true; txt.textContent='Memeriksa email...'; spin.style.display='block';
+
+  // Check if email already exists
+  try {
+    const chk = await api('/api/check-email', { email });
+    if (chk && chk.exists) {
+      document.getElementById('regErr').textContent = '❗ Email ini sudah terdaftar. Silakan masuk atau gunakan email lain.';
+      btn.disabled=false; txt.textContent='Kirim Kode OTP →'; spin.style.display='none';
+      return;
+    }
+  } catch(e) {
+    // If endpoint not available, skip check and proceed
+  }
+
+  txt.textContent='Mengirim OTP...';
 
   // generate OTP
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
