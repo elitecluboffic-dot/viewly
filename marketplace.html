@@ -619,17 +619,23 @@ function switchAuthTab(tab) {
   document.getElementById('tabRegister').classList.toggle('active', tab==='register');
 }
 
-function doLogin() {
+async function doLogin() {
   const email = document.getElementById('loginEmail').value.trim();
   const pass  = document.getElementById('loginPassword').value;
   if (!email||!pass) { document.getElementById('loginErr').textContent='❗ Email & password wajib diisi.'; return; }
-  const u = getUsers().find(x => x.email.toLowerCase()===email.toLowerCase() && x.pw===btoa(pass));
-  if (!u) { document.getElementById('loginErr').textContent='❌ Email atau password salah.'; return; }
-  setCurrentUser(u); closeAuthModal(); renderNavAuth();
-  toast('👋 Selamat datang, '+u.name.split(' ')[0]+'!','ok');
+  document.getElementById('loginBtnTxt').textContent='Memeriksa...';
+  document.getElementById('loginSpinner').style.display='block';
+  try {
+    const res = await api('/api/login-user', { email, pw: pass });
+    if (!res.ok) { document.getElementById('loginErr').textContent='❌ '+(res.error||'Email atau password salah.'); return; }
+    setCurrentUser(res.user); closeAuthModal(); renderNavAuth();
+    toast('👋 Selamat datang, '+res.user.name.split(' ')[0]+'!','ok');
+  } catch { document.getElementById('loginErr').textContent='❌ Gagal terhubung ke server.'; }
+  document.getElementById('loginBtnTxt').textContent='Masuk';
+  document.getElementById('loginSpinner').style.display='none';
 }
 
-function doRegister() {
+async function doRegister() {
   const name=document.getElementById('regName').value.trim();
   const email=document.getElementById('regEmail').value.trim();
   const wa=document.getElementById('regWA').value.trim();
@@ -638,21 +644,16 @@ function doRegister() {
   if (!name||!email||!wa||!pass) { document.getElementById('regErr').textContent='❗ Semua field wajib diisi.'; return; }
   if (pass.length<6) { document.getElementById('regErr').textContent='❗ Password min. 6 karakter.'; return; }
   if (pass!==pass2)  { document.getElementById('regErr').textContent='❗ Password tidak cocok.'; return; }
-  const users = getUsers();
-  if (users.find(x=>x.email.toLowerCase()===email.toLowerCase())) { document.getElementById('regErr').textContent='❌ Email sudah terdaftar.'; return; }
   document.getElementById('regBtnTxt').textContent='Mendaftar...';
   document.getElementById('regSpinner').style.display='block';
-  const nu = { id:Date.now(), name, email, wa, pw:btoa(pass), createdAt:new Date().toISOString() };
-  users.push(nu); saveUsers(users); setCurrentUser(nu);
-  // Email notif registrasi — silent fail
-  emailjs.send(EJ_SVC, EJ_TPL_REG, {
-    to_email:ADMIN_EMAIL, user_name:name, user_email:email, user_wa:wa,
-    reg_time:new Date().toLocaleString('id-ID')
-  }).catch(()=>{});
+  try {
+    const res = await api('/api/register', { name, email, wa, pw: pass });
+    if (!res.ok) { document.getElementById('regErr').textContent='❌ '+(res.error||'Gagal daftar.'); return; }
+    setCurrentUser(res.user); closeAuthModal(); renderNavAuth();
+    toast('🎉 Akun dibuat! Selamat datang, '+res.user.name.split(' ')[0]+'!','ok');
+  } catch { document.getElementById('regErr').textContent='❌ Gagal terhubung ke server.'; }
   document.getElementById('regBtnTxt').textContent='Buat Akun';
   document.getElementById('regSpinner').style.display='none';
-  closeAuthModal(); renderNavAuth();
-  toast('🎉 Akun dibuat! Selamat datang, '+name.split(' ')[0]+'!','ok');
 }
 
 function doLogout() {
