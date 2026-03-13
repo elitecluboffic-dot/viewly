@@ -404,7 +404,7 @@
   const EJ_SVC      = 'service_7nw21xn';
   const EJ_TPL_ORDER= 'template_dpljy7v';
   const EJ_TPL_SELL = 'template_dpljy7v';
-  const EJ_TPL_REG  = 'template_81z20ih';
+  const EJ_TPL_REG  = 'template_tcbdcnr';
   const ADMIN_EMAIL = 'bustanullabib@gmail.com';
   const PAY = {
     bca:     { name:'BCA',     icon:'🏦', no:'1234567890',    an:'Bustanul Labib Alwasi' },
@@ -1046,12 +1046,12 @@ async function doRegister() {
 
   try {
     // Send OTP via EmailJS using EJ_TPL_REG
+    const expiry = new Date(Date.now() + 2*60*1000).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
     const ejRes = await emailjs.send(EJ_SVC, EJ_TPL_REG, {
       to_email  : email,
       user_name : name,
-      otp_code  : otp,
-      subject   : 'Kode OTP Daftar Marketplace Labib',
-      message   : `Kode OTP kamu adalah: ${otp}\n\nBerlaku 2 menit. Jangan bagikan ke siapapun.`,
+      passcode  : otp,
+      time      : expiry,
     });
     console.log('EmailJS response:', ejRes);
 
@@ -1140,12 +1140,12 @@ async function resendOTP() {
   const btn = document.getElementById('resendOTPBtn');
   btn.textContent='⏳ Mengirim...'; btn.disabled=true;
   try {
+    const expiryNew = new Date(Date.now() + 2*60*1000).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
     await emailjs.send(EJ_SVC, EJ_TPL_REG, {
       to_email  : pendingRegData.email,
       user_name : pendingRegData.name,
-      otp_code  : newOTP,
-      subject   : 'Kode OTP Baru — Marketplace Labib',
-      message   : `Kode OTP baru kamu adalah: ${newOTP}\n\nBerlaku 2 menit.`,
+      passcode  : newOTP,
+      time      : expiryNew,
     });
     pendingOTP = newOTP;
     document.getElementById('otpInput').value='';
