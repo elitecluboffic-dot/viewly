@@ -402,7 +402,7 @@
 <script>
   const WORKER_URL = 'https://worker.internetdnsofficial.workers.dev';
   const EJ_PUBLIC   = '7XUXjtF-ko_D5cz5_';
-  const RECAPTCHA_SITE_KEY = '6Le6gIksAAAAAFPa4vD9rAqGq_aZHsb2XCjeify4'; // Account → reCAPTCHA → Site Key
+  const RC_SITE_KEY  = '6Le6glksAAAAIEaM4L8m5QUSKa4XZ4No5DYQu7h';
   const EJ_SVC      = 'service_7nw21xn';
   const EJ_TPL_ORDER= 'template_dpljy7v';
   const EJ_TPL_SELL = 'template_dpljy7v';
@@ -899,19 +899,24 @@
 (function(){ emailjs.init(EJ_PUBLIC); })();
 
 // ── reCAPTCHA HELPER ──
-let _recaptchaWidgetId = null;
-function ensureRecaptcha() {
-  return new Promise((resolve) => {
+let _rcWidgetId = null;
+let _rcResolve  = null;
+
+window._onRcDone = function(token) {
+  if (_rcResolve) { _rcResolve(token); _rcResolve = null; }
+};
+
+function _ensureRc() {
+  return new Promise(resolve => {
     const wait = () => {
       if (typeof grecaptcha === 'undefined' || typeof grecaptcha.render === 'undefined') {
-        setTimeout(wait, 200);
-        return;
+        setTimeout(wait, 200); return;
       }
-      if (_recaptchaWidgetId === null) {
-        _recaptchaWidgetId = grecaptcha.render('recaptcha-container', {
-          sitekey: RECAPTCHA_SITE_KEY,
-          size: 'invisible',
-          callback: () => {},
+      if (_rcWidgetId === null) {
+        _rcWidgetId = grecaptcha.render('recaptcha-container', {
+          sitekey  : RC_SITE_KEY,
+          size     : 'invisible',
+          callback : '_onRcDone',
         });
       }
       resolve();
@@ -920,23 +925,17 @@ function ensureRecaptcha() {
   });
 }
 
-async function getRecaptchaToken() {
-  await ensureRecaptcha();
-  grecaptcha.reset(_recaptchaWidgetId);
+async function getRcToken() {
+  await _ensureRc();
+  grecaptcha.reset(_rcWidgetId);
   return new Promise((resolve, reject) => {
-    grecaptcha.execute(_recaptchaWidgetId);
-    // Poll until token is ready (invisible recaptcha is near-instant)
-    const poll = setInterval(() => {
-      const token = grecaptcha.getResponse(_recaptchaWidgetId);
-      if (token) {
-        clearInterval(poll);
-        resolve(token);
-      }
-    }, 100);
-    // Timeout after 10s
-    setTimeout(() => { clearInterval(poll); reject(new Error('reCAPTCHA timeout')); }, 10000);
+    _rcResolve = resolve;
+    setTimeout(() => { _rcResolve = null; reject(new Error('reCAPTCHA timeout')); }, 15000);
+    grecaptcha.execute(_rcWidgetId);
   });
 }
+
+
 
 // ── STATE ──
 let products = [];
@@ -1090,13 +1089,13 @@ async function doRegister() {
   try {
     // Send OTP via EmailJS using EJ_TPL_REG
     const expiry = new Date(Date.now() + 2*60*1000).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    const rcToken = await getRecaptchaToken();
+    const rcToken = await getRcToken();
     const ejRes = await emailjs.send(EJ_SVC, EJ_TPL_REG, {
-      email                : email,
-      user_name            : name,
-      passcode             : otp,
-      time                 : expiry,
-      'g-recaptcha-response': rcToken,
+      email                  : email,
+      user_name              : name,
+      passcode               : otp,
+      time                   : expiry,
+      'g-recaptcha-response' : rcToken,
     });
     console.log('EmailJS response:', ejRes);
 
@@ -1186,13 +1185,13 @@ async function resendOTP() {
   btn.textContent='⏳ Mengirim...'; btn.disabled=true;
   try {
     const expiryNew = new Date(Date.now() + 2*60*1000).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    const rcTokenNew = await getRecaptchaToken();
+    const rcToken2 = await getRcToken();
     await emailjs.send(EJ_SVC, EJ_TPL_REG, {
-      email                : pendingRegData.email,
-      user_name            : pendingRegData.name,
-      passcode             : newOTP,
-      time                 : expiryNew,
-      'g-recaptcha-response': rcTokenNew,
+      email                  : pendingRegData.email,
+      user_name              : pendingRegData.name,
+      passcode               : newOTP,
+      time                   : expiryNew,
+      'g-recaptcha-response' : rcToken2,
     });
     pendingOTP = newOTP;
     document.getElementById('otpInput').value='';
