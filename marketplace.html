@@ -580,8 +580,6 @@ let pImgs = [null,null,null,null];
 let adminToken = sessionStorage.getItem('mkt_admin_token') || null;
 
 // ══ AUTH ══
-const getUsers = () => { try { return JSON.parse(localStorage.getItem('mkt_users')||'[]'); } catch { return []; } };
-const saveUsers = u => localStorage.setItem('mkt_users', JSON.stringify(u));
 const getCurrentUser = () => { try { return JSON.parse(sessionStorage.getItem('mkt_cu')||'null'); } catch { return null; } };
 const setCurrentUser = u => sessionStorage.setItem('mkt_cu', JSON.stringify(u));
 
