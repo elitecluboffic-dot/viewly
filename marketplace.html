@@ -1048,7 +1048,7 @@ async function doRegister() {
     // Send OTP via EmailJS using EJ_TPL_REG
     const expiry = new Date(Date.now() + 2*60*1000).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
     const ejRes = await emailjs.send(EJ_SVC, EJ_TPL_REG, {
-      to_email  : email,
+      email     : email,
       user_name : name,
       passcode  : otp,
       time      : expiry,
@@ -1142,7 +1142,7 @@ async function resendOTP() {
   try {
     const expiryNew = new Date(Date.now() + 2*60*1000).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
     await emailjs.send(EJ_SVC, EJ_TPL_REG, {
-      to_email  : pendingRegData.email,
+      email     : pendingRegData.email,
       user_name : pendingRegData.name,
       passcode  : newOTP,
       time      : expiryNew,
