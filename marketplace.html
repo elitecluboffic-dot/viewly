@@ -930,7 +930,7 @@ async function getRcToken() {
   grecaptcha.reset(_rcWidgetId);
   return new Promise((resolve, reject) => {
     _rcResolve = resolve;
-    setTimeout(() => { _rcResolve = null; reject(new Error('reCAPTCHA timeout')); }, 15000);
+    setTimeout(() => { _rcResolve = null; reject(new Error('reCAPTCHA timeout (45s)')); }, 45000);
     grecaptcha.execute(_rcWidgetId);
   });
 }
@@ -1052,37 +1052,111 @@ async function doLogin() {
 }
 
 // ── OTP REGISTER FLOW ──
-
 async function doRegister() {
-  const name    = document.getElementById('regName').value.trim();
-  const email   = document.getElementById('regEmail').value.trim();
-  const wa      = document.getElementById('regWA').value.trim();
-  const pass    = document.getElementById('regPassword').value;
-  const pass2   = document.getElementById('regPassword2').value;
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const wa = document.getElementById('regWA').value.trim();
+  const pass = document.getElementById('regPassword').value;
+  const pass2 = document.getElementById('regPassword2').value;
 
-  if(!name||!email||!wa||!pass) { document.getElementById('regErr').textContent='❗ Semua field wajib diisi.'; return; }
-  if(pass.length<6)             { document.getElementById('regErr').textContent='❗ Password min. 6 karakter.'; return; }
-  if(pass!==pass2)              { document.getElementById('regErr').textContent='❗ Password tidak cocok.'; return; }
+  if (!name || !email || !wa || !pass) {
+    document.getElementById('regErr').textContent = '❗ Semua field wajib diisi.';
+    return;
+  }
+  if (pass.length < 6) {
+    document.getElementById('regErr').textContent = '❗ Password min. 6 karakter.';
+    return;
+  }
+  if (pass !== pass2) {
+    document.getElementById('regErr').textContent = '❗ Password tidak cocok.';
+    return;
+  }
 
-  const btn  = document.getElementById('regSubmitBtn');
-  const txt  = document.getElementById('regBtnTxt');
+  const btn = document.getElementById('regSubmitBtn');
+  const txt = document.getElementById('regBtnTxt');
   const spin = document.getElementById('regSpinner');
-  btn.disabled=true; txt.textContent='Memeriksa email...'; spin.style.display='block';
+  const errEl = document.getElementById('regErr');
 
-  // Check if email already exists
+  btn.disabled = true;
+  txt.textContent = 'Memeriksa email...';
+  spin.style.display = 'block';
+  errEl.textContent = ''; // clear error sebelum mulai
+
+  // Step 1: Cek email sudah terdaftar atau belum
+  let emailExists = false;
   try {
     const chk = await api('/api/check-email', { email });
     if (chk && chk.exists) {
-      document.getElementById('regErr').textContent = '❗ Email ini sudah terdaftar. Silakan masuk atau gunakan email lain.';
-      btn.disabled=false; txt.textContent='Kirim Kode OTP →'; spin.style.display='none';
+      errEl.textContent = '❗ Email ini sudah terdaftar. Silakan masuk atau gunakan email lain.';
+      resetButton();
       return;
     }
-  } catch(e) {
-    // If endpoint not available, skip check and proceed
+  } catch (e) {
+    console.warn('Gagal cek email exists:', e);
+    // Lanjut saja kalau gagal cek (jangan blokir user)
   }
 
-  txt.textContent='Mengirim OTP...';
+  txt.textContent = 'Mengirim OTP...';
 
+
+  
+  // Step 2: Generate OTP + Kirim via EmailJS + reCAPTCHA
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  try {
+    const expiry = new Date(Date.now() + 2 * 60 * 1000).toLocaleTimeString('id-ID', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+
+    // Ini bagian reCAPTCHA (hanya di register)
+    const rcToken = await getRcToken();  // ← captcha dipanggil di sini saja
+
+    const ejRes = await emailjs.send(EJ_SVC, EJ_TPL_REG, {
+      email: email,
+      user_name: name,
+      passcode: otp,
+      time: expiry,
+      'g-recaptcha-response': rcToken,
+    });
+
+    console.log('EmailJS sukses:', ejRes);
+
+    // Simpan state OTP
+    pendingOTP = otp;
+    pendingRegData = { name, email, wa, pass, role: selectedRole };
+
+    // Tampilkan form OTP
+    showOTPForm(email);
+    toast('📧 Kode OTP dikirim ke ' + email, 'ok');
+
+  } catch (e) {
+    console.error('Gagal kirim OTP (reCAPTCHA / EmailJS):', e);
+    console.log('Error name:', e.name);
+    console.log('Error message:', e.message);
+    console.log('Error stack:', e.stack || e);
+
+    let errorMsg = 'Gagal kirim OTP. Coba lagi.';
+    if (e.message.includes('timeout')) {
+      errorMsg = 'reCAPTCHA timeout. Coba refresh halaman atau matikan adblock/VPN.';
+    } else if (e.message.includes('network') || e.name === 'TypeError') {
+      errorMsg = 'Koneksi bermasalah. Periksa internet kamu.';
+    } else if (e.text) {
+      errorMsg = e.text; // kalau EmailJS kasih pesan spesifik
+    }
+
+    errEl.textContent = '❌ ' + errorMsg;
+  }
+
+  // Reset button apapun hasilnya
+  function resetButton() {
+    btn.disabled = false;
+    txt.textContent = 'Kirim Kode OTP →';
+    spin.style.display = 'none';
+  }
+  resetButton();
+}
+  
   // generate OTP
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
