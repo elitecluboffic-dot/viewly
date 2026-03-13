@@ -1046,14 +1046,14 @@ async function doRegister() {
 
   try {
     // Send OTP via EmailJS using EJ_TPL_REG
-    await emailjs.send(EJ_SVC, EJ_TPL_REG, {
+    const ejRes = await emailjs.send(EJ_SVC, EJ_TPL_REG, {
       to_email  : email,
       user_name : name,
       otp_code  : otp,
-      // fallback fields that might exist in other templates:
       subject   : 'Kode OTP Daftar Marketplace Labib',
       message   : `Kode OTP kamu adalah: ${otp}\n\nBerlaku 2 menit. Jangan bagikan ke siapapun.`,
     });
+    console.log('EmailJS response:', ejRes);
 
     // Save state
     pendingOTP = otp;
@@ -1063,7 +1063,10 @@ async function doRegister() {
     showOTPForm(email);
     toast('📧 Kode OTP dikirim ke '+email, 'ok');
   } catch(e) {
-    document.getElementById('regErr').textContent = '❌ Gagal mengirim OTP. Periksa email kamu.';
+    console.error('EmailJS error:', e);
+    // Tampilkan detail error untuk membantu debug
+    const detail = e?.text || e?.message || JSON.stringify(e) || 'Unknown error';
+    document.getElementById('regErr').textContent = '❌ Gagal kirim OTP: ' + detail;
   }
 
   btn.disabled=false; txt.textContent='Kirim Kode OTP →'; spin.style.display='none';
