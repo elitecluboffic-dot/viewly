@@ -627,9 +627,8 @@ async function doLogin() {
   document.getElementById('loginSpinner').style.display='block';
   try {
     const res = await api('/api/login-user', { email, pw: pass });
-    if (!res.ok) { document.getElementById('loginErr').textContent='❌ '+(res.error||'Email atau password salah.'); return; }
-    setCurrentUser(res.user); closeAuthModal(); renderNavAuth();
-    toast('👋 Selamat datang, '+res.user.name.split(' ')[0]+'!','ok');
+    if (!res.ok) { document.getElementById('loginErr').textContent='❌ '+(res.error||'Email atau password salah.'); }
+    else { setCurrentUser(res.user); closeAuthModal(); renderNavAuth(); toast('👋 Selamat datang, '+res.user.name.split(' ')[0]+'!','ok'); }
   } catch { document.getElementById('loginErr').textContent='❌ Gagal terhubung ke server.'; }
   document.getElementById('loginBtnTxt').textContent='Masuk';
   document.getElementById('loginSpinner').style.display='none';
@@ -648,9 +647,8 @@ async function doRegister() {
   document.getElementById('regSpinner').style.display='block';
   try {
     const res = await api('/api/register', { name, email, wa, pw: pass });
-    if (!res.ok) { document.getElementById('regErr').textContent='❌ '+(res.error||'Gagal daftar.'); return; }
-    setCurrentUser(res.user); closeAuthModal(); renderNavAuth();
-    toast('🎉 Akun dibuat! Selamat datang, '+res.user.name.split(' ')[0]+'!','ok');
+    if (!res.ok) { document.getElementById('regErr').textContent='❌ '+(res.error||'Gagal daftar.'); }
+    else { setCurrentUser(res.user); closeAuthModal(); renderNavAuth(); toast('🎉 Akun dibuat! Selamat datang, '+res.user.name.split(' ')[0]+'!','ok'); }
   } catch { document.getElementById('regErr').textContent='❌ Gagal terhubung ke server.'; }
   document.getElementById('regBtnTxt').textContent='Buat Akun';
   document.getElementById('regSpinner').style.display='none';
