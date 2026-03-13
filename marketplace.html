@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="https://i.ibb.co.com/hxnN4YwR/file-00000000f3b8720890e1c02108057a6c.png" />
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{--cream:#f5f0e8;--dark:#1a1714;--muted:#7a7269;--accent:#c8a96e;--white:#fdfcfa;--success:#4caf7d;--danger:#e05252;--card-bg:#fdfcfa;--border:rgba(26,23,20,0.1);--shadow:0 4px 24px rgba(26,23,20,0.08);--verified:#1d9bf0}
@@ -401,11 +402,12 @@
 <script>
   const WORKER_URL = 'https://worker.internetdnsofficial.workers.dev';
   const EJ_PUBLIC   = '7XUXjtF-ko_D5cz5_';
+  const RECAPTCHA_SITE_KEY = '6LfTQIgsAAAAAL3W0NP9NPl4QVYZ7BNwu8m2_xeO'; // Account → reCAPTCHA → Site Key
   const EJ_SVC      = 'service_7nw21xn';
   const EJ_TPL_ORDER= 'template_dpljy7v';
   const EJ_TPL_SELL = 'template_dpljy7v';
   const EJ_TPL_REG  = 'template_tcbdcnr';
-  const ADMIN_EMAIL = 'bustanullabib@gmail.com';
+  const ADMIN_EMAIL = 'elitecluboffic@gmail.com';
   const PAY = {
     bca:     { name:'BCA',     icon:'🏦', no:'1234567890',    an:'Bustanul Labib Alwasi' },
     mandiri: { name:'Seabank', icon:'🏛️', no:'9015 1357 9165', an:'Bustanul Labib Alwasi' },
@@ -889,11 +891,52 @@
   </div>
 </div>
 
+<div id="recaptcha-container" style="display:none"></div>
 <button class="admin-dot" onclick="openAdmin()" title="Admin Panel"></button>
 <div class="toast" id="toast"></div>
 
 <script>
 (function(){ emailjs.init(EJ_PUBLIC); })();
+
+// ── reCAPTCHA HELPER ──
+let _recaptchaWidgetId = null;
+function ensureRecaptcha() {
+  return new Promise((resolve) => {
+    const wait = () => {
+      if (typeof grecaptcha === 'undefined' || typeof grecaptcha.render === 'undefined') {
+        setTimeout(wait, 200);
+        return;
+      }
+      if (_recaptchaWidgetId === null) {
+        _recaptchaWidgetId = grecaptcha.render('recaptcha-container', {
+          sitekey: RECAPTCHA_SITE_KEY,
+          size: 'invisible',
+          callback: () => {},
+        });
+      }
+      resolve();
+    };
+    wait();
+  });
+}
+
+async function getRecaptchaToken() {
+  await ensureRecaptcha();
+  grecaptcha.reset(_recaptchaWidgetId);
+  return new Promise((resolve, reject) => {
+    grecaptcha.execute(_recaptchaWidgetId);
+    // Poll until token is ready (invisible recaptcha is near-instant)
+    const poll = setInterval(() => {
+      const token = grecaptcha.getResponse(_recaptchaWidgetId);
+      if (token) {
+        clearInterval(poll);
+        resolve(token);
+      }
+    }, 100);
+    // Timeout after 10s
+    setTimeout(() => { clearInterval(poll); reject(new Error('reCAPTCHA timeout')); }, 10000);
+  });
+}
 
 // ── STATE ──
 let products = [];
@@ -1047,11 +1090,13 @@ async function doRegister() {
   try {
     // Send OTP via EmailJS using EJ_TPL_REG
     const expiry = new Date(Date.now() + 2*60*1000).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    const rcToken = await getRecaptchaToken();
     const ejRes = await emailjs.send(EJ_SVC, EJ_TPL_REG, {
-      email     : email,
-      user_name : name,
-      passcode  : otp,
-      time      : expiry,
+      email                : email,
+      user_name            : name,
+      passcode             : otp,
+      time                 : expiry,
+      'g-recaptcha-response': rcToken,
     });
     console.log('EmailJS response:', ejRes);
 
@@ -1141,11 +1186,13 @@ async function resendOTP() {
   btn.textContent='⏳ Mengirim...'; btn.disabled=true;
   try {
     const expiryNew = new Date(Date.now() + 2*60*1000).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    const rcTokenNew = await getRecaptchaToken();
     await emailjs.send(EJ_SVC, EJ_TPL_REG, {
-      email     : pendingRegData.email,
-      user_name : pendingRegData.name,
-      passcode  : newOTP,
-      time      : expiryNew,
+      email                : pendingRegData.email,
+      user_name            : pendingRegData.name,
+      passcode             : newOTP,
+      time                 : expiryNew,
+      'g-recaptcha-response': rcTokenNew,
     });
     pendingOTP = newOTP;
     document.getElementById('otpInput').value='';
