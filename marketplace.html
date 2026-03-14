@@ -222,6 +222,7 @@
     .btn-add-cart:hover{background:var(--accent);color:var(--dark)}
     .btn-add-cart.added{background:var(--success);color:#fff}
 
+    /* ── CART SIDEBAR (updated: kontak penjual saja) ── */
     .cart-overlay{position:fixed;inset:0;background:rgba(26,23,20,.5);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px)}
     .cart-overlay.open{opacity:1;pointer-events:all}
     .cart-sidebar{position:fixed;top:0;right:0;bottom:0;width:min(420px,100vw);background:var(--white);z-index:201;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.25,.46,.45,.94);border-left:1px solid var(--border)}
@@ -235,24 +236,33 @@
     .cart-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;color:var(--muted)}
     .cart-empty svg{opacity:.3}
     .cart-empty p{font-size:.85rem}
-    .cart-item{display:flex;gap:.85rem;align-items:flex-start}
-    .cart-item-img{width:64px;height:64px;border-radius:8px;object-fit:cover;flex-shrink:0}
-    .cart-item-info{flex:1;min-width:0}
-    .cart-item-name{font-size:.88rem;font-weight:500;line-height:1.3;margin-bottom:.2rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .cart-item-price{font-size:.82rem;color:var(--accent);font-weight:600}
-    .cart-item-qty{display:flex;align-items:center;gap:.5rem;margin-top:.4rem}
+
+    /* Kartu kontak penjual di keranjang */
+    .cart-seller-card{background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.75rem}
+    .cart-seller-card-header{display:flex;align-items:center;gap:.6rem}
+    .cart-seller-avatar{width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--dark);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0}
+    .cart-seller-name{font-size:.88rem;font-weight:600;display:flex;align-items:center;gap:.3rem}
+    .cart-seller-wa{font-size:.75rem;color:var(--muted);margin-top:.05rem}
+    .cart-seller-items{display:flex;flex-direction:column;gap:.4rem}
+    .cart-seller-item-row{display:flex;align-items:center;gap:.6rem;padding:.45rem .6rem;background:var(--white);border-radius:8px}
+    .cart-seller-item-img{width:36px;height:36px;border-radius:6px;object-fit:cover;flex-shrink:0}
+    .cart-seller-item-info{flex:1;min-width:0}
+    .cart-seller-item-name{font-size:.78rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .cart-seller-item-price{font-size:.7rem;color:var(--accent);font-weight:600}
+    .cart-seller-item-qty{display:flex;align-items:center;gap:.35rem;flex-shrink:0}
     .qty-btn{width:22px;height:22px;border:1px solid var(--border);background:transparent;border-radius:50%;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;color:var(--dark)}
     .qty-btn:hover{background:var(--cream)}
-    .qty-num{font-size:.82rem;font-weight:500;min-width:16px;text-align:center}
-    .btn-remove-item{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:.2rem}
+    .qty-num{font-size:.78rem;font-weight:500;min-width:16px;text-align:center}
+    .btn-remove-item{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.85rem;padding:.15rem;flex-shrink:0}
     .btn-remove-item:hover{color:var(--danger)}
+    .cart-seller-wa-btn{width:100%;padding:.6rem;background:#25D366;color:#fff;border:none;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.4rem;transition:all .2s;margin-top:.1rem}
+    .cart-seller-wa-btn:hover{background:#1ebe5d;transform:scale(1.01)}
+    .cart-seller-wa-btn svg{width:15px;height:15px;fill:#fff}
+
     .cart-footer{padding:1.25rem 1.5rem;border-top:1px solid var(--border)}
-    .cart-subtotal{display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:.85rem}
-    .cart-subtotal span:last-child{font-weight:600}
-    .cart-note{font-size:.75rem;color:var(--muted);margin-bottom:1rem;line-height:1.5}
-    .btn-checkout{width:100%;padding:.85rem;background:var(--dark);color:var(--cream);border:none;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:500;cursor:pointer;transition:background .2s}
-    .btn-checkout:hover{background:var(--accent);color:var(--dark)}
-    .btn-checkout:disabled{opacity:.4;cursor:default}
+    .cart-note{font-size:.75rem;color:var(--muted);margin-bottom:.75rem;line-height:1.5;text-align:center}
+    .btn-clear-cart{width:100%;padding:.65rem;background:transparent;color:var(--danger);border:1px solid rgba(224,82,82,.3);border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s}
+    .btn-clear-cart:hover{background:rgba(224,82,82,.06);border-color:var(--danger)}
 
     .modal-overlay{position:fixed;inset:0;background:rgba(26,23,20,.72);z-index:300;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(6px)}
     .modal-overlay.open{opacity:1;pointer-events:all}
@@ -405,7 +415,6 @@
 <script>
   const WORKER_URL  = 'https://worker.internetdnsofficial.workers.dev';
   const EJ_PUBLIC   = '7XUXjtF-ko_D5cz5_';
-  // ⚠️ Ganti dengan Site Key v2 Checkbox dari console.google.com/recaptcha
   const RC_SITE_KEY = '6Le6gIksAAAAAIEaM4L8m5QUSKa4XZ4No5DYQu7h';
   const EJ_SVC      = 'service_7nw21xn';
   const EJ_TPL_ORDER= 'template_dpljy7v';
@@ -437,7 +446,8 @@
     </button>
     <button class="btn-icon" id="themBtn" onclick="toggleTheme()">🌙</button>
     <div id="navAuthArea" style="display:flex;align-items:center;gap:.5rem"></div>
-    <button class="btn-cart" onclick="openCart()">
+    <!-- Tombol keranjang: hanya tampil saat sudah login (diatur via renderNavAuth) -->
+    <button class="btn-cart" id="navCartBtn" onclick="openCart()" style="display:none">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
       Keranjang
       <span class="cart-badge" id="cartBadge">0</span>
@@ -493,11 +503,14 @@
   </div>
 </section>
 
-<!-- CART -->
+<!-- CART OVERLAY + SIDEBAR (kontak penjual) -->
 <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
 <aside class="cart-sidebar" id="cartSidebar">
   <div class="cart-header">
-    <div><h3>Keranjang</h3><span id="cartCount">0 item</span></div>
+    <div>
+      <h3>Keranjang</h3>
+      <span id="cartCount">0 item</span>
+    </div>
     <button class="btn-close-cart" onclick="closeCart()">✕</button>
   </div>
   <div class="cart-items" id="cartItems">
@@ -506,10 +519,9 @@
       <p>Keranjang masih kosong</p>
     </div>
   </div>
-  <div class="cart-footer">
-    <div class="cart-subtotal"><span>Subtotal</span><span id="cartTotal">Rp 0</span></div>
-    <p class="cart-note">Pengiriman dikonfirmasi setelah order masuk.</p>
-    <button class="btn-checkout" id="btnCheckout" onclick="openCheckout()" disabled>Lanjut ke Pembayaran →</button>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <p class="cart-note">💬 Hubungi penjual langsung via WhatsApp untuk proses pembelian.</p>
+    <button class="btn-clear-cart" onclick="resetCart()">🗑️ Kosongkan Keranjang</button>
   </div>
 </aside>
 
@@ -593,7 +605,6 @@
       <div class="form-group"><label>Nomor WhatsApp *</label><input type="tel" id="regWA" placeholder="08xxxxxxxxxx"/></div>
       <div class="form-group"><label>Password *</label><input type="password" id="regPassword" placeholder="Min. 6 karakter"/></div>
       <div class="form-group"><label>Konfirmasi Password *</label><input type="password" id="regPassword2" placeholder="Ulangi password" onkeydown="if(event.key==='Enter')doRegister()"/></div>
-      <!-- reCAPTCHA v2 Checkbox -->
       <div id="recaptcha-register"></div>
       <button class="btn-primary" id="regSubmitBtn" onclick="doRegister()"><span id="regBtnTxt">Kirim Kode OTP →</span><div class="spinner" id="regSpinner" style="display:none"></div></button>
       <p id="regErr" style="color:var(--danger);font-size:.78rem;margin-top:.6rem;min-height:1rem"></p>
@@ -619,62 +630,6 @@
       <div style="text-align:center;margin-top:.75rem;display:flex;flex-direction:column;align-items:center;gap:.4rem">
         <button class="btn-resend" id="resendOTPBtn" onclick="resendOTP()" disabled>🔄 Kirim Ulang OTP</button>
         <button onclick="backToRegister()" style="background:none;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.78rem;cursor:pointer;padding:.3rem 0">← Kembali ke form</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- CHECKOUT MODAL -->
-<div class="modal-overlay" id="checkoutModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeCheckout()">✕</button>
-    <div class="modal-step active" id="cs1">
-      <div class="steps"><div class="step-item active"><div class="step-dot">1</div><span>Data</span></div><div class="step-line"></div><div class="step-item"><div class="step-dot">2</div><span>Bayar</span></div><div class="step-line"></div><div class="step-item"><div class="step-dot">3</div><span>Bukti</span></div><div class="step-line"></div><div class="step-item"><div class="step-dot">4</div><span>Selesai</span></div></div>
-      <p class="modal-label">Langkah 1 dari 3</p><h2>Data <em style="font-style:italic;color:var(--accent)">Pembeli</em></h2>
-      <p class="modal-sub">Lengkapi informasi agar pesanan bisa diproses.</p>
-      <div class="form-group"><label>Nama Lengkap *</label><input type="text" id="buyerName" placeholder="Nama kamu"/></div>
-      <div class="form-group"><label>Nomor WhatsApp *</label><input type="tel" id="buyerWA" placeholder="08xxxxxxxxxx"/></div>
-      <div class="form-group"><label>Email</label><input type="email" id="buyerEmail" placeholder="email@example.com"/></div>
-      <div class="form-group"><label>Alamat <span style="color:var(--muted);font-weight:300">(produk fisik)</span></label><textarea id="buyerAddress" placeholder="Jl. Contoh No. 1, Kota"></textarea></div>
-      <div class="form-group"><label>Catatan</label><input type="text" id="buyerNote" placeholder="Ukuran, warna, dll..."/></div>
-      <div class="order-summary"><p class="order-summary-title">Ringkasan Pesanan</p><div id="modalOrderItems"></div><div class="order-line total"><span>Total Pembayaran</span><span id="modalTotal">Rp 0</span></div></div>
-      <button class="btn-primary" onclick="checkoutNext()">Lanjut ke Pembayaran →</button>
-    </div>
-    <div class="modal-step" id="cs2">
-      <div class="steps"><div class="step-item done"><div class="step-dot">✓</div><span>Data</span></div><div class="step-line"></div><div class="step-item active"><div class="step-dot">2</div><span>Bayar</span></div><div class="step-line"></div><div class="step-item"><div class="step-dot">3</div><span>Bukti</span></div><div class="step-line"></div><div class="step-item"><div class="step-dot">4</div><span>Selesai</span></div></div>
-      <p class="modal-label">Langkah 2 dari 3</p><h2>Metode <em style="font-style:italic;color:var(--accent)">Pembayaran</em></h2>
-      <p class="modal-sub">Pilih metode lalu transfer sesuai nominal.</p>
-      <div class="payment-methods" id="cPayMethods">
-        <label class="payment-method selected" onclick="selPay('c','bca',this)"><input type="radio" name="cpay" checked><span class="payment-method-icon">🏦</span><div><div class="payment-method-name">BCA</div><div class="payment-method-sub">Transfer Bank</div></div></label>
-        <label class="payment-method" onclick="selPay('c','mandiri',this)"><input type="radio" name="cpay"><span class="payment-method-icon">🏛️</span><div><div class="payment-method-name">Seabank</div><div class="payment-method-sub">Transfer Bank</div></div></label>
-        <label class="payment-method" onclick="selPay('c','dana',this)"><input type="radio" name="cpay"><span class="payment-method-icon">💙</span><div><div class="payment-method-name">DANA</div><div class="payment-method-sub">E-Wallet</div></div></label>
-        <label class="payment-method" onclick="selPay('c','gopay',this)"><input type="radio" name="cpay"><span class="payment-method-icon">💚</span><div><div class="payment-method-name">GoPay</div><div class="payment-method-sub">E-Wallet</div></div></label>
-      </div>
-      <div class="bank-info" id="cBankBox"></div>
-      <div class="order-summary"><div class="order-line total"><span>Total Transfer</span><span id="modalTotal2">Rp 0</span></div></div>
-      <button class="btn-primary" onclick="csGo(3)">Sudah Transfer → Upload Bukti</button>
-      <button class="btn-secondary" onclick="csGo(1)">← Kembali</button>
-    </div>
-    <div class="modal-step" id="cs3">
-      <div class="steps"><div class="step-item done"><div class="step-dot">✓</div><span>Data</span></div><div class="step-line"></div><div class="step-item done"><div class="step-dot">✓</div><span>Bayar</span></div><div class="step-line"></div><div class="step-item active"><div class="step-dot">3</div><span>Bukti</span></div><div class="step-line"></div><div class="step-item"><div class="step-dot">4</div><span>Selesai</span></div></div>
-      <p class="modal-label">Langkah 3 dari 3</p><h2>Upload <em style="font-style:italic;color:var(--accent)">Bukti Bayar</em></h2>
-      <p class="modal-sub">Upload screenshot atau foto struk pembayaran kamu.</p>
-      <div class="upload-area" id="cUpArea">
-        <input type="file" id="cProofInput" accept="image/*" onchange="handleFile(this,'cProof','cProofPrev','btnCSubmit')"/>
-        <div class="upload-icon">📎</div>
-        <div class="upload-text"><strong>Pilih atau seret foto bukti transfer</strong>JPG, PNG, WEBP · Maks 8MB</div>
-        <img id="cProofPrev" class="upload-preview" alt=""/>
-      </div>
-      <button class="btn-primary" id="btnCSubmit" onclick="submitOrder()" disabled><span id="cSubmitTxt">Kirim Pesanan</span><div class="spinner" id="cSpin" style="display:none"></div></button>
-      <button class="btn-secondary" onclick="csGo(2)">← Kembali</button>
-    </div>
-    <div class="modal-step" id="cs4">
-      <div style="text-align:center;padding:1rem 0">
-        <div class="success-icon">🎉</div>
-        <h2 style="margin-bottom:.5rem">Pesanan <em style="font-style:italic;color:var(--accent)">Diterima!</em></h2>
-        <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.6">Bukti bayar sudah kami terima. Admin akan konfirmasi via WhatsApp.</p>
-        <div class="success-id-box"><span>Nomor Order</span><strong id="cOrderId">#LABIB-000000</strong></div>
-        <button class="btn-primary" onclick="closeCheckout();resetCart()">Kembali ke Toko</button>
       </div>
     </div>
   </div>
@@ -882,40 +837,27 @@
 
 // ── reCAPTCHA v2 CHECKBOX ──
 let _rcWidgetId = null;
-
 function _renderRc() {
   const container = document.getElementById('recaptcha-register');
   if (!container) return;
   const wait = () => {
-    if (typeof grecaptcha === 'undefined' || typeof grecaptcha.render === 'undefined') {
-      setTimeout(wait, 200); return;
-    }
+    if (typeof grecaptcha === 'undefined' || typeof grecaptcha.render === 'undefined') { setTimeout(wait, 200); return; }
     if (_rcWidgetId === null) {
-      _rcWidgetId = grecaptcha.render('recaptcha-register', {
-        sitekey: RC_SITE_KEY,
-        theme  : document.body.classList.contains('dark-mode') ? 'dark' : 'light',
-      });
+      _rcWidgetId = grecaptcha.render('recaptcha-register', { sitekey: RC_SITE_KEY, theme: document.body.classList.contains('dark-mode') ? 'dark' : 'light' });
     }
   };
   wait();
 }
-
-function _getRcToken() {
-  if (_rcWidgetId === null) return null;
-  return grecaptcha.getResponse(_rcWidgetId) || null;
-}
-
-function _resetRc() {
-  if (_rcWidgetId !== null) grecaptcha.reset(_rcWidgetId);
-}
+function _getRcToken() { if (_rcWidgetId === null) return null; return grecaptcha.getResponse(_rcWidgetId) || null; }
+function _resetRc() { if (_rcWidgetId !== null) grecaptcha.reset(_rcWidgetId); }
 
 // ── STATE ──
 let products = [];
 let cart = [];
 let currentFilter = 'all';
 let buyerFilter = 'all';
-let cPayKey = 'bca', sPayKey = 'bca';
-let cProof = null, sProof = null;
+let sPayKey = 'bca';
+let sProof = null;
 let pImgs = [null,null,null,null];
 let adminToken = sessionStorage.getItem('mkt_admin_token') || null;
 let selectedRole = 'buyer';
@@ -945,6 +887,7 @@ function renderNavAuth() {
   const u = getCurrentUser();
   const btnSell = document.getElementById('navBtnSell');
   const btnDash = document.getElementById('navBtnDash');
+  const btnCart = document.getElementById('navCartBtn');
   const el = document.getElementById('navAuthArea');
   if (u) {
     const roleLabel = u.role==='seller'?'Penjual':'Pembeli';
@@ -961,6 +904,8 @@ function renderNavAuth() {
     ddRole.textContent = verifLabel;
     ddRole.className = 'user-dd-role ' + (u.role==='seller'?(u.verified?'seller':'unverified'):'buyer');
     btnDash.style.display = 'flex';
+    // Tampilkan tombol keranjang hanya saat sudah login
+    btnCart.style.display = 'flex';
     if (u.role==='seller' && u.verified) {
       btnSell.style.display='flex';
       document.getElementById('ddSellItem').style.display='flex';
@@ -970,13 +915,12 @@ function renderNavAuth() {
     }
     document.getElementById('sSellerName').value=u.name;
     document.getElementById('sSellerWA').value=u.wa||'';
-    document.getElementById('buyerName').value=u.name;
-    document.getElementById('buyerWA').value=u.wa||'';
-    document.getElementById('buyerEmail').value=u.email;
   } else {
     el.innerHTML=`<button class="btn-auth" onclick="openAuthModal('login')">Masuk</button><button class="btn-auth btn-auth-primary" onclick="openAuthModal('register')">Daftar</button>`;
     btnSell.style.display='none';
     btnDash.style.display='none';
+    // Sembunyikan keranjang saat belum login
+    btnCart.style.display = 'none';
   }
 }
 
@@ -1027,61 +971,39 @@ async function doRegister() {
   const pass  = document.getElementById('regPassword').value;
   const pass2 = document.getElementById('regPassword2').value;
   const errEl = document.getElementById('regErr');
-
   if (!name || !email || !wa || !pass) { errEl.textContent = '❗ Semua field wajib diisi.'; return; }
   if (pass.length < 6)  { errEl.textContent = '❗ Password min. 6 karakter.'; return; }
   if (pass !== pass2)   { errEl.textContent = '❗ Password tidak cocok.'; return; }
-
-  // Cek reCAPTCHA v2 checkbox
   const rcToken = _getRcToken();
   if (!rcToken) { errEl.textContent = '❗ Centang dulu "I\'m not a robot".'; return; }
-
   const btn  = document.getElementById('regSubmitBtn');
   const txt  = document.getElementById('regBtnTxt');
   const spin = document.getElementById('regSpinner');
   btn.disabled = true; txt.textContent = 'Memeriksa email...'; spin.style.display = 'block';
-
   try {
     const chk = await api('/api/check-email', { email });
     if (chk && chk.exists) {
       errEl.textContent = '❗ Email ini sudah terdaftar. Silakan masuk atau gunakan email lain.';
       btn.disabled = false; txt.textContent = 'Kirim Kode OTP →'; spin.style.display = 'none';
-      _resetRc();
-      return;
+      _resetRc(); return;
     }
-
     txt.textContent = 'Mengirim OTP...';
-
     const otp    = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiry = new Date(Date.now() + 2 * 60 * 1000).toLocaleTimeString('id-ID', {
-      hour: '2-digit', minute: '2-digit', second: '2-digit'
-    });
-
-    // Kirim OTP via EmailJS — tanpa rcToken (tidak diperlukan di EmailJS gratis)
-    await emailjs.send(EJ_SVC, EJ_TPL_REG, {
-      email,
-      user_name: name,
-      passcode : otp,
-      time     : expiry,
-      'g-recaptcha-response': 'verified',
-    });
-
+    const expiry = new Date(Date.now() + 2 * 60 * 1000).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    await emailjs.send(EJ_SVC, EJ_TPL_REG, { email, user_name: name, passcode: otp, time: expiry, 'g-recaptcha-response': 'verified' });
     pendingOTP     = otp;
     pendingRegData = { name, email, wa, pass, role: selectedRole };
-
     _resetRc();
     showOTPForm(email);
     toast('📧 Kode OTP dikirim ke ' + email, 'ok');
-
   } catch (e) {
     console.error('doRegister error:', e);
     let msg = 'Gagal kirim OTP. Coba lagi.';
     if (e?.name === 'TypeError') msg = 'Koneksi bermasalah. Periksa internet kamu.';
-    else if (e?.text)            msg = e.text;
+    else if (e?.text) msg = e.text;
     errEl.textContent = '❌ ' + msg;
     _resetRc();
   }
-
   btn.disabled = false; txt.textContent = 'Kirim Kode OTP →'; spin.style.display = 'none';
 }
 
@@ -1095,37 +1017,31 @@ function showOTPForm(email) {
   document.getElementById('otpVerifyBtn').disabled = false;
   startOTPTimer();
 }
-
 function backToRegister() {
   clearOTPState();
   document.getElementById('authTabsBar').style.display='flex';
   document.getElementById('authOTPForm').style.display='none';
   document.getElementById('authRegisterForm').style.display='block';
-  _resetRc();
+  _renderRc();
 }
-
 function clearOTPState() {
-  clearInterval(otpTimerInterval);
-  otpTimerInterval = null;
-  pendingOTP = null;
-  pendingRegData = null;
-  otpSecondsLeft = OTP_DURATION;
+  clearInterval(otpTimerInterval); otpTimerInterval = null;
+  pendingOTP = null; pendingRegData = null; otpSecondsLeft = OTP_DURATION;
 }
-
 function startOTPTimer() {
   clearInterval(otpTimerInterval);
   otpSecondsLeft = OTP_DURATION;
-  const fill   = document.getElementById('otpTimerFill');
-  const txt    = document.getElementById('otpTimerText');
+  const fill = document.getElementById('otpTimerFill');
+  const txt  = document.getElementById('otpTimerText');
   const resend = document.getElementById('resendOTPBtn');
   resend.disabled = true;
   function tick() {
     otpSecondsLeft--;
     const pct = (otpSecondsLeft / OTP_DURATION) * 100;
     fill.style.width = pct + '%';
-    if(pct > 50)      fill.style.background = 'var(--accent)';
+    if(pct > 50) fill.style.background = 'var(--accent)';
     else if(pct > 20) fill.style.background = '#e0a040';
-    else              fill.style.background = 'var(--danger)';
+    else fill.style.background = 'var(--danger)';
     const m = Math.floor(otpSecondsLeft/60);
     const s = String(otpSecondsLeft%60).padStart(2,'0');
     txt.textContent = otpSecondsLeft > 0 ? `Kode berlaku ${m}:${s}` : '⏰ Kode OTP sudah kedaluwarsa.';
@@ -1134,7 +1050,6 @@ function startOTPTimer() {
   tick();
   otpTimerInterval = setInterval(tick, 1000);
 }
-
 async function resendOTP() {
   if(!pendingRegData) return;
   const newOTP = Math.floor(100000 + Math.random() * 900000).toString();
@@ -1142,25 +1057,15 @@ async function resendOTP() {
   btn.textContent='⏳ Mengirim...'; btn.disabled=true;
   try {
     const expiryNew = new Date(Date.now() + 2*60*1000).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    await emailjs.send(EJ_SVC, EJ_TPL_REG, {
-      email    : pendingRegData.email,
-      user_name: pendingRegData.name,
-      passcode : newOTP,
-      time     : expiryNew,
-      'g-recaptcha-response': 'verified',
-    });
+    await emailjs.send(EJ_SVC, EJ_TPL_REG, { email: pendingRegData.email, user_name: pendingRegData.name, passcode: newOTP, time: expiryNew, 'g-recaptcha-response': 'verified' });
     pendingOTP = newOTP;
     document.getElementById('otpInput').value='';
     document.getElementById('otpErr').textContent='';
     toast('📧 OTP baru dikirim!','ok');
     startOTPTimer();
-  } catch {
-    toast('❌ Gagal kirim OTP. Coba lagi.','err');
-    btn.disabled=false;
-  }
+  } catch { toast('❌ Gagal kirim OTP. Coba lagi.','err'); btn.disabled=false; }
   btn.textContent='🔄 Kirim Ulang OTP';
 }
-
 async function verifyOTP() {
   const input = document.getElementById('otpInput').value.trim();
   const errEl = document.getElementById('otpErr');
@@ -1277,7 +1182,6 @@ function renderVerifSection(){
 async function onVerifImg(type,input){const f=input.files[0];if(!f)return;if(f.size>5*1024*1024){toast('❗ Foto maks 5MB','err');return;}const b64=await fileToB64(f);if(type==='ktp'){verifKTP=b64;document.getElementById('verifKTPPrev').src=b64;document.getElementById('verifKTPBox').classList.add('has-img');}else{verifSelfie=b64;document.getElementById('verifSelfiePrev').src=b64;document.getElementById('verifSelfieBox').classList.add('has-img');}checkVerifReady();}
 function rmVerifImg(e,type){e.stopPropagation();e.preventDefault();if(type==='ktp'){verifKTP=null;document.getElementById('verifKTPBox').classList.remove('has-img');document.getElementById('verifKTPPrev').src='';}else{verifSelfie=null;document.getElementById('verifSelfieBox').classList.remove('has-img');document.getElementById('verifSelfiePrev').src='';}checkVerifReady();}
 function checkVerifReady(){const btn=document.getElementById('btnSubmitVerif');if(btn)btn.disabled=!(verifKTP&&verifSelfie);}
-
 async function submitVerif(){
   if(!verifKTP||!verifSelfie)return;
   const u=getCurrentUser();if(!u)return;
@@ -1330,7 +1234,12 @@ function openBuyerDashboard(){
   document.body.style.overflow='hidden';
   renderBuyerProducts();updateBuyerCartBadge();
 }
-function updateBuyerCartBadge(){const n=cart.reduce((s,c)=>s+c.qty,0);const b=document.getElementById('buyerDashCartBadge');b.style.display=n>0?'inline':'none';b.textContent=n;}
+function updateBuyerCartBadge(){
+  const n=cart.reduce((s,c)=>s+c.qty,0);
+  const b=document.getElementById('buyerDashCartBadge');
+  b.style.display=n>0?'inline':'none';
+  b.textContent=n;
+}
 
 function renderBuyerProducts(){
   const grid=document.getElementById('buyerProductsGrid');const sort=document.getElementById('buyerSortSelect').value;
@@ -1364,7 +1273,7 @@ function copyText(t,btn){navigator.clipboard.writeText(t).then(()=>{const o=btn.
 function bankBox(key,amount){const p=PAY[key];return `<p class="bank-info-title">Detail Rekening / Akun</p><div class="bank-row"><span class="bank-label">Metode</span><span class="bank-value">${p.icon} ${p.name}</span></div><div class="bank-row"><span class="bank-label">Nomor</span><span class="bank-value">${p.no} <button class="btn-copy" onclick="copyText('${p.no}',this)">Salin</button></span></div><div class="bank-row"><span class="bank-label">Atas Nama</span><span class="bank-value">${p.an}</span></div><div class="bank-row"><span class="bank-label">Nominal</span><span class="bank-value" style="color:var(--accent)">${fmt(amount)}</span></div>`;}
 async function api(path,body=null){const opts={method:body?'POST':'GET',headers:{'Content-Type':'application/json',...(adminToken?{'X-Admin-Token':adminToken}:{})}};if(body)opts.body=JSON.stringify(body);const r=await fetch(WORKER_URL+path,opts);return r.json();}
 const fileToB64=f=>new Promise(res=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.readAsDataURL(f);});
-async function handleFile(input,stateKey,prevId,btnId){const f=input.files[0];if(!f)return;if(f.size>8*1024*1024){toast('❗ File maks 8MB','err');return;}const b64=await fileToB64(f);if(stateKey==='cProof')cProof=b64;if(stateKey==='sProof')sProof=b64;const img=document.getElementById(prevId);img.src=b64;img.style.display='block';document.getElementById(btnId).disabled=false;toast('✅ File dipilih','ok');}
+async function handleFile(input,stateKey,prevId,btnId){const f=input.files[0];if(!f)return;if(f.size>8*1024*1024){toast('❗ File maks 8MB','err');return;}const b64=await fileToB64(f);if(stateKey==='sProof')sProof=b64;const img=document.getElementById(prevId);img.src=b64;img.style.display='block';document.getElementById(btnId).disabled=false;toast('✅ File dipilih','ok');}
 function setupDD(areaId,handler){const el=document.getElementById(areaId);if(!el)return;el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('dragover');});el.addEventListener('dragleave',()=>el.classList.remove('dragover'));el.addEventListener('drop',e=>{e.preventDefault();el.classList.remove('dragover');const f=e.dataTransfer.files[0];if(f?.type.startsWith('image/'))handler({files:[f]});});}
 
 function buildPhotoSlots(){const grid=document.getElementById('photosGrid');grid.innerHTML='';for(let i=0;i<4;i++){const s=document.createElement('div');s.className='photo-slot';s.id='ps'+i;s.innerHTML=`<input type="file" accept="image/*" onchange="onPhotoSlot(${i},this)"/><div class="slot-add" id="sa${i}"><span>${i===0?'📷':'➕'}</span><small>${i===0?'Utama':'Foto '+(i+1)}</small></div>`;if(i===0)s.innerHTML+=`<div class="photo-main-badge" id="pmb0" style="display:none">Utama</div>`;grid.appendChild(s);}}
@@ -1393,22 +1302,138 @@ function imgGo(e,id,idx){if(e)e.stopPropagation();const s=window['_pi'+id];if(!s
 document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');currentFilter=c.dataset.filter;renderProducts();}));
 document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('[data-bfilter]').forEach(c=>c.addEventListener('click',()=>{document.querySelectorAll('[data-bfilter]').forEach(x=>x.classList.remove('active'));c.classList.add('active');buyerFilter=c.dataset.bfilter;renderBuyerProducts();}));});
 
-function addToCart(id,btn){const p=products.find(x=>x.id===id);if(!p)return;const ex=cart.find(c=>c.id===id);if(ex)ex.qty++;else{cart.push({...p,qty:1});if(btn){btn.classList.add('added');btn.textContent='✓ Ditambah';}}updateCartUI();toast('🛒 '+p.name+' ditambahkan!','ok');}
-function removeFromCart(id){cart=cart.filter(c=>c.id!==id);updateCartUI();renderProducts();}
-function changeQty(id,d){const it=cart.find(c=>c.id===id);if(!it)return;it.qty+=d;if(it.qty<=0)removeFromCart(id);else updateCartUI();}
-const cartTotal=()=>cart.reduce((s,c)=>s+c.price*c.qty,0);
-const cartCount=()=>cart.reduce((s,c)=>s+c.qty,0);
-function updateCartUI(){const n=cartCount();const badge=document.getElementById('cartBadge');badge.style.display=n>0?'flex':'none';badge.textContent=n;document.getElementById('cartCount').textContent=n+' item';document.getElementById('cartTotal').textContent=fmt(cartTotal());document.getElementById('btnCheckout').disabled=n===0;const wrap=document.getElementById('cartItems'),empty=document.getElementById('cartEmpty');wrap.querySelectorAll('.cart-item').forEach(el=>el.remove());if(!cart.length){empty.style.display='flex';return;}empty.style.display='none';cart.forEach(it=>{const imgs=Array.isArray(it.imgs)&&it.imgs.length?it.imgs:[it.img||''];const div=document.createElement('div');div.className='cart-item';div.innerHTML=`<img class="cart-item-img" src="${imgs[0]}" alt="${it.name}" onerror="this.src='https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=200&q=80'"/><div class="cart-item-info"><div class="cart-item-name">${it.name}</div><div class="cart-item-price">${fmt(it.price)}</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty(${it.id},-1)">−</button><span class="qty-num">${it.qty}</span><button class="qty-btn" onclick="changeQty(${it.id},1)">+</button></div></div><button class="btn-remove-item" onclick="removeFromCart(${it.id})">✕</button>`;wrap.insertBefore(div,empty);});}
-function openCart(){document.getElementById('cartOverlay').classList.add('open');document.getElementById('cartSidebar').classList.add('open');document.body.style.overflow='hidden';}
-function closeCart(){document.getElementById('cartOverlay').classList.remove('open');document.getElementById('cartSidebar').classList.remove('open');document.body.style.overflow='';}
-function resetCart(){cart=[];cProof=null;updateCartUI();renderProducts();}
+// ── CART: hanya kontak penjual ──
+function addToCart(id, btn) {
+  const u = getCurrentUser();
+  if (!u) {
+    toast('❗ Login dulu untuk menambahkan ke keranjang.', 'err');
+    openAuthModal('login');
+    return;
+  }
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  const ex = cart.find(c => c.id === id);
+  if (ex) ex.qty++;
+  else {
+    cart.push({...p, qty: 1});
+    if (btn) { btn.classList.add('added'); btn.textContent = '✓ Ditambah'; }
+  }
+  updateCartUI();
+  toast('🛒 ' + p.name + ' ditambahkan!', 'ok');
+}
 
-function csGo(n){document.querySelectorAll('#checkoutModal .modal-step').forEach(s=>s.classList.remove('active'));document.getElementById('cs'+n).classList.add('active');}
-function openCheckout(){closeCart();document.getElementById('modalOrderItems').innerHTML=cart.map(c=>`<div class="order-line"><span>${c.name} ×${c.qty}</span><span>${fmt(c.price*c.qty)}</span></div>`).join('');document.getElementById('modalTotal').textContent=fmt(cartTotal());document.getElementById('modalTotal2').textContent=fmt(cartTotal());selPay('c','bca',document.querySelector('#cPayMethods .payment-method'));csGo(1);document.getElementById('checkoutModal').classList.add('open');}
-function closeCheckout(){document.getElementById('checkoutModal').classList.remove('open');}
-function checkoutNext(){if(!document.getElementById('buyerName').value.trim()||!document.getElementById('buyerWA').value.trim()){toast('❗ Nama dan WhatsApp wajib diisi.','err');return;}csGo(2);}
-function selPay(ctx,key,el){const prefix=ctx==='c'?'#cPayMethods':'#sPayMethods';document.querySelectorAll(prefix+' .payment-method').forEach(m=>m.classList.remove('selected'));el.classList.add('selected');if(ctx==='c'){cPayKey=key;document.getElementById('cBankBox').innerHTML=bankBox(key,cartTotal());}else{sPayKey=key;document.getElementById('sBankBox').innerHTML=bankBox(key,UPLOAD_FEE);}}
-async function submitOrder(){if(!cProof)return;const btn=document.getElementById('btnCSubmit'),txt=document.getElementById('cSubmitTxt'),spin=document.getElementById('cSpin');btn.disabled=true;txt.textContent='Mengirim...';spin.style.display='block';const orderId='#LABIB-'+Date.now().toString().slice(-6);const itemsSummary=cart.map(c=>`${c.name} ×${c.qty} = ${fmt(c.price*c.qty)}`).join('\n');try{const res=await api('/api/submit-order',{orderId,buyerName:document.getElementById('buyerName').value,buyerWA:document.getElementById('buyerWA').value,buyerEmail:document.getElementById('buyerEmail').value,buyerAddress:document.getElementById('buyerAddress').value,buyerNote:document.getElementById('buyerNote').value,payMethod:`${PAY[cPayKey].icon} ${PAY[cPayKey].name}`,total:cartTotal(),items:cart.map(c=>({name:c.name,qty:c.qty,price:c.price})),proofBase64:cProof});if(!res.ok)throw new Error(res.error);emailjs.send(EJ_SVC,EJ_TPL_ORDER,{to_email:ADMIN_EMAIL,order_id:orderId,buyer_name:document.getElementById('buyerName').value,buyer_wa:document.getElementById('buyerWA').value,pay_method:PAY[cPayKey].name,total:fmt(cartTotal()),items:itemsSummary,order_time:new Date().toLocaleString('id-ID')}).catch(()=>{});document.getElementById('cOrderId').textContent=orderId;csGo(4);}catch(e){toast('❌ Gagal mengirim: '+(e.message||'coba lagi.'),'err');btn.disabled=false;txt.textContent='Kirim Pesanan';spin.style.display='none';}}
+function removeFromCart(id) {
+  cart = cart.filter(c => c.id !== id);
+  updateCartUI();
+  renderProducts();
+}
+
+function changeQty(id, d) {
+  const it = cart.find(c => c.id === id);
+  if (!it) return;
+  it.qty += d;
+  if (it.qty <= 0) removeFromCart(id);
+  else updateCartUI();
+}
+
+const cartCount = () => cart.reduce((s, c) => s + c.qty, 0);
+
+// Kelompokkan item keranjang berdasarkan penjual
+function groupBySeller() {
+  const groups = {};
+  cart.forEach(item => {
+    const key = item.sellerWA || item.seller || 'unknown';
+    if (!groups[key]) groups[key] = { seller: item.seller || 'Labib Official', sellerWA: item.sellerWA || '', items: [] };
+    groups[key].items.push(item);
+  });
+  return Object.values(groups);
+}
+
+function updateCartUI() {
+  const n = cartCount();
+  const badge = document.getElementById('cartBadge');
+  badge.style.display = n > 0 ? 'flex' : 'none';
+  badge.textContent = n;
+  document.getElementById('cartCount').textContent = n + ' item';
+
+  const wrap = document.getElementById('cartItems');
+  const empty = document.getElementById('cartEmpty');
+  const footer = document.getElementById('cartFooter');
+
+  // Hapus kartu penjual lama
+  wrap.querySelectorAll('.cart-seller-card').forEach(el => el.remove());
+
+  if (!cart.length) {
+    empty.style.display = 'flex';
+    footer.style.display = 'none';
+    return;
+  }
+
+  empty.style.display = 'none';
+  footer.style.display = 'block';
+
+  const groups = groupBySeller();
+  const waIconSVG = `<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+
+  groups.forEach(group => {
+    const waClean = (group.sellerWA || '').replace(/\D/g,'').replace(/^0/,'62');
+    // Buat pesan WA berisi daftar produk
+    const itemsMsg = group.items.map(it => `• ${it.name} ×${it.qty} (${fmt(it.price * it.qty)})`).join('\n');
+    const waMsg = encodeURIComponent(`Halo ${group.seller}, saya ingin membeli:\n${itemsMsg}\n\nDari Marketplace Labib.`);
+    const waUrl = `https://wa.me/${waClean}?text=${waMsg}`;
+
+    const card = document.createElement('div');
+    card.className = 'cart-seller-card';
+    card.innerHTML = `
+      <div class="cart-seller-card-header">
+        <div class="cart-seller-avatar">${group.seller.charAt(0).toUpperCase()}</div>
+        <div>
+          <div class="cart-seller-name">🏪 ${group.seller}</div>
+          <div class="cart-seller-wa">${group.sellerWA || '—'}</div>
+        </div>
+      </div>
+      <div class="cart-seller-items">
+        ${group.items.map(it => {
+          const imgs = Array.isArray(it.imgs) && it.imgs.length ? it.imgs : [it.img || ''];
+          return `<div class="cart-seller-item-row">
+            <img class="cart-seller-item-img" src="${imgs[0]}" alt="${it.name}" onerror="this.src='https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=100&q=80'"/>
+            <div class="cart-seller-item-info">
+              <div class="cart-seller-item-name">${it.name}</div>
+              <div class="cart-seller-item-price">${fmt(it.price)}</div>
+            </div>
+            <div class="cart-seller-item-qty">
+              <button class="qty-btn" onclick="changeQty(${it.id},-1)">−</button>
+              <span class="qty-num">${it.qty}</span>
+              <button class="qty-btn" onclick="changeQty(${it.id},1)">+</button>
+            </div>
+            <button class="btn-remove-item" onclick="removeFromCart(${it.id})">✕</button>
+          </div>`;
+        }).join('')}
+      </div>
+      ${group.sellerWA ? `<button class="cart-seller-wa-btn" onclick="window.open('${waUrl}','_blank')">${waIconSVG} Hubungi ${group.seller} via WhatsApp</button>` : `<div style="font-size:.75rem;color:var(--muted);text-align:center;padding:.4rem 0">⚠️ Nomor WA penjual tidak tersedia</div>`}
+    `;
+    wrap.insertBefore(card, empty);
+  });
+}
+
+function openCart() {
+  if (!getCurrentUser()) {
+    toast('❗ Login dulu untuk melihat keranjang.', 'err');
+    openAuthModal('login');
+    return;
+  }
+  document.getElementById('cartOverlay').classList.add('open');
+  document.getElementById('cartSidebar').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCart() {
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.getElementById('cartSidebar').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function resetCart() { cart = []; updateCartUI(); renderProducts(); }
+
+function selPay(ctx,key,el){const prefix=ctx==='s'?'#sPayMethods':'#sPayMethods';document.querySelectorAll(prefix+' .payment-method').forEach(m=>m.classList.remove('selected'));el.classList.add('selected');if(ctx==='s'){sPayKey=key;document.getElementById('sBankBox').innerHTML=bankBox(key,UPLOAD_FEE);}}
 
 function openSellModal(){ssGo(1);document.getElementById('sellModal').classList.add('open');}
 function closeSellModal(){document.getElementById('sellModal').classList.remove('open');}
@@ -1443,9 +1468,9 @@ document.addEventListener('click',e=>{const dd=document.getElementById('userDrop
 document.addEventListener('keydown',e=>{
   if(e.ctrlKey&&e.shiftKey&&e.key==='A'){e.preventDefault();openAdmin();}
   if(e.key==='Escape'){
-    ['adminPanel','checkoutModal','sellModal','authModal'].forEach(id=>document.getElementById(id).classList.remove('open'));
+    ['adminPanel','sellModal','authModal'].forEach(id=>document.getElementById(id).classList.remove('open'));
     document.getElementById('sellerPopupOverlay').classList.remove('open');
-    closeDashboard();closeBuyerDashboard();closeDropdown();
+    closeDashboard();closeBuyerDashboard();closeDropdown();closeCart();
     document.body.style.overflow='';
     clearOTPState();
   }
@@ -1453,7 +1478,6 @@ document.addEventListener('keydown',e=>{
 
 window.addEventListener('DOMContentLoaded',()=>{
   renderNavAuth();buildPhotoSlots();
-  setupDD('cUpArea',inp=>handleFile(inp,'cProof','cProofPrev','btnCSubmit'));
   setupDD('sProofArea',inp=>handleFile(inp,'sProof','sProofPrev','btnSSubmit'));
   updateCartUI();fetchProducts();
 });
