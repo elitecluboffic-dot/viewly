@@ -10,7 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="https://i.ibb.co.com/hxnN4YwR/file-00000000f3b8720890e1c02108057a6c.png" />
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
+  <!-- reCAPTCHA v2 Checkbox -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{--cream:#f5f0e8;--dark:#1a1714;--muted:#7a7269;--accent:#c8a96e;--white:#fdfcfa;--success:#4caf7d;--danger:#e05252;--card-bg:#fdfcfa;--border:rgba(26,23,20,0.1);--shadow:0 4px 24px rgba(26,23,20,0.08);--verified:#1d9bf0}
@@ -340,6 +341,9 @@
     .btn-resend{background:none;border:none;color:var(--accent);font-family:'DM Sans',sans-serif;font-size:.82rem;cursor:pointer;font-weight:600;padding:.3rem 0;display:block;margin:0 auto;transition:opacity .2s}
     .btn-resend:disabled{opacity:.35;cursor:default}
 
+    /* reCAPTCHA wrapper */
+    #recaptcha-register{display:flex;justify-content:center;margin-bottom:1rem}
+
     .admin-panel{display:none;position:fixed;inset:0;z-index:2000;background:rgba(12,11,9,.97);backdrop-filter:blur(12px);padding:2rem;overflow-y:auto}
     .admin-panel.open{display:block}
     .admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;border-bottom:1px solid rgba(245,240,232,.1);padding-bottom:1rem}
@@ -399,9 +403,10 @@
 <body>
 
 <script>
-  const WORKER_URL = 'https://worker.internetdnsofficial.workers.dev';
+  const WORKER_URL  = 'https://worker.internetdnsofficial.workers.dev';
   const EJ_PUBLIC   = '7XUXjtF-ko_D5cz5_';
-  const RC_SITE_KEY  = '6Le6glksAAAAIEaM4L8m5QUSKa4XZ4No5DYQu7h';
+  // ⚠️ Ganti dengan Site Key v2 Checkbox dari console.google.com/recaptcha
+  const RC_SITE_KEY = '6Le6gIksAAAAAIEaM4L8m5QUSKa4XZ4No5DYQu7h';
   const EJ_SVC      = 'service_7nw21xn';
   const EJ_TPL_ORDER= 'template_dpljy7v';
   const EJ_TPL_SELL = 'template_dpljy7v';
@@ -556,6 +561,7 @@
       <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Masuk</button>
       <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Daftar</button>
     </div>
+    <!-- LOGIN -->
     <div id="authLoginForm">
       <div class="form-group"><label>Email *</label><input type="email" id="loginEmail" placeholder="email@example.com"/></div>
       <div class="form-group"><label>Password *</label><input type="password" id="loginPassword" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
@@ -564,6 +570,7 @@
       <div class="divider">atau</div>
       <p style="text-align:center;font-size:.82rem;color:var(--muted)">Belum punya akun? <a onclick="switchAuthTab('register')" style="color:var(--accent);cursor:pointer;font-weight:600">Daftar sekarang</a></p>
     </div>
+    <!-- REGISTER -->
     <div id="authRegisterForm" style="display:none">
       <div class="form-group"><label>Bergabung sebagai? *</label>
         <div class="role-selector">
@@ -586,9 +593,12 @@
       <div class="form-group"><label>Nomor WhatsApp *</label><input type="tel" id="regWA" placeholder="08xxxxxxxxxx"/></div>
       <div class="form-group"><label>Password *</label><input type="password" id="regPassword" placeholder="Min. 6 karakter"/></div>
       <div class="form-group"><label>Konfirmasi Password *</label><input type="password" id="regPassword2" placeholder="Ulangi password" onkeydown="if(event.key==='Enter')doRegister()"/></div>
+      <!-- reCAPTCHA v2 Checkbox -->
+      <div id="recaptcha-register"></div>
       <button class="btn-primary" id="regSubmitBtn" onclick="doRegister()"><span id="regBtnTxt">Kirim Kode OTP →</span><div class="spinner" id="regSpinner" style="display:none"></div></button>
       <p id="regErr" style="color:var(--danger);font-size:.78rem;margin-top:.6rem;min-height:1rem"></p>
     </div>
+    <!-- OTP -->
     <div id="authOTPForm" style="display:none">
       <div style="text-align:center;margin-bottom:1.5rem">
         <div class="otp-icon-wrap">📧</div>
@@ -703,7 +713,7 @@
       <p class="modal-sub">Transfer <strong>Rp 7.000</strong> ke rekening di bawah.</p>
       <div class="payment-methods" id="sPayMethods">
         <label class="payment-method selected" onclick="selPay('s','bca',this)"><input type="radio" name="spay" checked><span class="payment-method-icon">🏦</span><div><div class="payment-method-name">BCA</div><div class="payment-method-sub">Transfer Bank</div></div></label>
-        <label class="payment-method" onclick="selPay('s','mandiri',this)"><input type="radio" name="spay"><span class="payment-method-icon">🏛️</span><div><div class="payment-method-name">Seabank</div><div class="payment-method-sub">Transfer Bank</div></div></label>
+        <label class="payment-method" onclick="selPay('s','mandiri',this)"><input type="radio" name="cpay"><span class="payment-method-icon">🏛️</span><div><div class="payment-method-name">Seabank</div><div class="payment-method-sub">Transfer Bank</div></div></label>
         <label class="payment-method" onclick="selPay('s','dana',this)"><input type="radio" name="spay"><span class="payment-method-icon">💙</span><div><div class="payment-method-name">DANA</div><div class="payment-method-sub">E-Wallet</div></div></label>
         <label class="payment-method" onclick="selPay('s','gopay',this)"><input type="radio" name="spay"><span class="payment-method-icon">💚</span><div><div class="payment-method-name">GoPay</div><div class="payment-method-sub">E-Wallet</div></div></label>
       </div>
@@ -864,39 +874,39 @@
   </div>
 </div>
 
-<div id="recaptcha-container" style="display:none"></div>
 <button class="admin-dot" onclick="openAdmin()" title="Admin Panel"></button>
 <div class="toast" id="toast"></div>
 
 <script>
 (function(){ emailjs.init(EJ_PUBLIC); })();
 
-// ── reCAPTCHA HELPER ──
+// ── reCAPTCHA v2 CHECKBOX ──
 let _rcWidgetId = null;
-let _rcResolve  = null;
-window._onRcDone = function(token) {
-  if (_rcResolve) { _rcResolve(token); _rcResolve = null; }
-};
-function _ensureRc() {
-  return new Promise(resolve => {
-    const wait = () => {
-      if (typeof grecaptcha === 'undefined' || typeof grecaptcha.render === 'undefined') { setTimeout(wait, 200); return; }
-      if (_rcWidgetId === null) {
-        _rcWidgetId = grecaptcha.render('recaptcha-container', { sitekey: RC_SITE_KEY, size: 'invisible', callback: '_onRcDone' });
-      }
-      resolve();
-    };
-    wait();
-  });
+
+function _renderRc() {
+  const container = document.getElementById('recaptcha-register');
+  if (!container) return;
+  const wait = () => {
+    if (typeof grecaptcha === 'undefined' || typeof grecaptcha.render === 'undefined') {
+      setTimeout(wait, 200); return;
+    }
+    if (_rcWidgetId === null) {
+      _rcWidgetId = grecaptcha.render('recaptcha-register', {
+        sitekey: RC_SITE_KEY,
+        theme  : document.body.classList.contains('dark-mode') ? 'dark' : 'light',
+      });
+    }
+  };
+  wait();
 }
-async function getRcToken() {
-  await _ensureRc();
-  grecaptcha.reset(_rcWidgetId);
-  return new Promise((resolve, reject) => {
-    _rcResolve = resolve;
-    setTimeout(() => { _rcResolve = null; reject(new Error('reCAPTCHA timeout')); }, 15000);
-    grecaptcha.execute(_rcWidgetId);
-  });
+
+function _getRcToken() {
+  if (_rcWidgetId === null) return null;
+  return grecaptcha.getResponse(_rcWidgetId) || null;
+}
+
+function _resetRc() {
+  if (_rcWidgetId !== null) grecaptcha.reset(_rcWidgetId);
 }
 
 // ── STATE ──
@@ -917,13 +927,12 @@ let pendingRegData = null;
 let otpTimerInterval = null;
 let otpSecondsLeft = OTP_DURATION;
 
-// ── VERIFIED BADGE HTML ──
 const vBadge = `<span class="verified-badge"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>`;
 
 // ── AUTH ──
 const getCurrentUser = () => { try { return JSON.parse(sessionStorage.getItem('mkt_cu')||'null'); } catch { return null; } };
 const setCurrentUser = u => sessionStorage.setItem('mkt_cu', JSON.stringify(u));
-const isSeller = () => { const u=getCurrentUser(); return u&&u.role==='seller'; };
+const isSeller   = () => { const u=getCurrentUser(); return u&&u.role==='seller'; };
 const isVerified = () => { const u=getCurrentUser(); return u&&u.verified===true; };
 
 function selectRole(role,el) {
@@ -992,6 +1001,7 @@ function switchAuthTab(tab) {
   document.getElementById('authRegisterForm').style.display=tab==='register'?'block':'none';
   document.getElementById('tabLogin').classList.toggle('active',tab==='login');
   document.getElementById('tabRegister').classList.toggle('active',tab==='register');
+  if (tab === 'register') _renderRc();
 }
 
 async function doLogin() {
@@ -1022,6 +1032,10 @@ async function doRegister() {
   if (pass.length < 6)  { errEl.textContent = '❗ Password min. 6 karakter.'; return; }
   if (pass !== pass2)   { errEl.textContent = '❗ Password tidak cocok.'; return; }
 
+  // Cek reCAPTCHA v2 checkbox
+  const rcToken = _getRcToken();
+  if (!rcToken) { errEl.textContent = '❗ Centang dulu "I\'m not a robot".'; return; }
+
   const btn  = document.getElementById('regSubmitBtn');
   const txt  = document.getElementById('regBtnTxt');
   const spin = document.getElementById('regSpinner');
@@ -1032,6 +1046,7 @@ async function doRegister() {
     if (chk && chk.exists) {
       errEl.textContent = '❗ Email ini sudah terdaftar. Silakan masuk atau gunakan email lain.';
       btn.disabled = false; txt.textContent = 'Kirim Kode OTP →'; spin.style.display = 'none';
+      _resetRc();
       return;
     }
 
@@ -1042,28 +1057,28 @@ async function doRegister() {
       hour: '2-digit', minute: '2-digit', second: '2-digit'
     });
 
-    const rcToken = await getRcToken();
+    // Kirim OTP via EmailJS — tanpa rcToken (tidak diperlukan di EmailJS gratis)
     await emailjs.send(EJ_SVC, EJ_TPL_REG, {
       email,
-      user_name             : name,
-      passcode              : otp,
-      time                  : expiry,
-      'g-recaptcha-response': rcToken,
+      user_name: name,
+      passcode : otp,
+      time     : expiry,
     });
 
     pendingOTP     = otp;
     pendingRegData = { name, email, wa, pass, role: selectedRole };
 
+    _resetRc();
     showOTPForm(email);
     toast('📧 Kode OTP dikirim ke ' + email, 'ok');
 
   } catch (e) {
     console.error('doRegister error:', e);
     let msg = 'Gagal kirim OTP. Coba lagi.';
-    if (e?.message?.includes('timeout'))  msg = 'reCAPTCHA timeout. Coba matikan adblock/VPN.';
-    else if (e?.name === 'TypeError')     msg = 'Koneksi bermasalah. Periksa internet kamu.';
-    else if (e?.text)                     msg = e.text;
+    if (e?.name === 'TypeError') msg = 'Koneksi bermasalah. Periksa internet kamu.';
+    else if (e?.text)            msg = e.text;
     errEl.textContent = '❌ ' + msg;
+    _resetRc();
   }
 
   btn.disabled = false; txt.textContent = 'Kirim Kode OTP →'; spin.style.display = 'none';
@@ -1085,6 +1100,7 @@ function backToRegister() {
   document.getElementById('authTabsBar').style.display='flex';
   document.getElementById('authOTPForm').style.display='none';
   document.getElementById('authRegisterForm').style.display='block';
+  _resetRc();
 }
 
 function clearOTPState() {
@@ -1125,10 +1141,11 @@ async function resendOTP() {
   btn.textContent='⏳ Mengirim...'; btn.disabled=true;
   try {
     const expiryNew = new Date(Date.now() + 2*60*1000).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    const rcToken2 = await getRcToken();
     await emailjs.send(EJ_SVC, EJ_TPL_REG, {
-      email: pendingRegData.email, user_name: pendingRegData.name,
-      passcode: newOTP, time: expiryNew, 'g-recaptcha-response': rcToken2,
+      email    : pendingRegData.email,
+      user_name: pendingRegData.name,
+      passcode : newOTP,
+      time     : expiryNew,
     });
     pendingOTP = newOTP;
     document.getElementById('otpInput').value='';
