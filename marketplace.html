@@ -331,7 +331,6 @@
     .fee-box-text{font-size:.82rem;line-height:1.6}
     .fee-box-text strong{color:var(--accent)}
 
-    /* ── OTP INPUT STYLE ── */
     .otp-icon-wrap{width:64px;height:64px;background:rgba(200,169,110,.1);border:1px solid rgba(200,169,110,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.75rem}
     .otp-input{text-align:center !important;font-size:1.75rem !important;letter-spacing:.65rem !important;font-weight:700 !important;padding:.75rem 1rem !important;font-family:'DM Sans',sans-serif !important;border:2px solid var(--border) !important;border-radius:14px !important}
     .otp-input:focus{border-color:var(--accent) !important;outline:none}
@@ -414,7 +413,7 @@
     dana:    { name:'DANA',    icon:'💙', no:'085122975498',  an:'Bustanul Labib Alwasi' },
   };
   const UPLOAD_FEE = 7000;
-  const OTP_DURATION = 120; // seconds
+  const OTP_DURATION = 120;
 </script>
 
 <!-- NAV -->
@@ -546,21 +545,17 @@
   </div>
 </div>
 
-<!-- ════ AUTH MODAL ════ -->
+<!-- AUTH MODAL -->
 <div class="modal-overlay" id="authModal">
   <div class="modal" style="max-width:440px">
     <button class="modal-close" onclick="closeAuthModal()">✕</button>
     <p class="modal-label">Akun Kamu</p>
     <h2>Masuk / <em style="font-style:italic;color:var(--accent)">Daftar</em></h2>
     <p class="modal-sub" style="margin-bottom:1.25rem">Wajib login untuk akses dashboard.</p>
-
-    <!-- AUTH TABS (hidden when OTP active) -->
     <div class="auth-tabs" id="authTabsBar">
       <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Masuk</button>
       <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Daftar</button>
     </div>
-
-    <!-- LOGIN FORM -->
     <div id="authLoginForm">
       <div class="form-group"><label>Email *</label><input type="email" id="loginEmail" placeholder="email@example.com"/></div>
       <div class="form-group"><label>Password *</label><input type="password" id="loginPassword" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
@@ -569,8 +564,6 @@
       <div class="divider">atau</div>
       <p style="text-align:center;font-size:.82rem;color:var(--muted)">Belum punya akun? <a onclick="switchAuthTab('register')" style="color:var(--accent);cursor:pointer;font-weight:600">Daftar sekarang</a></p>
     </div>
-
-    <!-- REGISTER FORM -->
     <div id="authRegisterForm" style="display:none">
       <div class="form-group"><label>Bergabung sebagai? *</label>
         <div class="role-selector">
@@ -596,50 +589,32 @@
       <button class="btn-primary" id="regSubmitBtn" onclick="doRegister()"><span id="regBtnTxt">Kirim Kode OTP →</span><div class="spinner" id="regSpinner" style="display:none"></div></button>
       <p id="regErr" style="color:var(--danger);font-size:.78rem;margin-top:.6rem;min-height:1rem"></p>
     </div>
-
-    <!-- ── OTP VERIFICATION FORM ── -->
     <div id="authOTPForm" style="display:none">
       <div style="text-align:center;margin-bottom:1.5rem">
         <div class="otp-icon-wrap">📧</div>
         <h2 style="margin-bottom:.4rem">Verifikasi <em style="font-style:italic;color:var(--accent)">Email</em></h2>
         <p style="font-size:.82rem;color:var(--muted);line-height:1.6">Kode OTP 6 digit sudah dikirim ke<br><strong id="otpEmailDisplay" style="color:var(--dark)">-</strong></p>
       </div>
-
       <div class="form-group" style="margin-bottom:.5rem">
         <label style="text-align:center;display:block">Masukkan Kode OTP *</label>
-        <input
-          type="text"
-          id="otpInput"
-          class="otp-input"
-          maxlength="6"
-          placeholder="_ _ _ _ _ _"
-          autocomplete="one-time-code"
-          inputmode="numeric"
-          oninput="this.value=this.value.replace(/\D/g,'');if(this.value.length===6)verifyOTP()"
-          onkeydown="if(event.key==='Enter')verifyOTP()"
-        />
+        <input type="text" id="otpInput" class="otp-input" maxlength="6" placeholder="_ _ _ _ _ _" autocomplete="one-time-code" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'');if(this.value.length===6)verifyOTP()" onkeydown="if(event.key==='Enter')verifyOTP()"/>
       </div>
-
-      <!-- progress bar -->
       <div class="otp-timer-bar"><div class="otp-timer-fill" id="otpTimerFill" style="width:100%"></div></div>
       <p class="otp-timer-text" id="otpTimerText">Kode berlaku 2:00</p>
-
       <button class="btn-primary" id="otpVerifyBtn" onclick="verifyOTP()">
         <span id="otpBtnTxt">Verifikasi &amp; Buat Akun</span>
         <div class="spinner" id="otpSpinner" style="display:none"></div>
       </button>
       <p id="otpErr" style="color:var(--danger);font-size:.78rem;margin-top:.6rem;min-height:1rem;text-align:center"></p>
-
       <div style="text-align:center;margin-top:.75rem;display:flex;flex-direction:column;align-items:center;gap:.4rem">
         <button class="btn-resend" id="resendOTPBtn" onclick="resendOTP()" disabled>🔄 Kirim Ulang OTP</button>
         <button onclick="backToRegister()" style="background:none;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.78rem;cursor:pointer;padding:.3rem 0">← Kembali ke form</button>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- ════ CHECKOUT MODAL ════ -->
+<!-- CHECKOUT MODAL -->
 <div class="modal-overlay" id="checkoutModal">
   <div class="modal">
     <button class="modal-close" onclick="closeCheckout()">✕</button>
@@ -695,7 +670,7 @@
   </div>
 </div>
 
-<!-- ════ SELL MODAL ════ -->
+<!-- SELL MODAL -->
 <div class="modal-overlay" id="sellModal">
   <div class="modal" style="max-width:580px">
     <button class="modal-close" onclick="closeSellModal()">✕</button>
@@ -764,7 +739,7 @@
   </div>
 </div>
 
-<!-- ════ SELLER DASHBOARD ════ -->
+<!-- SELLER DASHBOARD -->
 <div class="dashboard-overlay" id="sellerDashboard">
   <div class="dashboard-nav">
     <div class="dashboard-nav-left">
@@ -823,14 +798,12 @@
       <div class="dash-section-header">
         <h3 class="dash-section-title">Verifikasi <em style="font-style:italic;color:var(--accent)">Identitas</em></h3>
       </div>
-      <div class="verif-section">
-        <div id="verifContent"></div>
-      </div>
+      <div class="verif-section"><div id="verifContent"></div></div>
     </div>
   </div>
 </div>
 
-<!-- ════ BUYER DASHBOARD ════ -->
+<!-- BUYER DASHBOARD -->
 <div class="buyer-dashboard-overlay" id="buyerDashboard">
   <div class="buyer-dash-nav">
     <span style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;color:var(--dark)">Dashboard Pembeli</span>
@@ -867,7 +840,7 @@
   </div>
 </div>
 
-<!-- ════ ADMIN PANEL ════ -->
+<!-- ADMIN PANEL -->
 <div class="admin-panel" id="adminPanel">
   <div class="admin-header">
     <h2>🔐 Admin Panel — Marketplace Labib</h2>
@@ -901,30 +874,21 @@
 // ── reCAPTCHA HELPER ──
 let _rcWidgetId = null;
 let _rcResolve  = null;
-
 window._onRcDone = function(token) {
   if (_rcResolve) { _rcResolve(token); _rcResolve = null; }
 };
-
 function _ensureRc() {
   return new Promise(resolve => {
     const wait = () => {
-      if (typeof grecaptcha === 'undefined' || typeof grecaptcha.render === 'undefined') {
-        setTimeout(wait, 200); return;
-      }
+      if (typeof grecaptcha === 'undefined' || typeof grecaptcha.render === 'undefined') { setTimeout(wait, 200); return; }
       if (_rcWidgetId === null) {
-        _rcWidgetId = grecaptcha.render('recaptcha-container', {
-          sitekey  : RC_SITE_KEY,
-          size     : 'invisible',
-          callback : '_onRcDone',
-        });
+        _rcWidgetId = grecaptcha.render('recaptcha-container', { sitekey: RC_SITE_KEY, size: 'invisible', callback: '_onRcDone' });
       }
       resolve();
     };
     wait();
   });
 }
-
 async function getRcToken() {
   await _ensureRc();
   grecaptcha.reset(_rcWidgetId);
@@ -934,8 +898,6 @@ async function getRcToken() {
     grecaptcha.execute(_rcWidgetId);
   });
 }
-
-
 
 // ── STATE ──
 let products = [];
@@ -1013,21 +975,17 @@ function toggleDropdown(){document.getElementById('userDropdown').classList.togg
 function closeDropdown(){document.getElementById('userDropdown').classList.remove('open');}
 
 function openAuthModal(tab='login') {
-  // Reset OTP state when opening fresh
   clearOTPState();
   switchAuthTab(tab);
   document.getElementById('authModal').classList.add('open');
 }
-
 function closeAuthModal() {
   document.getElementById('authModal').classList.remove('open');
   document.getElementById('loginErr').textContent='';
   document.getElementById('regErr').textContent='';
   clearOTPState();
 }
-
 function switchAuthTab(tab) {
-  // Always hide OTP form when switching tabs
   document.getElementById('authOTPForm').style.display='none';
   document.getElementById('authTabsBar').style.display='flex';
   document.getElementById('authLoginForm').style.display=tab==='login'?'block':'none';
@@ -1051,8 +1009,7 @@ async function doLogin() {
   document.getElementById('loginSpinner').style.display='none';
 }
 
-
- // ── OTP REGISTER FLOW ──
+// ── OTP REGISTER FLOW ──
 async function doRegister() {
   const name  = document.getElementById('regName').value.trim();
   const email = document.getElementById('regEmail').value.trim();
@@ -1071,7 +1028,6 @@ async function doRegister() {
   btn.disabled = true; txt.textContent = 'Memeriksa email...'; spin.style.display = 'block';
 
   try {
-    // Cek apakah email sudah terdaftar
     const chk = await api('/api/check-email', { email });
     if (chk && chk.exists) {
       errEl.textContent = '❗ Email ini sudah terdaftar. Silakan masuk atau gunakan email lain.';
@@ -1081,7 +1037,6 @@ async function doRegister() {
 
     txt.textContent = 'Mengirim OTP...';
 
-    // Generate OTP
     const otp    = Math.floor(100000 + Math.random() * 900000).toString();
     const expiry = new Date(Date.now() + 2 * 60 * 1000).toLocaleTimeString('id-ID', {
       hour: '2-digit', minute: '2-digit', second: '2-digit'
@@ -1096,9 +1051,8 @@ async function doRegister() {
       'g-recaptcha-response': rcToken,
     });
 
-    // Simpan state OTP
-    pendingOTP      = otp;
-    pendingRegData  = { name, email, wa, pass, role: selectedRole };
+    pendingOTP     = otp;
+    pendingRegData = { name, email, wa, pass, role: selectedRole };
 
     showOTPForm(email);
     toast('📧 Kode OTP dikirim ke ' + email, 'ok');
@@ -1115,108 +1069,14 @@ async function doRegister() {
   btn.disabled = false; txt.textContent = 'Kirim Kode OTP →'; spin.style.display = 'none';
 }
 
-  
-  // Step 2: Generate OTP + Kirim via EmailJS + reCAPTCHA
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
-  try {
-    const expiry = new Date(Date.now() + 2 * 60 * 1000).toLocaleTimeString('id-ID', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
-    });
-
-    // Ini bagian reCAPTCHA (hanya di register)
-    const rcToken = await getRcToken();  // ← captcha dipanggil di sini saja
-
-    const ejRes = await emailjs.send(EJ_SVC, EJ_TPL_REG, {
-      email: email,
-      user_name: name,
-      passcode: otp,
-      time: expiry,
-      'g-recaptcha-response': rcToken,
-    });
-
-    console.log('EmailJS sukses:', ejRes);
-
-    // Simpan state OTP
-    pendingOTP = otp;
-    pendingRegData = { name, email, wa, pass, role: selectedRole };
-
-    // Tampilkan form OTP
-    showOTPForm(email);
-    toast('📧 Kode OTP dikirim ke ' + email, 'ok');
-
-  } catch (e) {
-    console.error('Gagal kirim OTP (reCAPTCHA / EmailJS):', e);
-    console.log('Error name:', e.name);
-    console.log('Error message:', e.message);
-    console.log('Error stack:', e.stack || e);
-
-    let errorMsg = 'Gagal kirim OTP. Coba lagi.';
-    if (e.message.includes('timeout')) {
-      errorMsg = 'reCAPTCHA timeout. Coba refresh halaman atau matikan adblock/VPN.';
-    } else if (e.message.includes('network') || e.name === 'TypeError') {
-      errorMsg = 'Koneksi bermasalah. Periksa internet kamu.';
-    } else if (e.text) {
-      errorMsg = e.text; // kalau EmailJS kasih pesan spesifik
-    }
-
-    errEl.textContent = '❌ ' + errorMsg;
-  }
-
-  // Reset button apapun hasilnya
-  function resetButton() {
-    btn.disabled = false;
-    txt.textContent = 'Kirim Kode OTP →';
-    spin.style.display = 'none';
-  }
-  resetButton();
-}
-  
-  // generate OTP
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-  try {
-    // Send OTP via EmailJS using EJ_TPL_REG
-    const expiry = new Date(Date.now() + 2*60*1000).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    const rcToken = await getRcToken();
-    const ejRes = await emailjs.send(EJ_SVC, EJ_TPL_REG, {
-      email                  : email,
-      user_name              : name,
-      passcode               : otp,
-      time                   : expiry,
-      'g-recaptcha-response' : rcToken,
-    });
-    console.log('EmailJS response:', ejRes);
-
-    // Save state
-    pendingOTP = otp;
-    pendingRegData = { name, email, wa, pass, role: selectedRole };
-
-    // Show OTP form
-    showOTPForm(email);
-    toast('📧 Kode OTP dikirim ke '+email, 'ok');
-  } catch(e) {
-    console.error('EmailJS error:', e);
-    // Tampilkan detail error untuk membantu debug
-    const detail = e?.text || e?.message || JSON.stringify(e) || 'Unknown error';
-    document.getElementById('regErr').textContent = '❌ Gagal kirim OTP: ' + detail;
-  }
-
-  btn.disabled=false; txt.textContent='Kirim Kode OTP →'; spin.style.display='none';
-}
-
 function showOTPForm(email) {
-  // Hide tabs + register form, show OTP form
   document.getElementById('authTabsBar').style.display='none';
   document.getElementById('authRegisterForm').style.display='none';
   document.getElementById('authOTPForm').style.display='block';
-
   document.getElementById('otpEmailDisplay').textContent = email;
   document.getElementById('otpInput').value = '';
   document.getElementById('otpErr').textContent = '';
   document.getElementById('otpVerifyBtn').disabled = false;
-
   startOTPTimer();
 }
 
@@ -1238,33 +1098,23 @@ function clearOTPState() {
 function startOTPTimer() {
   clearInterval(otpTimerInterval);
   otpSecondsLeft = OTP_DURATION;
-
   const fill   = document.getElementById('otpTimerFill');
   const txt    = document.getElementById('otpTimerText');
   const resend = document.getElementById('resendOTPBtn');
   resend.disabled = true;
-
   function tick() {
     otpSecondsLeft--;
     const pct = (otpSecondsLeft / OTP_DURATION) * 100;
     fill.style.width = pct + '%';
-    // color shift: green → yellow → red
     if(pct > 50)      fill.style.background = 'var(--accent)';
     else if(pct > 20) fill.style.background = '#e0a040';
     else              fill.style.background = 'var(--danger)';
-
     const m = Math.floor(otpSecondsLeft/60);
     const s = String(otpSecondsLeft%60).padStart(2,'0');
     txt.textContent = otpSecondsLeft > 0 ? `Kode berlaku ${m}:${s}` : '⏰ Kode OTP sudah kedaluwarsa.';
-
-    if(otpSecondsLeft <= 0) {
-      clearInterval(otpTimerInterval);
-      resend.disabled = false;
-      fill.style.width = '0%';
-    }
+    if(otpSecondsLeft <= 0) { clearInterval(otpTimerInterval); resend.disabled = false; fill.style.width = '0%'; }
   }
-
-  tick(); // run immediately
+  tick();
   otpTimerInterval = setInterval(tick, 1000);
 }
 
@@ -1277,11 +1127,8 @@ async function resendOTP() {
     const expiryNew = new Date(Date.now() + 2*60*1000).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
     const rcToken2 = await getRcToken();
     await emailjs.send(EJ_SVC, EJ_TPL_REG, {
-      email                  : pendingRegData.email,
-      user_name              : pendingRegData.name,
-      passcode               : newOTP,
-      time                   : expiryNew,
-      'g-recaptcha-response' : rcToken2,
+      email: pendingRegData.email, user_name: pendingRegData.name,
+      passcode: newOTP, time: expiryNew, 'g-recaptcha-response': rcToken2,
     });
     pendingOTP = newOTP;
     document.getElementById('otpInput').value='';
@@ -1298,43 +1145,32 @@ async function resendOTP() {
 async function verifyOTP() {
   const input = document.getElementById('otpInput').value.trim();
   const errEl = document.getElementById('otpErr');
-
   if(input.length !== 6) { errEl.textContent='❗ Masukkan 6 digit kode OTP.'; return; }
   if(otpSecondsLeft <= 0) { errEl.textContent='⏰ Kode OTP sudah kedaluwarsa. Kirim ulang.'; return; }
   if(input !== pendingOTP) {
     errEl.textContent='❌ Kode OTP salah. Periksa email kamu.';
-    // shake input
     const inp=document.getElementById('otpInput');
     inp.style.borderColor='var(--danger)';
     setTimeout(()=>inp.style.borderColor='',1500);
     return;
   }
-
-  // OTP correct → create account
   const btn  = document.getElementById('otpVerifyBtn');
   const txt  = document.getElementById('otpBtnTxt');
   const spin = document.getElementById('otpSpinner');
   btn.disabled=true; txt.textContent='Membuat akun...'; spin.style.display='block';
-
   try {
     const { name, email, wa, pass, role } = pendingRegData;
     const res = await api('/api/register', { name, email, wa, pw:pass, role });
     if(!res.ok) { errEl.textContent='❌ '+(res.error||'Gagal membuat akun.'); btn.disabled=false; txt.textContent='Verifikasi & Buat Akun'; spin.style.display='none'; return; }
-
-    // Success — clear OTP state and go to login
     clearInterval(otpTimerInterval);
     pendingOTP=null; pendingRegData=null;
-
-    // Switch to login tab with prefilled email
     document.getElementById('authTabsBar').style.display='flex';
     document.getElementById('authOTPForm').style.display='none';
     switchAuthTab('login');
     document.getElementById('loginEmail').value = email;
     document.getElementById('loginPassword').value = '';
     document.getElementById('loginPassword').focus();
-
     toast('🎉 Akun berhasil dibuat! Silakan masuk.','ok');
-
   } catch {
     errEl.textContent='❌ Gagal terhubung ke server.';
     btn.disabled=false; txt.textContent='Verifikasi & Buat Akun'; spin.style.display='none';
@@ -1350,17 +1186,10 @@ function guardSell() {
   openSellModal();
 }
 
-// ── DASHBOARD ROUTING ──
-function openDashboard(){
-  const u=getCurrentUser();
-  if(!u){openAuthModal('login');return;}
-  if(u.role==='seller')openSellerDashboard();
-  else openBuyerDashboard();
-}
+function openDashboard(){const u=getCurrentUser();if(!u){openAuthModal('login');return;}if(u.role==='seller')openSellerDashboard();else openBuyerDashboard();}
 function closeDashboard(){document.getElementById('sellerDashboard').classList.remove('open');document.body.style.overflow='';}
 function closeBuyerDashboard(){document.getElementById('buyerDashboard').classList.remove('open');document.body.style.overflow='';}
 
-// ── SELLER DASHBOARD ──
 function openSellerDashboard(){
   const u=getCurrentUser();
   document.getElementById('dashSellerName').textContent=u.name.split(' ')[0];
@@ -1379,7 +1208,6 @@ function switchDashTab(tab,btn){
   if(btn)btn.classList.add('active');
 }
 
-// ── VERIFIKASI ──
 function renderVerifBanner(){
   const u=getCurrentUser(); if(!u||u.role!=='seller')return;
   const el=document.getElementById('verifBanner');
@@ -1395,14 +1223,8 @@ function renderVerifBanner(){
 function renderVerifSection(){
   const u=getCurrentUser(); if(!u)return;
   const el=document.getElementById('verifContent');
-  if(u.verified===true){
-    el.innerHTML=`<div class="verify-banner approved" style="margin-bottom:0"><span class="verify-banner-icon">✅</span><div class="verify-banner-text"><strong>Verifikasi Selesai ${vBadge}</strong>Identitasmu sudah diverifikasi admin. Kamu bebas upload produk!</div></div>`;
-    return;
-  }
-  if(u.verifStatus==='pending'){
-    el.innerHTML=`<div class="verify-banner pending" style="margin-bottom:0"><span class="verify-banner-icon">⏳</span><div class="verify-banner-text"><strong>Menunggu Review Admin</strong>Dokumen identitasmu sudah dikirim dan sedang diperiksa. Proses estimasi 1×24 jam kerja.</div></div>`;
-    return;
-  }
+  if(u.verified===true){el.innerHTML=`<div class="verify-banner approved" style="margin-bottom:0"><span class="verify-banner-icon">✅</span><div class="verify-banner-text"><strong>Verifikasi Selesai ${vBadge}</strong>Identitasmu sudah diverifikasi admin. Kamu bebas upload produk!</div></div>`;return;}
+  if(u.verifStatus==='pending'){el.innerHTML=`<div class="verify-banner pending" style="margin-bottom:0"><span class="verify-banner-icon">⏳</span><div class="verify-banner-text"><strong>Menunggu Review Admin</strong>Dokumen identitasmu sudah dikirim dan sedang diperiksa. Proses estimasi 1×24 jam kerja.</div></div>`;return;}
   el.innerHTML=`
     <div class="verif-steps-info">
       <div class="verif-step-item"><div class="verif-step-num">1</div><div class="verif-step-text"><strong>Upload Foto KTP</strong>Pastikan foto jelas, tidak buram, semua teks terbaca.</div></div>
@@ -1482,7 +1304,6 @@ async function loadMyOrders(){
   }catch{list.innerHTML='<div class="orders-empty"><p style="font-size:.82rem;color:var(--muted)">Belum ada data order.</p></div>';document.getElementById('statOrders').textContent='0';}
 }
 
-// ── BUYER DASHBOARD ──
 function openBuyerDashboard(){
   const u=getCurrentUser();
   document.getElementById('dashBuyerName').textContent=u.name.split(' ')[0];
@@ -1505,7 +1326,6 @@ function renderBuyerProducts(){
 }
 function addToCartFromDash(id,btn){addToCart(id,btn);updateBuyerCartBadge();}
 
-// ── SELLER POPUP ──
 function openSellerPopup(p){
   document.getElementById('spAvatar').textContent=p.seller?p.seller.charAt(0).toUpperCase():'?';
   document.getElementById('spName').innerHTML=p.seller+(p.sellerVerified?` <span class="verified-badge lg"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>`:'');
@@ -1518,7 +1338,6 @@ function openSellerPopup(p){
 }
 function closeSellerPopup(e){if(e.target===document.getElementById('sellerPopupOverlay'))document.getElementById('sellerPopupOverlay').classList.remove('open');}
 
-// ── UTILS ──
 const fmt=n=>'Rp '+Number(n).toLocaleString('id-ID');
 let _tt;
 function toast(msg,type=''){const el=document.getElementById('toast');el.textContent=msg;el.className='toast show '+type;clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),3500);}
@@ -1529,12 +1348,10 @@ const fileToB64=f=>new Promise(res=>{const r=new FileReader();r.onload=e=>res(e.
 async function handleFile(input,stateKey,prevId,btnId){const f=input.files[0];if(!f)return;if(f.size>8*1024*1024){toast('❗ File maks 8MB','err');return;}const b64=await fileToB64(f);if(stateKey==='cProof')cProof=b64;if(stateKey==='sProof')sProof=b64;const img=document.getElementById(prevId);img.src=b64;img.style.display='block';document.getElementById(btnId).disabled=false;toast('✅ File dipilih','ok');}
 function setupDD(areaId,handler){const el=document.getElementById(areaId);if(!el)return;el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('dragover');});el.addEventListener('dragleave',()=>el.classList.remove('dragover'));el.addEventListener('drop',e=>{e.preventDefault();el.classList.remove('dragover');const f=e.dataTransfer.files[0];if(f?.type.startsWith('image/'))handler({files:[f]});});}
 
-// ── 4 FOTO PRODUK ──
 function buildPhotoSlots(){const grid=document.getElementById('photosGrid');grid.innerHTML='';for(let i=0;i<4;i++){const s=document.createElement('div');s.className='photo-slot';s.id='ps'+i;s.innerHTML=`<input type="file" accept="image/*" onchange="onPhotoSlot(${i},this)"/><div class="slot-add" id="sa${i}"><span>${i===0?'📷':'➕'}</span><small>${i===0?'Utama':'Foto '+(i+1)}</small></div>`;if(i===0)s.innerHTML+=`<div class="photo-main-badge" id="pmb0" style="display:none">Utama</div>`;grid.appendChild(s);}}
 async function onPhotoSlot(idx,input){const f=input.files[0];if(!f)return;if(f.size>5*1024*1024){toast('❗ Foto maks 5MB','err');return;}const b64=await fileToB64(f);pImgs[idx]=b64;const slot=document.getElementById('ps'+idx);slot.querySelectorAll('img.slot-img,.slot-rm').forEach(e=>e.remove());const img=document.createElement('img');img.className='slot-img';img.src=b64;slot.appendChild(img);const rm=document.createElement('button');rm.className='slot-rm';rm.textContent='✕';rm.onclick=e=>{e.stopPropagation();e.preventDefault();rmPhoto(idx);};slot.appendChild(rm);document.getElementById('sa'+idx).style.display='none';if(idx===0&&document.getElementById('pmb0'))document.getElementById('pmb0').style.display='block';}
 function rmPhoto(idx){pImgs[idx]=null;const slot=document.getElementById('ps'+idx);slot.querySelectorAll('img.slot-img,.slot-rm').forEach(e=>e.remove());slot.querySelector('input').value='';document.getElementById('sa'+idx).style.display='flex';if(idx===0&&document.getElementById('pmb0'))document.getElementById('pmb0').style.display='none';}
 
-// ── PRODUCTS ──
 async function fetchProducts(){try{const d=await api('/api/products');if(d.ok&&d.list)products=d.list;else products=[];}catch{products=[];}renderProducts();}
 function renderProducts(){
   const grid=document.getElementById('productsGrid');
@@ -1557,7 +1374,6 @@ function imgGo(e,id,idx){if(e)e.stopPropagation();const s=window['_pi'+id];if(!s
 document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');currentFilter=c.dataset.filter;renderProducts();}));
 document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('[data-bfilter]').forEach(c=>c.addEventListener('click',()=>{document.querySelectorAll('[data-bfilter]').forEach(x=>x.classList.remove('active'));c.classList.add('active');buyerFilter=c.dataset.bfilter;renderBuyerProducts();}));});
 
-// ── CART ──
 function addToCart(id,btn){const p=products.find(x=>x.id===id);if(!p)return;const ex=cart.find(c=>c.id===id);if(ex)ex.qty++;else{cart.push({...p,qty:1});if(btn){btn.classList.add('added');btn.textContent='✓ Ditambah';}}updateCartUI();toast('🛒 '+p.name+' ditambahkan!','ok');}
 function removeFromCart(id){cart=cart.filter(c=>c.id!==id);updateCartUI();renderProducts();}
 function changeQty(id,d){const it=cart.find(c=>c.id===id);if(!it)return;it.qty+=d;if(it.qty<=0)removeFromCart(id);else updateCartUI();}
@@ -1568,7 +1384,6 @@ function openCart(){document.getElementById('cartOverlay').classList.add('open')
 function closeCart(){document.getElementById('cartOverlay').classList.remove('open');document.getElementById('cartSidebar').classList.remove('open');document.body.style.overflow='';}
 function resetCart(){cart=[];cProof=null;updateCartUI();renderProducts();}
 
-// ── CHECKOUT ──
 function csGo(n){document.querySelectorAll('#checkoutModal .modal-step').forEach(s=>s.classList.remove('active'));document.getElementById('cs'+n).classList.add('active');}
 function openCheckout(){closeCart();document.getElementById('modalOrderItems').innerHTML=cart.map(c=>`<div class="order-line"><span>${c.name} ×${c.qty}</span><span>${fmt(c.price*c.qty)}</span></div>`).join('');document.getElementById('modalTotal').textContent=fmt(cartTotal());document.getElementById('modalTotal2').textContent=fmt(cartTotal());selPay('c','bca',document.querySelector('#cPayMethods .payment-method'));csGo(1);document.getElementById('checkoutModal').classList.add('open');}
 function closeCheckout(){document.getElementById('checkoutModal').classList.remove('open');}
@@ -1576,14 +1391,12 @@ function checkoutNext(){if(!document.getElementById('buyerName').value.trim()||!
 function selPay(ctx,key,el){const prefix=ctx==='c'?'#cPayMethods':'#sPayMethods';document.querySelectorAll(prefix+' .payment-method').forEach(m=>m.classList.remove('selected'));el.classList.add('selected');if(ctx==='c'){cPayKey=key;document.getElementById('cBankBox').innerHTML=bankBox(key,cartTotal());}else{sPayKey=key;document.getElementById('sBankBox').innerHTML=bankBox(key,UPLOAD_FEE);}}
 async function submitOrder(){if(!cProof)return;const btn=document.getElementById('btnCSubmit'),txt=document.getElementById('cSubmitTxt'),spin=document.getElementById('cSpin');btn.disabled=true;txt.textContent='Mengirim...';spin.style.display='block';const orderId='#LABIB-'+Date.now().toString().slice(-6);const itemsSummary=cart.map(c=>`${c.name} ×${c.qty} = ${fmt(c.price*c.qty)}`).join('\n');try{const res=await api('/api/submit-order',{orderId,buyerName:document.getElementById('buyerName').value,buyerWA:document.getElementById('buyerWA').value,buyerEmail:document.getElementById('buyerEmail').value,buyerAddress:document.getElementById('buyerAddress').value,buyerNote:document.getElementById('buyerNote').value,payMethod:`${PAY[cPayKey].icon} ${PAY[cPayKey].name}`,total:cartTotal(),items:cart.map(c=>({name:c.name,qty:c.qty,price:c.price})),proofBase64:cProof});if(!res.ok)throw new Error(res.error);emailjs.send(EJ_SVC,EJ_TPL_ORDER,{to_email:ADMIN_EMAIL,order_id:orderId,buyer_name:document.getElementById('buyerName').value,buyer_wa:document.getElementById('buyerWA').value,pay_method:PAY[cPayKey].name,total:fmt(cartTotal()),items:itemsSummary,order_time:new Date().toLocaleString('id-ID')}).catch(()=>{});document.getElementById('cOrderId').textContent=orderId;csGo(4);}catch(e){toast('❌ Gagal mengirim: '+(e.message||'coba lagi.'),'err');btn.disabled=false;txt.textContent='Kirim Pesanan';spin.style.display='none';}}
 
-// ── SELL ──
 function openSellModal(){ssGo(1);document.getElementById('sellModal').classList.add('open');}
 function closeSellModal(){document.getElementById('sellModal').classList.remove('open');}
 function ssGo(n){document.querySelectorAll('#sellModal .modal-step').forEach(s=>s.classList.remove('active'));document.getElementById('ss'+n).classList.add('active');}
 function sellNext(){if(!pImgs[0]){toast('❗ Minimal 1 foto utama wajib diisi.','err');return;}const v=['sName','sDesc','sPrice','sCat','sSellerName','sSellerWA'].map(id=>document.getElementById(id).value.trim());if(v.some(x=>!x)){toast('❗ Semua field wajib diisi.','err');return;}if(Number(v[2])<=0){toast('❗ Harga harus lebih dari 0.','err');return;}selPay('s','bca',document.querySelector('#sPayMethods .payment-method'));ssGo(2);}
 async function submitSell(){if(!sProof)return;const btn=document.getElementById('btnSSubmit'),txt=document.getElementById('sSubmitTxt'),spin=document.getElementById('sSpin');btn.disabled=true;txt.textContent='Mendaftarkan...';spin.style.display='block';const listingId='#SELL-'+Date.now().toString().slice(-6);const filteredImgs=pImgs.filter(Boolean);try{const res=await api('/api/submit-product',{listingId,name:document.getElementById('sName').value,desc:document.getElementById('sDesc').value,price:Number(document.getElementById('sPrice').value),category:document.getElementById('sCat').value,seller:document.getElementById('sSellerName').value,sellerWA:document.getElementById('sSellerWA').value,payMethod:`${PAY[sPayKey].icon} ${PAY[sPayKey].name}`,imgBase64:filteredImgs[0],imgsBase64:filteredImgs,proofBase64:sProof});if(!res.ok)throw new Error(res.error);emailjs.send(EJ_SVC,EJ_TPL_SELL,{to_email:ADMIN_EMAIL,listing_id:listingId,product_name:document.getElementById('sName').value,product_price:fmt(Number(document.getElementById('sPrice').value)),category:document.getElementById('sCat').value,seller_name:document.getElementById('sSellerName').value,seller_wa:document.getElementById('sSellerWA').value,pay_method:PAY[sPayKey].name,photos_count:filteredImgs.length,sell_time:new Date().toLocaleString('id-ID')}).catch(()=>{});document.getElementById('sListingId').textContent=listingId;ssGo(4);pImgs=[null,null,null,null];sProof=null;buildPhotoSlots();}catch(e){toast('❌ Gagal mendaftarkan: '+(e.message||'coba lagi.'),'err');btn.disabled=false;txt.textContent='Kirim & Daftarkan Produk';spin.style.display='none';}}
 
-// ── ADMIN ──
 function openAdmin(){document.getElementById('adminPanel').classList.add('open');if(adminToken)showAdminDashboard();else{document.getElementById('adminLoginWrap').style.display='flex';document.getElementById('adminContent').classList.remove('show');}}
 function closeAdmin(){document.getElementById('adminPanel').classList.remove('open');}
 async function doAdminLogin(){const pass=document.getElementById('adminPassInput').value;const btn=document.querySelector('.admin-login-wrap .btn-login');const txt=document.getElementById('loginTxt'),spin=document.getElementById('loginSpin');btn.disabled=true;txt.textContent='Memeriksa...';spin.style.display='block';try{const data=await api('/api/login',{password:pass});if(data.ok){adminToken=data.token;sessionStorage.setItem('mkt_admin_token',adminToken);showAdminDashboard();}else document.getElementById('adminErr').textContent=data.error||'Password salah.';}catch{document.getElementById('adminErr').textContent='Gagal terhubung ke Worker.';}btn.disabled=false;txt.textContent='Masuk';spin.style.display='none';}
@@ -1604,11 +1417,9 @@ async function loadPending(){const list=document.getElementById('pendingList');l
 async function approveP(id){const data=await api('/api/approve',{id});if(!data.ok){toast('❌ Gagal approve.','err');return;}document.getElementById('pc'+id)?.remove();await fetchProducts();toast('✅ Produk diapprove!','ok');if(!document.querySelector('#pendingList .pending-card'))document.getElementById('pendingList').innerHTML='<div class="no-pending">🎉 Semua produk sudah ditangani.</div>';}
 async function rejectP(id){const data=await api('/api/reject',{id});if(!data.ok){toast('❌ Gagal reject.','err');return;}document.getElementById('pc'+id)?.remove();toast('🗑️ Produk dihapus.','');if(!document.querySelector('#pendingList .pending-card'))document.getElementById('pendingList').innerHTML='<div class="no-pending">🎉 Semua produk sudah ditangani.</div>';}
 
-// ── DARK MODE ──
 function toggleTheme(){const dark=document.body.classList.toggle('dark-mode');document.getElementById('themBtn').textContent=dark?'☀️':'🌙';localStorage.setItem('mkt-theme',dark?'dark':'light');}
 if(localStorage.getItem('mkt-theme')==='dark'){document.body.classList.add('dark-mode');document.getElementById('themBtn').textContent='☀️';}
 
-// ── EVENT LISTENERS ──
 document.addEventListener('click',e=>{const dd=document.getElementById('userDropdown');if(!dd.contains(e.target)&&!e.target.closest('.nav-user'))closeDropdown();});
 document.addEventListener('keydown',e=>{
   if(e.ctrlKey&&e.shiftKey&&e.key==='A'){e.preventDefault();openAdmin();}
@@ -1621,7 +1432,6 @@ document.addEventListener('keydown',e=>{
   }
 });
 
-// ── INIT ──
 window.addEventListener('DOMContentLoaded',()=>{
   renderNavAuth();buildPhotoSlots();
   setupDD('cUpArea',inp=>handleFile(inp,'cProof','cProofPrev','btnCSubmit'));
