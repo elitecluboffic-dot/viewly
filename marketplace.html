@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Marketplace | Bustanul Labib Alwasi</title>
-  <meta name="description" content="Platform jual-beli resmi Bustanul Labib. Temukan produk pilihan dari penjual terverifikasi atau mulai jual produkmu sendiri. Proses mudah, aman, dan langsung terhubung via WhatsApp.">
+  <meta name="description" content="Marketplace Bustanul Labib Alwasi — platform jual-beli online terpercaya.">
   <meta name="author" content="Bustanul Labib Alwasi">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -1147,9 +1147,30 @@ function renderVerifBanner(){
 function renderVerifSection(){
   const u=getCurrentUser(); if(!u)return;
   const el=document.getElementById('verifContent');
-  if(u.verified===true){el.innerHTML=`<div class="verify-banner approved" style="margin-bottom:0"><span class="verify-banner-icon">✅</span><div class="verify-banner-text"><strong>Verifikasi Selesai ${vBadge}</strong>Identitasmu sudah diverifikasi admin. Kamu bebas upload produk!</div></div>`;return;}
-  if(u.verifStatus==='pending'){el.innerHTML=`<div class="verify-banner pending" style="margin-bottom:0"><span class="verify-banner-icon">⏳</span><div class="verify-banner-text"><strong>Menunggu Review Admin</strong>Dokumen identitasmu sudah dikirim dan sedang diperiksa. Proses estimasi 1×24 jam kerja.</div></div>`;return;}
+
+  if(u.verified===true){
+    el.innerHTML=`<div class="verify-banner approved" style="margin-bottom:0"><span class="verify-banner-icon">✅</span><div class="verify-banner-text"><strong>Verifikasi Selesai ${vBadge}</strong>Identitasmu sudah diverifikasi admin. Kamu bebas upload produk!</div></div>`;
+    return;
+  }
+
+  if(u.verifStatus==='pending'){
+    el.innerHTML=`<div class="verify-banner pending" style="margin-bottom:0"><span class="verify-banner-icon">⏳</span><div class="verify-banner-text"><strong>Menunggu Review Admin</strong>Dokumen identitasmu sudah dikirim dan sedang diperiksa. Proses estimasi 1×24 jam kerja.</div></div>`;
+    return;
+  }
+
+  // Tampilkan alasan penolakan kalau ada
+  const rejectedBanner = u.verifStatus === 'rejected' && u.verifReason ? `
+    <div class="verify-banner" style="margin-bottom:1.5rem">
+      <span class="verify-banner-icon">❌</span>
+      <div class="verify-banner-text">
+        <strong>Verifikasi Ditolak</strong>
+        Alasan dari admin: <em style="color:var(--dark);font-style:normal;font-weight:600">${u.verifReason}</em>
+        <br><span style="font-size:.76rem;color:var(--muted);margin-top:.2rem;display:block">Perbaiki dokumen kamu lalu ajukan ulang di bawah.</span>
+      </div>
+    </div>` : '';
+
   el.innerHTML=`
+    ${rejectedBanner}
     <div class="verif-steps-info">
       <div class="verif-step-item"><div class="verif-step-num">1</div><div class="verif-step-text"><strong>Upload Foto KTP</strong>Pastikan foto jelas, tidak buram, semua teks terbaca.</div></div>
       <div class="verif-step-item"><div class="verif-step-num">2</div><div class="verif-step-text"><strong>Upload Selfie Pegang KTP</strong>Foto wajahmu sambil memegang KTP di depan kamera.</div></div>
@@ -1174,7 +1195,7 @@ function renderVerifSection(){
       </div>
     </div>
     <button class="btn-primary" id="btnSubmitVerif" onclick="submitVerif()" disabled>
-      <span id="verifBtnTxt">Kirim untuk Diverifikasi</span>
+      <span id="verifBtnTxt">${u.verifStatus === 'rejected' ? 'Ajukan Ulang Verifikasi' : 'Kirim untuk Diverifikasi'}</span>
       <div class="spinner" id="verifSpin" style="display:none"></div>
     </button>`;
 }
@@ -1452,11 +1473,83 @@ async function loadPendingVerif(){
   try{
     const data=await api('/api/pending-verif');if(!data.ok){list.innerHTML='<div class="no-pending">—</div>';return;}
     if(!data.list||!data.list.length){list.innerHTML='<div class="no-pending">✅ Tidak ada verifikasi menunggu.</div>';return;}
-    list.innerHTML=data.list.map(v=>`<div class="pending-card" id="vc${v.id}"><div style="flex:1"><div class="pending-card-name">${v.sellerName}</div><div class="pending-card-meta">📱 ${v.sellerWA}<br>📧 ${v.sellerEmail||'—'}<br><span style="color:var(--accent);font-size:.7rem">🔖 ${v.verifId}</span></div><div class="ktp-thumbs"><img class="ktp-thumb" src="${v.ktpBase64||''}" alt="KTP" onclick="window.open(this.src,'_blank')" title="Lihat KTP"/><img class="ktp-thumb" src="${v.selfieBase64||''}" alt="Selfie" onclick="window.open(this.src,'_blank')" title="Lihat Selfie"/></div><div class="pending-card-actions" style="margin-top:.75rem"><button class="btn-approve" onclick="approveVerif('${v.id}','${v.sellerEmail}')">✅ Approve & Beri Centang Biru</button><button class="btn-reject" onclick="rejectVerif('${v.id}')">❌ Tolak</button></div></div></div>`).join('');
+
+    // Preset alasan
+    const ALASAN = [
+      'Foto KTP buram / tidak terbaca',
+      'Foto selfie kurang jelas',
+      'KTP tidak terlihat saat selfie',
+      'Data KTP tidak sesuai',
+      'Foto bukan KTP asli',
+    ];
+
+    list.innerHTML=data.list.map(v=>`
+      <div class="pending-card" id="vc${v.id}">
+        <div style="flex:1">
+          <div class="pending-card-name">${v.sellerName}</div>
+          <div class="pending-card-meta">📱 ${v.sellerWA}<br>📧 ${v.sellerEmail||'—'}<br><span style="color:var(--accent);font-size:.7rem">🔖 ${v.verifId}</span></div>
+          <div class="ktp-thumbs">
+            <img class="ktp-thumb" src="${v.ktpBase64||''}" alt="KTP" onclick="window.open(this.src,'_blank')" title="Lihat KTP"/>
+            <img class="ktp-thumb" src="${v.selfieBase64||''}" alt="Selfie" onclick="window.open(this.src,'_blank')" title="Lihat Selfie"/>
+          </div>
+          <div class="pending-card-actions" style="margin-top:.75rem">
+            <button class="btn-approve" onclick="approveVerif('${v.id}','${v.sellerEmail}')">✅ Approve & Beri Centang Biru</button>
+            <button class="btn-reject" onclick="toggleRejectForm('${v.id}')">❌ Tolak</button>
+          </div>
+          <!-- Form alasan penolakan (tersembunyi by default) -->
+          <div id="rejectForm${v.id}" style="display:none;margin-top:.85rem;background:rgba(224,82,82,.06);border:1px solid rgba(224,82,82,.2);border-radius:10px;padding:.85rem">
+            <p style="font-size:.72rem;font-weight:600;color:#ff6b6b;margin-bottom:.5rem;letter-spacing:.08em;text-transform:uppercase">Alasan Penolakan</p>
+            <div style="display:flex;flex-direction:column;gap:.3rem;margin-bottom:.65rem">
+              ${ALASAN.map(a=>`<label style="display:flex;align-items:center;gap:.45rem;font-size:.78rem;color:#f5f0e8;cursor:pointer">
+                <input type="radio" name="reason${v.id}" value="${a}" style="accent-color:var(--danger)"/> ${a}
+              </label>`).join('')}
+              <label style="display:flex;align-items:center;gap:.45rem;font-size:.78rem;color:#f5f0e8;cursor:pointer">
+                <input type="radio" name="reason${v.id}" value="__custom__" style="accent-color:var(--danger)"/> Tulis sendiri...
+              </label>
+            </div>
+            <textarea id="customReason${v.id}" placeholder="Tulis alasan penolakan..." style="width:100%;padding:.55rem .75rem;border-radius:8px;border:1px solid rgba(245,240,232,.15);background:rgba(245,240,232,.06);color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:.8rem;resize:vertical;min-height:60px;outline:none;display:none"></textarea>
+            <div style="display:flex;gap:.5rem;margin-top:.6rem">
+              <button class="btn-reject" style="flex:1" onclick="confirmRejectVerif('${v.id}')">Kirim Penolakan</button>
+              <button onclick="toggleRejectForm('${v.id}')" style="padding:.35rem .85rem;background:transparent;border:1px solid rgba(245,240,232,.2);color:#f5f0e8;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.78rem;cursor:pointer">Batal</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    // Listener untuk radio "Tulis sendiri"
+    data.list.forEach(v => {
+      document.querySelectorAll(`input[name="reason${v.id}"]`).forEach(radio => {
+        radio.addEventListener('change', () => {
+          const custom = document.getElementById(`customReason${v.id}`);
+          custom.style.display = radio.value === '__custom__' ? 'block' : 'none';
+        });
+      });
+    });
+
   }catch{list.innerHTML='<div class="no-pending">❌ Gagal memuat.</div>';}
 }
 async function approveVerif(id,email){const data=await api('/api/approve-verif',{id,email});if(!data.ok){toast('❌ Gagal approve verifikasi.','err');return;}document.getElementById('vc'+id)?.remove();toast('✅ Penjual diverifikasi & mendapat centang biru!','ok');if(!document.querySelector('#pendingVerifList .pending-card'))document.getElementById('pendingVerifList').innerHTML='<div class="no-pending">✅ Semua verifikasi sudah ditangani.</div>';}
-async function rejectVerif(id){const data=await api('/api/reject-verif',{id});if(!data.ok){toast('❌ Gagal tolak verifikasi.','err');return;}document.getElementById('vc'+id)?.remove();toast('🗑️ Verifikasi ditolak.','');if(!document.querySelector('#pendingVerifList .pending-card'))document.getElementById('pendingVerifList').innerHTML='<div class="no-pending">✅ Semua verifikasi sudah ditangani.</div>';}
+function rejectVerif(id){toggleRejectForm(id);}
+function toggleRejectForm(id) {
+  const form = document.getElementById('rejectForm' + id);
+  form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+async function confirmRejectVerif(id) {
+  const radios = document.querySelectorAll(`input[name="reason${id}"]`);
+  let reason = '';
+  radios.forEach(r => { if (r.checked) reason = r.value; });
+  if (reason === '__custom__') reason = document.getElementById('customReason' + id)?.value?.trim() || '';
+  if (!reason) { toast('❗ Pilih atau tulis alasan penolakan dulu.', 'err'); return; }
+
+  const data = await api('/api/reject-verif', { id, reason });
+  if (!data.ok) { toast('❌ Gagal tolak verifikasi.', 'err'); return; }
+  document.getElementById('vc' + id)?.remove();
+  toast('🗑️ Verifikasi ditolak. Alasan sudah disimpan.', '');
+  if (!document.querySelector('#pendingVerifList .pending-card'))
+    document.getElementById('pendingVerifList').innerHTML = '<div class="no-pending">✅ Semua verifikasi sudah ditangani.</div>';
+}
+
 async function loadPending(){const list=document.getElementById('pendingList');list.innerHTML='<div class="no-pending">⏳ Memuat data...</div>';try{const data=await api('/api/pending');if(!data.ok){adminToken=null;sessionStorage.removeItem('mkt_admin_token');openAdmin();return;}if(!data.list.length){list.innerHTML='<div class="no-pending">🎉 Tidak ada produk menunggu persetujuan.</div>';return;}list.innerHTML=data.list.map(p=>`<div class="pending-card" id="pc${p.id}"><img class="pending-card-img" src="${p.img}" alt="${p.name}" onerror="this.style.opacity='.2'"/><div class="pending-card-info"><div class="pending-card-name">${p.name}</div><div class="pending-card-meta">💵 ${fmt(p.price)} · 🏷️ ${p.category}<br>🏪 ${p.seller} · 📱 ${p.sellerWA}<br>📝 ${p.desc}<br><span style="color:var(--accent);font-size:.7rem">🔖 ${p.listingId}</span></div><div class="pending-card-actions"><button class="btn-approve" onclick="approveP(${p.id})">✅ Approve</button><button class="btn-reject" onclick="rejectP(${p.id})">❌ Reject</button></div></div></div>`).join('');}catch{list.innerHTML='<div class="no-pending">❌ Gagal memuat. Cek koneksi Worker.</div>';}}
 async function approveP(id){const data=await api('/api/approve',{id});if(!data.ok){toast('❌ Gagal approve.','err');return;}document.getElementById('pc'+id)?.remove();await fetchProducts();toast('✅ Produk diapprove!','ok');if(!document.querySelector('#pendingList .pending-card'))document.getElementById('pendingList').innerHTML='<div class="no-pending">🎉 Semua produk sudah ditangani.</div>';}
 async function rejectP(id){const data=await api('/api/reject',{id});if(!data.ok){toast('❌ Gagal reject.','err');return;}document.getElementById('pc'+id)?.remove();toast('🗑️ Produk dihapus.','');if(!document.querySelector('#pendingList .pending-card'))document.getElementById('pendingList').innerHTML='<div class="no-pending">🎉 Semua produk sudah ditangani.</div>';}
