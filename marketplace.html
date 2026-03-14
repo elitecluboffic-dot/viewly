@@ -1051,37 +1051,69 @@ async function doLogin() {
   document.getElementById('loginSpinner').style.display='none';
 }
 
-// ── OTP REGISTER FLOW ──
+
+ // ── OTP REGISTER FLOW ──
 async function doRegister() {
-  const name = document.getElementById('regName').value.trim();
+  const name  = document.getElementById('regName').value.trim();
   const email = document.getElementById('regEmail').value.trim();
-  const wa = document.getElementById('regWA').value.trim();
-  const pass = document.getElementById('regPassword').value;
+  const wa    = document.getElementById('regWA').value.trim();
+  const pass  = document.getElementById('regPassword').value;
   const pass2 = document.getElementById('regPassword2').value;
-  if(!name||!email||!wa||!pass) { document.getElementById('regErr').textContent='❗ Semua field wajib diisi.'; return; }
-  if(pass.length<6) { document.getElementById('regErr').textContent='❗ Password min. 6 karakter.'; return; }
-  if(pass!==pass2) { document.getElementById('regErr').textContent='❗ Password tidak cocok.'; return; }
-  const btn = document.getElementById('regSubmitBtn');
-  const txt = document.getElementById('regBtnTxt');
+  const errEl = document.getElementById('regErr');
+
+  if (!name || !email || !wa || !pass) { errEl.textContent = '❗ Semua field wajib diisi.'; return; }
+  if (pass.length < 6)  { errEl.textContent = '❗ Password min. 6 karakter.'; return; }
+  if (pass !== pass2)   { errEl.textContent = '❗ Password tidak cocok.'; return; }
+
+  const btn  = document.getElementById('regSubmitBtn');
+  const txt  = document.getElementById('regBtnTxt');
   const spin = document.getElementById('regSpinner');
-  btn.disabled=true; txt.textContent='Memeriksa email...'; spin.style.display='block';
-  // Check if email already exists
+  btn.disabled = true; txt.textContent = 'Memeriksa email...'; spin.style.display = 'block';
+
   try {
+    // Cek apakah email sudah terdaftar
     const chk = await api('/api/check-email', { email });
     if (chk && chk.exists) {
-      document.getElementById('regErr').textContent = '❗ Email ini sudah terdaftar. Silakan masuk atau gunakan email lain.';
-      btn.disabled=false; txt.textContent='Kirim Kode OTP →'; spin.style.display='none';
+      errEl.textContent = '❗ Email ini sudah terdaftar. Silakan masuk atau gunakan email lain.';
+      btn.disabled = false; txt.textContent = 'Kirim Kode OTP →'; spin.style.display = 'none';
       return;
     }
-} catch(e) {
-  console.error('reCAPTCHA / EmailJS error detail:', e);
-  console.log('Error name:', e.name);
-  console.log('Error message:', e.message);
-  console.log('Error stack:', e.stack);
-  const detail = e?.message || 'Timeout atau network error';
-  document.getElementById('regErr').textContent = '❌ Gagal kirim OTP: ' + detail;
+
+    txt.textContent = 'Mengirim OTP...';
+
+    // Generate OTP
+    const otp    = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiry = new Date(Date.now() + 2 * 60 * 1000).toLocaleTimeString('id-ID', {
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+
+    const rcToken = await getRcToken();
+    await emailjs.send(EJ_SVC, EJ_TPL_REG, {
+      email,
+      user_name             : name,
+      passcode              : otp,
+      time                  : expiry,
+      'g-recaptcha-response': rcToken,
+    });
+
+    // Simpan state OTP
+    pendingOTP      = otp;
+    pendingRegData  = { name, email, wa, pass, role: selectedRole };
+
+    showOTPForm(email);
+    toast('📧 Kode OTP dikirim ke ' + email, 'ok');
+
+  } catch (e) {
+    console.error('doRegister error:', e);
+    let msg = 'Gagal kirim OTP. Coba lagi.';
+    if (e?.message?.includes('timeout'))  msg = 'reCAPTCHA timeout. Coba matikan adblock/VPN.';
+    else if (e?.name === 'TypeError')     msg = 'Koneksi bermasalah. Periksa internet kamu.';
+    else if (e?.text)                     msg = e.text;
+    errEl.textContent = '❌ ' + msg;
+  }
+
+  btn.disabled = false; txt.textContent = 'Kirim Kode OTP →'; spin.style.display = 'none';
 }
-  txt.textContent='Mengirim OTP...';
 
   
   // Step 2: Generate OTP + Kirim via EmailJS + reCAPTCHA
