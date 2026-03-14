@@ -1063,6 +1063,7 @@ async function doRegister() {
       user_name: name,
       passcode : otp,
       time     : expiry,
+      'g-recaptcha-response': 'verified',
     });
 
     pendingOTP     = otp;
@@ -1146,6 +1147,7 @@ async function resendOTP() {
       user_name: pendingRegData.name,
       passcode : newOTP,
       time     : expiryNew,
+      'g-recaptcha-response': 'verified',
     });
     pendingOTP = newOTP;
     document.getElementById('otpInput').value='';
