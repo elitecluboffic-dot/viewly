@@ -222,7 +222,6 @@
     .btn-add-cart:hover{background:var(--accent);color:var(--dark)}
     .btn-add-cart.added{background:var(--success);color:#fff}
 
-    /* ── CART SIDEBAR (updated: kontak penjual saja) ── */
     .cart-overlay{position:fixed;inset:0;background:rgba(26,23,20,.5);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px)}
     .cart-overlay.open{opacity:1;pointer-events:all}
     .cart-sidebar{position:fixed;top:0;right:0;bottom:0;width:min(420px,100vw);background:var(--white);z-index:201;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.25,.46,.45,.94);border-left:1px solid var(--border)}
@@ -237,7 +236,6 @@
     .cart-empty svg{opacity:.3}
     .cart-empty p{font-size:.85rem}
 
-    /* Kartu kontak penjual di keranjang */
     .cart-seller-card{background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.75rem}
     .cart-seller-card-header{display:flex;align-items:center;gap:.6rem}
     .cart-seller-avatar{width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--dark);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0}
@@ -351,7 +349,6 @@
     .btn-resend{background:none;border:none;color:var(--accent);font-family:'DM Sans',sans-serif;font-size:.82rem;cursor:pointer;font-weight:600;padding:.3rem 0;display:block;margin:0 auto;transition:opacity .2s}
     .btn-resend:disabled{opacity:.35;cursor:default}
 
-    /* reCAPTCHA wrapper */
     #recaptcha-register{display:flex;justify-content:center;margin-bottom:1rem}
 
     .admin-panel{display:none;position:fixed;inset:0;z-index:2000;background:rgba(12,11,9,.97);backdrop-filter:blur(12px);padding:2rem;overflow-y:auto}
@@ -446,7 +443,6 @@
     </button>
     <button class="btn-icon" id="themBtn" onclick="toggleTheme()">🌙</button>
     <div id="navAuthArea" style="display:flex;align-items:center;gap:.5rem"></div>
-    <!-- Tombol keranjang: hanya tampil saat sudah login (diatur via renderNavAuth) -->
     <button class="btn-cart" id="navCartBtn" onclick="openCart()" style="display:none">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
       Keranjang
@@ -503,7 +499,7 @@
   </div>
 </section>
 
-<!-- CART OVERLAY + SIDEBAR (kontak penjual) -->
+<!-- CART OVERLAY + SIDEBAR -->
 <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
 <aside class="cart-sidebar" id="cartSidebar">
   <div class="cart-header">
@@ -694,8 +690,8 @@
     <div class="modal-step" id="ss4">
       <div style="text-align:center;padding:1rem 0">
         <div class="success-icon">🚀</div>
-        <h2 style="margin-bottom:.5rem">Produk <em style="font-style:italic;color:var(--accent)">Didaftarkan!</em></h2>
-        <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.6">Produk & bukti fee sudah dikirim ke admin. Akan muncul setelah disetujui.</p>
+        <h2 id="ss4Title" style="margin-bottom:.5rem">Produk <em style="font-style:italic;color:var(--accent)">Didaftarkan!</em></h2>
+        <p id="ss4Desc" style="font-size:.85rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.6">Produk & bukti fee sudah dikirim ke admin. Akan muncul setelah disetujui.</p>
         <div class="success-id-box"><span>Kode Listing</span><strong id="sListingId">#SELL-000000</strong></div>
         <p style="font-size:.78rem;color:var(--muted);margin-bottom:1.5rem">Estimasi review: <strong>1×24 jam kerja</strong>.</p>
         <button class="btn-primary" onclick="closeSellModal();loadMyProducts()">Kembali ke Dashboard</button>
@@ -862,6 +858,7 @@ let pImgs = [null,null,null,null];
 let adminToken = sessionStorage.getItem('mkt_admin_token') || null;
 let selectedRole = 'buyer';
 let verifKTP = null, verifSelfie = null;
+let editProductId = null; // null = mode tambah baru, ada id = mode edit
 
 // ── OTP STATE ──
 let pendingOTP = null;
@@ -904,7 +901,6 @@ function renderNavAuth() {
     ddRole.textContent = verifLabel;
     ddRole.className = 'user-dd-role ' + (u.role==='seller'?(u.verified?'seller':'unverified'):'buyer');
     btnDash.style.display = 'flex';
-    // Tampilkan tombol keranjang hanya saat sudah login
     btnCart.style.display = 'flex';
     if (u.role==='seller' && u.verified) {
       btnSell.style.display='flex';
@@ -919,7 +915,6 @@ function renderNavAuth() {
     el.innerHTML=`<button class="btn-auth" onclick="openAuthModal('login')">Masuk</button><button class="btn-auth btn-auth-primary" onclick="openAuthModal('register')">Daftar</button>`;
     btnSell.style.display='none';
     btnDash.style.display='none';
-    // Sembunyikan keranjang saat belum login
     btnCart.style.display = 'none';
   }
 }
@@ -1158,7 +1153,6 @@ function renderVerifSection(){
     return;
   }
 
-  // Tampilkan alasan penolakan kalau ada
   const rejectedBanner = u.verifStatus === 'rejected' && u.verifReason ? `
     <div class="verify-banner" style="margin-bottom:1.5rem">
       <span class="verify-banner-icon">❌</span>
@@ -1232,7 +1226,10 @@ async function loadMyProducts(){
     const rEl=document.getElementById('dashRecentProducts');
     rEl.innerHTML=mine.slice(0,3).map(p=>`<div style="display:flex;align-items:center;gap:.75rem;padding:.5rem 0;border-bottom:1px solid var(--border)"><img src="${Array.isArray(p.imgs)&&p.imgs[0]?p.imgs[0]:p.img||''}" style="width:40px;height:40px;border-radius:8px;object-fit:cover;flex-shrink:0" onerror="this.style.opacity='.2'"/><div style="flex:1;min-width:0"><div style="font-size:.84rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div><div style="font-size:.72rem;color:var(--accent);font-weight:600">${fmt(p.price)}</div></div><span class="my-product-status approved">✓ Aktif</span></div>`).join('')||'<p style="font-size:.82rem;color:var(--muted)">Belum ada produk aktif.</p>';
     if(!mine.length&&!pending.length){grid.innerHTML=`<div class="my-products-empty"><div>📦</div><p>${u.verified?'<a onclick="openSellModal()" style="color:var(--accent);cursor:pointer;font-weight:600">Upload produk pertamamu →</a>':'Selesaikan verifikasi identitas untuk mulai berjualan.'}</p></div>`;return;}
-    grid.innerHTML=[...mine.map(p=>`<div class="my-product-card"><img class="my-product-img" src="${Array.isArray(p.imgs)&&p.imgs[0]?p.imgs[0]:p.img||''}" onerror="this.style.opacity='.2'" alt="${p.name}"/><div class="my-product-info"><div class="my-product-name">${p.name}</div><div class="my-product-price">${fmt(p.price)}</div><span class="my-product-status approved">✓ Aktif</span></div></div>`),...pending.map(p=>`<div class="my-product-card"><div style="width:100%;aspect-ratio:1/1;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:2rem">📦</div><div class="my-product-info"><div class="my-product-name">${p.name||'Produk baru'}</div><div class="my-product-price">${p.price?fmt(p.price):'—'}</div><span class="my-product-status pending">⏳ Pending Review</span></div></div>`)].join('');
+    grid.innerHTML=[
+      ...mine.map(p=>`<div class="my-product-card"><img class="my-product-img" src="${Array.isArray(p.imgs)&&p.imgs[0]?p.imgs[0]:p.img||''}" onerror="this.style.opacity='.2'" alt="${p.name}"/><div class="my-product-info"><div class="my-product-name">${p.name}</div><div class="my-product-price">${fmt(p.price)}</div><span class="my-product-status approved">✓ Aktif</span><br/><div style="display:flex;gap:.4rem;margin-top:.45rem;flex-wrap:wrap"><button onclick='openEditModal(${JSON.stringify(p)})' style="padding:.3rem .8rem;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:600;cursor:pointer;transition:all .2s" onmouseover="this.style.background='var(--accent)';this.style.color='var(--dark)'" onmouseout="this.style.background='transparent';this.style.color='var(--accent)'">✏️ Edit</button><button onclick='deleteProduct(${p.id},"${p.name.replace(/"/g,'\\"')}",this)' style="padding:.3rem .8rem;background:transparent;border:1px solid var(--danger);color:var(--danger);border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:600;cursor:pointer;transition:all .2s" onmouseover="this.style.background='var(--danger)';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='var(--danger)'">🗑️ Hapus</button></div></div></div>`),
+      ...pending.map(p=>`<div class="my-product-card"><div style="width:100%;aspect-ratio:1/1;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:2rem">📦</div><div class="my-product-info"><div class="my-product-name">${p.name||'Produk baru'}</div><div class="my-product-price">${p.price?fmt(p.price):'—'}</div><span class="my-product-status pending">⏳ Pending Review</span></div></div>`)
+    ].join('');
   }catch{grid.innerHTML='<div class="my-products-empty"><div>❌</div><p>Gagal memuat produk.</p></div>';}
 }
 
@@ -1301,7 +1298,23 @@ function buildPhotoSlots(){const grid=document.getElementById('photosGrid');grid
 async function onPhotoSlot(idx,input){const f=input.files[0];if(!f)return;if(f.size>5*1024*1024){toast('❗ Foto maks 5MB','err');return;}const b64=await fileToB64(f);pImgs[idx]=b64;const slot=document.getElementById('ps'+idx);slot.querySelectorAll('img.slot-img,.slot-rm').forEach(e=>e.remove());const img=document.createElement('img');img.className='slot-img';img.src=b64;slot.appendChild(img);const rm=document.createElement('button');rm.className='slot-rm';rm.textContent='✕';rm.onclick=e=>{e.stopPropagation();e.preventDefault();rmPhoto(idx);};slot.appendChild(rm);document.getElementById('sa'+idx).style.display='none';if(idx===0&&document.getElementById('pmb0'))document.getElementById('pmb0').style.display='block';}
 function rmPhoto(idx){pImgs[idx]=null;const slot=document.getElementById('ps'+idx);slot.querySelectorAll('img.slot-img,.slot-rm').forEach(e=>e.remove());slot.querySelector('input').value='';document.getElementById('sa'+idx).style.display='flex';if(idx===0&&document.getElementById('pmb0'))document.getElementById('pmb0').style.display='none';}
 
-async function fetchProducts(){try{const d=await api('/api/products');if(d.ok&&d.list)products=d.list;else products=[];}catch{products=[];}renderProducts();}
+// ── FETCH PRODUCTS — inject sellerVerified untuk produk milik user yg sudah verified ──
+async function fetchProducts(){
+  try{
+    const d=await api('/api/products');
+    if(d.ok&&d.list){
+      const u=getCurrentUser();
+      products=d.list.map(p=>{
+        if(u&&u.role==='seller'&&u.verified===true&&(p.sellerWA===u.wa||p.seller===u.name)){
+          return{...p,sellerVerified:true};
+        }
+        return p;
+      });
+    }else products=[];
+  }catch{products=[];}
+  renderProducts();
+}
+
 function renderProducts(){
   const grid=document.getElementById('productsGrid');
   let list=currentFilter==='all'?[...products]:products.filter(p=>p.category===currentFilter);
@@ -1323,7 +1336,7 @@ function imgGo(e,id,idx){if(e)e.stopPropagation();const s=window['_pi'+id];if(!s
 document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');currentFilter=c.dataset.filter;renderProducts();}));
 document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('[data-bfilter]').forEach(c=>c.addEventListener('click',()=>{document.querySelectorAll('[data-bfilter]').forEach(x=>x.classList.remove('active'));c.classList.add('active');buyerFilter=c.dataset.bfilter;renderBuyerProducts();}));});
 
-// ── CART: hanya kontak penjual ──
+// ── CART ──
 function addToCart(id, btn) {
   const u = getCurrentUser();
   if (!u) {
@@ -1359,7 +1372,6 @@ function changeQty(id, d) {
 
 const cartCount = () => cart.reduce((s, c) => s + c.qty, 0);
 
-// Kelompokkan item keranjang berdasarkan penjual
 function groupBySeller() {
   const groups = {};
   cart.forEach(item => {
@@ -1381,7 +1393,6 @@ function updateCartUI() {
   const empty = document.getElementById('cartEmpty');
   const footer = document.getElementById('cartFooter');
 
-  // Hapus kartu penjual lama
   wrap.querySelectorAll('.cart-seller-card').forEach(el => el.remove());
 
   if (!cart.length) {
@@ -1398,7 +1409,6 @@ function updateCartUI() {
 
   groups.forEach(group => {
     const waClean = (group.sellerWA || '').replace(/\D/g,'').replace(/^0/,'62');
-    // Buat pesan WA berisi daftar produk
     const itemsMsg = group.items.map(it => `• ${it.name} ×${it.qty} (${fmt(it.price * it.qty)})`).join('\n');
     const waMsg = encodeURIComponent(`Halo ${group.seller}, saya ingin membeli:\n${itemsMsg}\n\nDari Marketplace Labib.`);
     const waUrl = `https://wa.me/${waClean}?text=${waMsg}`;
@@ -1456,11 +1466,123 @@ function resetCart() { cart = []; updateCartUI(); renderProducts(); }
 
 function selPay(ctx,key,el){const prefix=ctx==='s'?'#sPayMethods':'#sPayMethods';document.querySelectorAll(prefix+' .payment-method').forEach(m=>m.classList.remove('selected'));el.classList.add('selected');if(ctx==='s'){sPayKey=key;document.getElementById('sBankBox').innerHTML=bankBox(key,UPLOAD_FEE);}}
 
-function openSellModal(){ssGo(1);document.getElementById('sellModal').classList.add('open');}
-function closeSellModal(){document.getElementById('sellModal').classList.remove('open');}
+// ── SELL MODAL ──
+function openSellModal(){
+  editProductId=null;
+  ['sName','sDesc','sPrice','sCat'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const u=getCurrentUser();
+  if(u){document.getElementById('sSellerName').value=u.name;document.getElementById('sSellerWA').value=u.wa||'';}
+  pImgs=[null,null,null,null];
+  buildPhotoSlots();
+  const sub=document.querySelector('#ss1 .modal-sub');
+  if(sub)sub.textContent='Isi detail produk yang ingin kamu jual.';
+  const feeBox=document.querySelector('#ss1 .fee-box');
+  if(feeBox)feeBox.style.display='flex';
+  ssGo(1);
+  document.getElementById('sellModal').classList.add('open');
+}
+function closeSellModal(){editProductId=null;document.getElementById('sellModal').classList.remove('open');}
 function ssGo(n){document.querySelectorAll('#sellModal .modal-step').forEach(s=>s.classList.remove('active'));document.getElementById('ss'+n).classList.add('active');}
-function sellNext(){if(!pImgs[0]){toast('❗ Minimal 1 foto utama wajib diisi.','err');return;}const v=['sName','sDesc','sPrice','sCat','sSellerName','sSellerWA'].map(id=>document.getElementById(id).value.trim());if(v.some(x=>!x)){toast('❗ Semua field wajib diisi.','err');return;}if(Number(v[2])<=0){toast('❗ Harga harus lebih dari 0.','err');return;}selPay('s','bca',document.querySelector('#sPayMethods .payment-method'));ssGo(2);}
-async function submitSell(){if(!sProof)return;const btn=document.getElementById('btnSSubmit'),txt=document.getElementById('sSubmitTxt'),spin=document.getElementById('sSpin');btn.disabled=true;txt.textContent='Mendaftarkan...';spin.style.display='block';const listingId='#SELL-'+Date.now().toString().slice(-6);const filteredImgs=pImgs.filter(Boolean);try{const res=await api('/api/submit-product',{listingId,name:document.getElementById('sName').value,desc:document.getElementById('sDesc').value,price:Number(document.getElementById('sPrice').value),category:document.getElementById('sCat').value,seller:document.getElementById('sSellerName').value,sellerWA:document.getElementById('sSellerWA').value,payMethod:`${PAY[sPayKey].icon} ${PAY[sPayKey].name}`,imgBase64:filteredImgs[0],imgsBase64:filteredImgs,proofBase64:sProof});if(!res.ok)throw new Error(res.error);emailjs.send(EJ_SVC,EJ_TPL_SELL,{to_email:ADMIN_EMAIL,listing_id:listingId,product_name:document.getElementById('sName').value,product_price:fmt(Number(document.getElementById('sPrice').value)),category:document.getElementById('sCat').value,seller_name:document.getElementById('sSellerName').value,seller_wa:document.getElementById('sSellerWA').value,pay_method:PAY[sPayKey].name,photos_count:filteredImgs.length,sell_time:new Date().toLocaleString('id-ID')}).catch(()=>{});document.getElementById('sListingId').textContent=listingId;ssGo(4);pImgs=[null,null,null,null];sProof=null;buildPhotoSlots();}catch(e){toast('❌ Gagal mendaftarkan: '+(e.message||'coba lagi.'),'err');btn.disabled=false;txt.textContent='Kirim & Daftarkan Produk';spin.style.display='none';}}
+
+// sellNext: mode edit → langsung submitEdit, mode baru → bayar fee
+function sellNext(){
+  if(!pImgs[0]){toast('❗ Minimal 1 foto utama wajib diisi.','err');return;}
+  const v=['sName','sDesc','sPrice','sCat','sSellerName','sSellerWA'].map(id=>document.getElementById(id).value.trim());
+  if(v.some(x=>!x)){toast('❗ Semua field wajib diisi.','err');return;}
+  if(Number(v[2])<=0){toast('❗ Harga harus lebih dari 0.','err');return;}
+  if(editProductId){submitEdit();return;}
+  selPay('s','bca',document.querySelector('#sPayMethods .payment-method'));
+  ssGo(2);
+}
+
+// ── EDIT PRODUK ──
+function openEditModal(p){
+  editProductId=p.id;
+  document.getElementById('sName').value=p.name||'';
+  document.getElementById('sDesc').value=p.desc||'';
+  document.getElementById('sPrice').value=p.price||'';
+  document.getElementById('sCat').value=p.category||'';
+  document.getElementById('sSellerName').value=p.seller||'';
+  document.getElementById('sSellerWA').value=p.sellerWA||'';
+  pImgs=[null,null,null,null];
+  buildPhotoSlots();
+  // Muat foto lama ke slot
+  const imgs=Array.isArray(p.imgs)&&p.imgs.length?p.imgs:(p.img?[p.img]:[]);
+  imgs.slice(0,4).forEach((src,i)=>{
+    if(!src)return;
+    pImgs[i]=src;
+    const slot=document.getElementById('ps'+i);if(!slot)return;
+    const im=document.createElement('img');im.className='slot-img';im.src=src;slot.appendChild(im);
+    const rm=document.createElement('button');rm.className='slot-rm';rm.textContent='✕';
+    rm.onclick=e=>{e.stopPropagation();e.preventDefault();rmPhoto(i);};
+    slot.appendChild(rm);
+    document.getElementById('sa'+i).style.display='none';
+    if(i===0&&document.getElementById('pmb0'))document.getElementById('pmb0').style.display='block';
+  });
+  // Ubah teks & sembunyikan fee box
+  const sub=document.querySelector('#ss1 .modal-sub');
+  if(sub)sub.textContent='✏️ Mode Edit — Perbarui detail produkmu. Setelah disimpan, produk akan direview ulang oleh admin.';
+  const feeBox=document.querySelector('#ss1 .fee-box');
+  if(feeBox)feeBox.style.display='none';
+  // Ubah teks tombol step 1
+  const btn=document.querySelector('#ss1 .btn-primary');
+  if(btn)btn.textContent='Simpan Perubahan →';
+  ssGo(1);
+  document.getElementById('sellModal').classList.add('open');
+}
+
+async function submitEdit(){
+  const filteredImgs=pImgs.filter(Boolean);
+  const listingId='#EDIT-'+Date.now().toString().slice(-6);
+  const btn=document.querySelector('#ss1 .btn-primary');
+  if(btn){btn.disabled=true;btn.textContent='Menyimpan...';}
+  try{
+    const res=await api('/api/edit-product',{
+      id:editProductId,listingId,
+      name:document.getElementById('sName').value,
+      desc:document.getElementById('sDesc').value,
+      price:Number(document.getElementById('sPrice').value),
+      category:document.getElementById('sCat').value,
+      seller:document.getElementById('sSellerName').value,
+      sellerWA:document.getElementById('sSellerWA').value,
+      imgBase64:filteredImgs[0],
+      imgsBase64:filteredImgs,
+    });
+    if(!res.ok)throw new Error(res.error||'Gagal menyimpan perubahan.');
+    // Tampilkan pesan sukses edit
+    const h2=document.getElementById('ss4Title');const pg=document.getElementById('ss4Desc');
+    if(h2)h2.innerHTML='Produk <em style="font-style:italic;color:var(--accent)">Diperbarui!</em>';
+    if(pg)pg.textContent='Perubahan berhasil dikirim ke admin untuk direview ulang. Produk akan kembali aktif setelah disetujui.';
+    document.getElementById('sListingId').textContent=listingId;
+    ssGo(4);
+    pImgs=[null,null,null,null];editProductId=null;buildPhotoSlots();
+  }catch(e){
+    toast('❌ '+(e.message||'Gagal menyimpan, coba lagi.'),'err');
+  }
+  if(btn){btn.disabled=false;btn.textContent='Simpan Perubahan →';}
+}
+
+async function deleteProduct(id, name, btn){
+  if(!confirm(`Hapus produk "${name}"? Tindakan ini tidak bisa dibatalkan.`))return;
+  btn.disabled=true;btn.textContent='⏳';
+  try{
+    const res=await api('/api/delete-product',{id});
+    if(!res.ok)throw new Error(res.error||'Gagal menghapus.');
+    toast('🗑️ Produk "'+name+'" berhasil dihapus.','ok');
+    await fetchProducts();
+    loadMyProducts();
+  }catch(e){
+    toast('❌ '+(e.message||'Gagal menghapus, coba lagi.'),'err');
+    btn.disabled=false;btn.textContent='🗑️ Hapus';
+  }
+}
+
+async function submitSell(){if(!sProof)return;const btn=document.getElementById('btnSSubmit'),txt=document.getElementById('sSubmitTxt'),spin=document.getElementById('sSpin');btn.disabled=true;txt.textContent='Mendaftarkan...';spin.style.display='block';const listingId='#SELL-'+Date.now().toString().slice(-6);const filteredImgs=pImgs.filter(Boolean);try{const res=await api('/api/submit-product',{listingId,name:document.getElementById('sName').value,desc:document.getElementById('sDesc').value,price:Number(document.getElementById('sPrice').value),category:document.getElementById('sCat').value,seller:document.getElementById('sSellerName').value,sellerWA:document.getElementById('sSellerWA').value,payMethod:`${PAY[sPayKey].icon} ${PAY[sPayKey].name}`,imgBase64:filteredImgs[0],imgsBase64:filteredImgs,proofBase64:sProof});if(!res.ok)throw new Error(res.error);emailjs.send(EJ_SVC,EJ_TPL_SELL,{to_email:ADMIN_EMAIL,listing_id:listingId,product_name:document.getElementById('sName').value,product_price:fmt(Number(document.getElementById('sPrice').value)),category:document.getElementById('sCat').value,seller_name:document.getElementById('sSellerName').value,seller_wa:document.getElementById('sSellerWA').value,pay_method:PAY[sPayKey].name,photos_count:filteredImgs.length,sell_time:new Date().toLocaleString('id-ID')}).catch(()=>{});
+  // Reset pesan sukses ke default (bukan edit)
+  const h2=document.getElementById('ss4Title');const pg=document.getElementById('ss4Desc');
+  if(h2)h2.innerHTML='Produk <em style="font-style:italic;color:var(--accent)">Didaftarkan!</em>';
+  if(pg)pg.textContent='Produk & bukti fee sudah dikirim ke admin. Akan muncul setelah disetujui.';
+  document.getElementById('sListingId').textContent=listingId;ssGo(4);pImgs=[null,null,null,null];sProof=null;buildPhotoSlots();}catch(e){toast('❌ Gagal mendaftarkan: '+(e.message||'coba lagi.'),'err');btn.disabled=false;txt.textContent='Kirim & Daftarkan Produk';spin.style.display='none';}}
 
 function openAdmin(){document.getElementById('adminPanel').classList.add('open');if(adminToken)showAdminDashboard();else{document.getElementById('adminLoginWrap').style.display='flex';document.getElementById('adminContent').classList.remove('show');}}
 function closeAdmin(){document.getElementById('adminPanel').classList.remove('open');}
@@ -1474,7 +1596,6 @@ async function loadPendingVerif(){
     const data=await api('/api/pending-verif');if(!data.ok){list.innerHTML='<div class="no-pending">—</div>';return;}
     if(!data.list||!data.list.length){list.innerHTML='<div class="no-pending">✅ Tidak ada verifikasi menunggu.</div>';return;}
 
-    // Preset alasan
     const ALASAN = [
       'Foto KTP buram / tidak terbaca',
       'Foto selfie kurang jelas',
@@ -1496,7 +1617,6 @@ async function loadPendingVerif(){
             <button class="btn-approve" onclick="approveVerif('${v.id}','${v.sellerEmail}')">✅ Approve & Beri Centang Biru</button>
             <button class="btn-reject" onclick="toggleRejectForm('${v.id}')">❌ Tolak</button>
           </div>
-          <!-- Form alasan penolakan (tersembunyi by default) -->
           <div id="rejectForm${v.id}" style="display:none;margin-top:.85rem;background:rgba(224,82,82,.06);border:1px solid rgba(224,82,82,.2);border-radius:10px;padding:.85rem">
             <p style="font-size:.72rem;font-weight:600;color:#ff6b6b;margin-bottom:.5rem;letter-spacing:.08em;text-transform:uppercase">Alasan Penolakan</p>
             <div style="display:flex;flex-direction:column;gap:.3rem;margin-bottom:.65rem">
@@ -1517,7 +1637,6 @@ async function loadPendingVerif(){
       </div>
     `).join('');
 
-    // Listener untuk radio "Tulis sendiri"
     data.list.forEach(v => {
       document.querySelectorAll(`input[name="reason${v.id}"]`).forEach(radio => {
         radio.addEventListener('change', () => {
