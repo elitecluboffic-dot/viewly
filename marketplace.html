@@ -652,8 +652,25 @@
         <div class="form-group"><label>Kategori *</label><select id="sCat"><option value="">Pilih</option><option value="digital">Digital</option><option value="fisik">Fisik</option><option value="jasa">Jasa</option></select></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Nama Penjual *</label><input type="text" id="sSellerName" placeholder="Nama / toko"/></div>
+        <div class="form-group"><label>Nama Penjual *</label><input type="text" id="sSellerName" placeholder="Nama / toko" oninput="syncLogoInitial()"/></div>
         <div class="form-group"><label>WhatsApp Penjual *</label><input type="tel" id="sSellerWA" placeholder="08xxxxxxxxxx"/></div>
+      </div>
+      <div class="form-group">
+        <label>Logo Toko <span style="color:var(--muted);font-weight:300;font-size:.72rem">(opsional · tampil di profil penjual)</span></label>
+        <div style="display:flex;align-items:center;gap:.75rem">
+          <div id="sLogoPreviewWrap" style="width:52px;height:52px;border-radius:50%;background:var(--accent);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;flex-shrink:0;overflow:hidden;border:2px solid var(--border)">
+            <span id="sLogoInitial">?</span>
+            <img id="sLogoPreviewImg" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;"/>
+          </div>
+          <div style="flex:1">
+            <label style="display:inline-flex;align-items:center;gap:.4rem;padding:.45rem 1rem;background:var(--cream);border:1px solid var(--border);border-radius:100px;cursor:pointer;font-size:.78rem;font-weight:500;transition:all .2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+              📷 Pilih Logo
+              <input type="file" id="sLogoInput" accept="image/*" style="display:none" onchange="onLogoSelect(this)"/>
+            </label>
+            <button id="sLogoRemoveBtn" onclick="removeLogo()" style="display:none;margin-left:.5rem;padding:.4rem .8rem;background:transparent;border:1px solid var(--danger);color:var(--danger);border-radius:100px;font-size:.72rem;cursor:pointer">✕ Hapus</button>
+            <p style="font-size:.68rem;color:var(--muted);margin-top:.3rem">JPG/PNG · Maks 2MB</p>
+          </div>
+        </div>
       </div>
       <button class="btn-primary" onclick="sellNext()">Lanjut → Bayar Fee Upload</button>
     </div>
@@ -862,6 +879,7 @@ let adminToken = sessionStorage.getItem('mkt_admin_token') || null;
 let selectedRole = 'buyer';
 let verifKTP = null, verifSelfie = null;
 let editProductId = null; // null = mode tambah baru, ada id = mode edit
+let sLogo = null; // base64 logo toko
 
 // ── OTP STATE ──
 let pendingOTP = null;
@@ -1276,7 +1294,13 @@ function renderBuyerProducts(){
 function addToCartFromDash(id,btn){addToCart(id,btn);updateBuyerCartBadge();}
 
 function openSellerPopup(p){
-  document.getElementById('spAvatar').textContent=p.seller?p.seller.charAt(0).toUpperCase():'?';
+  const spAv = document.getElementById('spAvatar');
+  if(p.sellerLogo){
+    spAv.innerHTML=`<img src="${p.sellerLogo}" alt="${p.seller||''}" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>`;
+  }else{
+    spAv.innerHTML='';
+    spAv.textContent=p.seller?p.seller.charAt(0).toUpperCase():'?';
+  }
   document.getElementById('spName').innerHTML=p.seller+(p.sellerVerified?` <span class="verified-badge lg"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>`:'');
   const statusEl=document.getElementById('spStatus');
   if(p.sellerVerified){statusEl.textContent='✓ Penjual Terverifikasi';statusEl.className='seller-popup-status verified';}else{statusEl.textContent='Penjual Tidak Terverifikasi';statusEl.className='seller-popup-status';}
@@ -1469,14 +1493,51 @@ function resetCart() { cart = []; updateCartUI(); renderProducts(); }
 
 function selPay(ctx,key,el){const prefix=ctx==='s'?'#sPayMethods':'#sPayMethods';document.querySelectorAll(prefix+' .payment-method').forEach(m=>m.classList.remove('selected'));el.classList.add('selected');if(ctx==='s'){sPayKey=key;document.getElementById('sBankBox').innerHTML=bankBox(key,UPLOAD_FEE);}}
 
+// ── LOGO TOKO ──
+function onLogoSelect(input) {
+  const f = input.files[0];
+  if (!f) return;
+  if (f.size > 2 * 1024 * 1024) { toast('❗ Logo maks 2MB', 'err'); return; }
+  fileToB64(f).then(b64 => {
+    sLogo = b64;
+    document.getElementById('sLogoPreviewImg').src = b64;
+    document.getElementById('sLogoPreviewImg').style.display = 'block';
+    document.getElementById('sLogoInitial').style.display = 'none';
+    document.getElementById('sLogoRemoveBtn').style.display = 'inline-flex';
+    toast('✅ Logo dipilih', 'ok');
+  });
+}
+function removeLogo() {
+  sLogo = null;
+  document.getElementById('sLogoInput').value = '';
+  document.getElementById('sLogoPreviewImg').src = '';
+  document.getElementById('sLogoPreviewImg').style.display = 'none';
+  document.getElementById('sLogoRemoveBtn').style.display = 'none';
+  const name = document.getElementById('sSellerName').value.trim();
+  document.getElementById('sLogoInitial').textContent = name ? name.charAt(0).toUpperCase() : '?';
+  document.getElementById('sLogoInitial').style.display = 'block';
+}
+function syncLogoInitial() {
+  const name = document.getElementById('sSellerName').value.trim();
+  if (!sLogo) document.getElementById('sLogoInitial').textContent = name ? name.charAt(0).toUpperCase() : '?';
+}
+
 // ── SELL MODAL ──
 function openSellModal(){
   editProductId=null;
+  sLogo=null;
   ['sName','sDesc','sPrice','sCat'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   const u=getCurrentUser();
   if(u){document.getElementById('sSellerName').value=u.name;document.getElementById('sSellerWA').value=u.wa||'';}
   pImgs=[null,null,null,null];
   buildPhotoSlots();
+  // Reset logo UI
+  const liImg=document.getElementById('sLogoPreviewImg');
+  const liInit=document.getElementById('sLogoInitial');
+  const liRm=document.getElementById('sLogoRemoveBtn');
+  if(liImg){liImg.src='';liImg.style.display='none';}
+  if(liInit){liInit.textContent='?';liInit.style.display='block';}
+  if(liRm)liRm.style.display='none';
   const sub=document.querySelector('#ss1 .modal-sub');
   if(sub)sub.textContent='Isi detail produk yang ingin kamu jual.';
   const feeBox=document.querySelector('#ss1 .fee-box');
@@ -1527,6 +1588,20 @@ function openEditModal(p){
   if(sub)sub.textContent='✏️ Mode Edit — Perbarui detail produkmu. Setelah disimpan, produk akan direview ulang oleh admin.';
   const feeBox=document.querySelector('#ss1 .fee-box');
   if(feeBox)feeBox.style.display='none';
+  // Muat logo lama jika ada
+  sLogo = p.sellerLogo || null;
+  const liImg=document.getElementById('sLogoPreviewImg');
+  const liInit=document.getElementById('sLogoInitial');
+  const liRm=document.getElementById('sLogoRemoveBtn');
+  if(sLogo){
+    if(liImg){liImg.src=sLogo;liImg.style.display='block';}
+    if(liInit)liInit.style.display='none';
+    if(liRm)liRm.style.display='inline-flex';
+  }else{
+    if(liImg){liImg.src='';liImg.style.display='none';}
+    if(liInit){liInit.textContent=(p.seller||'?').charAt(0).toUpperCase();liInit.style.display='block';}
+    if(liRm)liRm.style.display='none';
+  }
   // Ubah teks tombol step 1
   const btn=document.querySelector('#ss1 .btn-primary');
   if(btn)btn.textContent='Simpan Perubahan →';
@@ -1548,6 +1623,7 @@ async function submitEdit(){
       category:document.getElementById('sCat').value,
       seller:document.getElementById('sSellerName').value,
       sellerWA:document.getElementById('sSellerWA').value,
+      sellerLogo:sLogo||null,
       imgBase64:filteredImgs[0],
       imgsBase64:filteredImgs,
     });
@@ -1580,7 +1656,7 @@ async function deleteProduct(id, name, btn){
   }
 }
 
-async function submitSell(){if(!sProof)return;const btn=document.getElementById('btnSSubmit'),txt=document.getElementById('sSubmitTxt'),spin=document.getElementById('sSpin');btn.disabled=true;txt.textContent='Mendaftarkan...';spin.style.display='block';const listingId='#SELL-'+Date.now().toString().slice(-6);const filteredImgs=pImgs.filter(Boolean);try{const res=await api('/api/submit-product',{listingId,name:document.getElementById('sName').value,desc:document.getElementById('sDesc').value,price:Number(document.getElementById('sPrice').value),category:document.getElementById('sCat').value,seller:document.getElementById('sSellerName').value,sellerWA:document.getElementById('sSellerWA').value,payMethod:`${PAY[sPayKey].icon} ${PAY[sPayKey].name}`,imgBase64:filteredImgs[0],imgsBase64:filteredImgs,proofBase64:sProof});if(!res.ok)throw new Error(res.error);emailjs.send(EJ_SVC,EJ_TPL_SELL,{to_email:ADMIN_EMAIL,listing_id:listingId,product_name:document.getElementById('sName').value,product_price:fmt(Number(document.getElementById('sPrice').value)),category:document.getElementById('sCat').value,seller_name:document.getElementById('sSellerName').value,seller_wa:document.getElementById('sSellerWA').value,pay_method:PAY[sPayKey].name,photos_count:filteredImgs.length,sell_time:new Date().toLocaleString('id-ID')}).catch(()=>{});
+async function submitSell(){if(!sProof)return;const btn=document.getElementById('btnSSubmit'),txt=document.getElementById('sSubmitTxt'),spin=document.getElementById('sSpin');btn.disabled=true;txt.textContent='Mendaftarkan...';spin.style.display='block';const listingId='#SELL-'+Date.now().toString().slice(-6);const filteredImgs=pImgs.filter(Boolean);try{const res=await api('/api/submit-product',{listingId,name:document.getElementById('sName').value,desc:document.getElementById('sDesc').value,price:Number(document.getElementById('sPrice').value),category:document.getElementById('sCat').value,seller:document.getElementById('sSellerName').value,sellerWA:document.getElementById('sSellerWA').value,payMethod:`${PAY[sPayKey].icon} ${PAY[sPayKey].name}`,sellerLogo:sLogo||null,imgBase64:filteredImgs[0],imgsBase64:filteredImgs,proofBase64:sProof});if(!res.ok)throw new Error(res.error);emailjs.send(EJ_SVC,EJ_TPL_SELL,{to_email:ADMIN_EMAIL,listing_id:listingId,product_name:document.getElementById('sName').value,product_price:fmt(Number(document.getElementById('sPrice').value)),category:document.getElementById('sCat').value,seller_name:document.getElementById('sSellerName').value,seller_wa:document.getElementById('sSellerWA').value,pay_method:PAY[sPayKey].name,photos_count:filteredImgs.length,sell_time:new Date().toLocaleString('id-ID')}).catch(()=>{});
   // Reset pesan sukses ke default (bukan edit)
   const h2=document.getElementById('ss4Title');const pg=document.getElementById('ss4Desc');
   if(h2)h2.innerHTML='Produk <em style="font-style:italic;color:var(--accent)">Didaftarkan!</em>';
