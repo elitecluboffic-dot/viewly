@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://viewly.labibalwasi.com/sitemap.xml
+Sitemap: https://viewly.labibalwasi.com/rss.xml
+Sitemap: https://viewly.labibalwasi.com/atom.xml
